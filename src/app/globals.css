@@ -1,0 +1,552 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 전역 CSS 변수 (실로스 브랜드 컬러) */
+:root {
+  --color-primary: #2dd4bf;
+  --color-primary-dark: #0d9488;
+  --color-secondary: #3b82f6;
+  --color-accent-gold: #fbbf24;
+  --color-accent-rose: #f43f5e;
+  
+  /* 텍스트 컬러 */
+  --color-text-primary: #171717;
+  --color-text-secondary: #525252;
+  --color-text-muted: #737373;
+  
+  /* 배경 컬러 */
+  --color-background: #ffffff;
+  --color-background-secondary: #fafafa;
+  --color-background-muted: #f5f5f5;
+  
+  /* 보더 컬러 */
+  --color-border: #e5e5e5;
+  --color-border-light: #f5f5f5;
+}
+
+/* 다크모드 지원 (선택사항) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: #fafafa;
+    --color-text-secondary: #d4d4d4;
+    --color-text-muted: #a3a3a3;
+    
+    --color-background: #0a0a0a;
+    --color-background-secondary: #171717;
+    --color-background-muted: #262626;
+    
+    --color-border: #404040;
+    --color-border-light: #262626;
+  }
+}
+
+/* 기본 스타일 리셋 */
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  
+  html {
+    @apply scroll-smooth;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  
+  body {
+    @apply bg-white text-gray-900;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* 한글 폰트 최적화 */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+    font-weight: 700;
+    word-break: keep-all;
+    line-height: 1.4;
+  }
+  
+  p {
+    word-break: keep-all;
+    line-height: 1.6;
+  }
+  
+  /* 스크롤바 스타일 */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400;
+  }
+}
+
+/* 공통 컴포넌트 스타일 */
+@layer components {
+  /* 버튼 스타일 */
+  .btn-primary {
+    @apply bg-teal-400 hover:bg-teal-500 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-teal-600 border border-teal-200 font-medium px-6 py-3 rounded-xl transition-all duration-200 hover:shadow-md;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent hover:bg-gray-100 text-gray-700 font-medium px-6 py-3 rounded-xl transition-all duration-200;
+  }
+  
+  /* 카드 스타일 */
+  .card {
+    @apply bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden;
+  }
+  
+  .card-hover {
+    @apply card transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+  
+  /* 입력 필드 스타일 */
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200;
+  }
+  
+  .input-error {
+    @apply border-red-300 focus:ring-red-400;
+  }
+  
+  /* 텍스트 스타일 */
+  .text-heading {
+    @apply text-gray-900 font-semibold;
+  }
+  
+  .text-body {
+    @apply text-gray-700 leading-relaxed;
+  }
+  
+  .text-muted {
+    @apply text-gray-500;
+  }
+  
+  /* 그라데이션 배경 */
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-teal-400 to-teal-500;
+  }
+  
+  .bg-gradient-secondary {
+    @apply bg-gradient-to-r from-blue-400 to-blue-500;
+  }
+  
+  /* 섹션 컨테이너 */
+  .container-responsive {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-padding {
+    @apply py-16 lg:py-24;
+  }
+  
+  /* 모바일 퍼스트 반응형 텍스트 */
+  .text-responsive-xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  .text-responsive-lg {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+  
+  .text-responsive-md {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
+  }
+}
+
+/* 유틸리티 클래스 */
+@layer utilities {
+  /* 애니메이션 유틸리티 */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  
+  .animate-fade-in-down {
+    animation: fadeInDown 0.6s ease-out forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+  
+  .animate-smooth-dropdown {
+    animation: smoothDropdown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  /* 트랜지션 유틸리티 */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .transition-fast {
+    @apply transition-all duration-150 ease-in-out;
+  }
+  
+  /* 그림자 유틸리티 */
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
+  }
+  
+  .shadow-glow-secondary {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* 백드롭 필터 */
+  .backdrop-blur-light {
+    backdrop-filter: blur(8px) saturate(150%);
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* 모바일 터치 최적화 */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  
+  /* 접근성 개선 */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  }
+  
+  /* 포커스 아웃라인 개선 */
+  .focus-visible {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2;
+  }
+  
+  /* 스크롤바 숨기기 */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 키프레임 애니메이션 정의 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes smoothDropdown {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.94);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-4px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ultraSmoothDropdown {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.92) rotateX(-10deg);
+    filter: blur(1px);
+  }
+  40% {
+    opacity: 0.6;
+    transform: translateY(-6px) scale(0.96) rotateX(-3deg);
+    filter: blur(0.5px);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translateY(-2px) scale(0.99) rotateX(-1deg);
+    filter: blur(0.2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+    filter: blur(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 성능 최적화를 위한 GPU 가속 */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* 추가 애니메이션 */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse-slow {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spin-reverse-slow 15s linear infinite;
+}
+
+/* 3D 변환 스타일 */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.rotate-y-12 {
+  transform: rotateY(12deg);
+}
+
+.-rotate-y-6 {
+  transform: rotateY(-6deg);
+}
+
+.-rotate-y-12 {  
+  transform: rotateY(-12deg);
+}
+
+.-translate-z-20 {
+  transform: translateZ(-20px);
+}
+
+.-translate-z-40 {
+  transform: translateZ(-40px);
+}
+
+/* Ultra-smooth gradient animations for slider */
+@keyframes tealSmokeFlow {
+  0% { 
+    background: linear-gradient(135deg, #f0f9f9 0%, #e1f2f2 30%, #b4cdcd 70%, #c3e6e6 100%);
+  }
+  6.25% { 
+    background: linear-gradient(135deg, #e8f6f6 0%, #d4ebeb 30%, #a8c0c0 70%, #b1c7c7 100%);
+  }
+  12.5% { 
+    background: linear-gradient(135deg, #e1f2f2 0%, #c3e6e6 30%, #8eb8b8 70%, #9fc1c1 100%);
+  }
+  18.75% { 
+    background: linear-gradient(135deg, #d9eeee 0%, #b8dddd 30%, #7aacac 70%, #8db9b9 100%);
+  }
+  25% { 
+    background: linear-gradient(135deg, #c3e6e6 0%, #b4cdcd 30%, #6aa3a3 70%, #7bb0b0 100%);
+  }
+  31.25% { 
+    background: linear-gradient(135deg, #bce2e2 0%, #a5c5c5 30%, #5e9a9a 70%, #6ba7a7 100%);
+  }
+  37.5% { 
+    background: linear-gradient(135deg, #b4cdcd 0%, #8eb8b8 30%, #558888 70%, #689e9e 100%);
+  }
+  43.75% { 
+    background: linear-gradient(135deg, #a7c3c3 0%, #81aeae 30%, #4e7f7f 70%, #5d9595 100%);
+  }
+  50% { 
+    background: linear-gradient(135deg, #8eb8b8 0%, #6aa3a3 30%, #446d6d 70%, #528c8c 100%);
+  }
+  56.25% { 
+    background: linear-gradient(135deg, #7daaaa 0%, #5d9595 30%, #3b6666 70%, #478383 100%);
+  }
+  62.5% { 
+    background: linear-gradient(135deg, #6aa3a3 0%, #558888 30%, #335252 70%, #3c7a7a 100%);
+  }
+  68.75% { 
+    background: linear-gradient(135deg, #5c9494 0%, #487777 30%, #2e4b4b 70%, #357171 100%);
+  }
+  75% { 
+    background: linear-gradient(135deg, #558888 0%, #446d6d 30%, #223737 70%, #2e6868 100%);
+  }
+  81.25% { 
+    background: linear-gradient(135deg, #4e7b7b 0%, #3d6060 30%, #1f3434 70%, #2a5f5f 100%);
+  }
+  87.5% { 
+    background: linear-gradient(135deg, #446d6d 0%, #335252 30%, #e8eded 70%, #d8e5e5 100%);
+  }
+  93.75% { 
+    background: linear-gradient(135deg, #6e8585 0%, #859999 30%, #eef4f4 70%, #e4efef 100%);
+  }
+  100% { 
+    background: linear-gradient(135deg, #f0f9f9 0%, #e1f2f2 30%, #b4cdcd 70%, #c3e6e6 100%);
+  }
+}
+
+@keyframes elegantFlow {
+  0% { 
+    background: linear-gradient(135deg, #fafbfb 0%, #f5f7f7 25%, #dbe3e3 75%, #e8eded 100%);
+  }
+  5% { 
+    background: linear-gradient(135deg, #f7f9f9 0%, #f1f4f4 25%, #d2dadf 75%, #dfe6e6 100%);
+  }
+  10% { 
+    background: linear-gradient(135deg, #f5f7f7 0%, #e8eded 25%, #c1d0d0 75%, #d4e0e0 100%);
+  }
+  15% { 
+    background: linear-gradient(135deg, #f2f5f5 0%, #dfe5e5 25%, #b8c8c8 75%, #c9d6d6 100%);
+  }
+  20% { 
+    background: linear-gradient(135deg, #e8eded 0%, #dbe3e3 25%, #a7bdbd 75%, #bccbcb 100%);
+  }
+  25% { 
+    background: linear-gradient(135deg, #e3eaea 0%, #d3dbdb 25%, #9eb6b6 75%, #b1c2c2 100%);
+  }
+  30% { 
+    background: linear-gradient(135deg, #dbe3e3 0%, #c1d0d0 25%, #8daaaa 75%, #a4b7b7 100%);
+  }
+  35% { 
+    background: linear-gradient(135deg, #d6dede 0%, #b7c7c7 25%, #84a1a1 75%, #99adad 100%);
+  }
+  40% { 
+    background: linear-gradient(135deg, #c1d0d0 0%, #a7bdbd 25%, #739797 75%, #8ca3a3 100%);
+  }
+  45% { 
+    background: linear-gradient(135deg, #b9c8c8 0%, #9fb5b5 25%, #6a9090 75%, #819999 100%);
+  }
+  50% { 
+    background: linear-gradient(135deg, #a7bdbd 0%, #8daaaa 25%, #597a7a 75%, #748f8f 100%);
+  }
+  55% { 
+    background: linear-gradient(135deg, #9fb5b5 0%, #83a0a0 25%, #537373 75%, #698585 100%);
+  }
+  60% { 
+    background: linear-gradient(135deg, #8daaaa 0%, #739797 25%, #3f5d5d 75%, #5c7b7b 100%);
+  }
+  65% { 
+    background: linear-gradient(135deg, #85a2a2 0%, #6b8e8e 25%, #3a5656 75%, #537171 100%);
+  }
+  70% { 
+    background: linear-gradient(135deg, #739797 0%, #597a7a 25%, #fafbfb 75%, #e8f0f0 100%);
+  }
+  75% { 
+    background: linear-gradient(135deg, #7c9494 0%, #8aa3a3 25%, #f7f8f8 75%, #eef3f3 100%);
+  }
+  80% { 
+    background: linear-gradient(135deg, #8a9f9f 0%, #a7b5b5 25%, #f3f5f5 75%, #f1f4f4 100%);
+  }
+  85% { 
+    background: linear-gradient(135deg, #9aabab 0%, #c1c9c9 25%, #f0f2f2 75%, #f4f6f6 100%);
+  }
+  90% { 
+    background: linear-gradient(135deg, #b5c2c2 0%, #d8dede 25%, #eeefef 75%, #f7f8f8 100%);
+  }
+  95% { 
+    background: linear-gradient(135deg, #d5dbdb 0%, #e9eeee 25%, #ecf1f1 75%, #f9fafa 100%);
+  }
+  100% { 
+    background: linear-gradient(135deg, #fafbfb 0%, #f5f7f7 25%, #dbe3e3 75%, #e8eded 100%);
+  }
+}
+
+/* Ultra-smooth 32-keyframe animation */
+@keyframes silkFlow {
+  0% { background: linear-gradient(135deg, #f0f9f9 0%, #e8f6f6 25%, #e1f2f2 50%, #d9eeee 75%, #c3e6e6 100%); }
+  3.125% { background: linear-gradient(135deg, #edf8f8 0%, #e5f4f4 25%, #ddf0f0 50%, #d5ecec 75%, #bfe4e4 100%); }
+  6.25% { background: linear-gradient(135deg, #eaf7f7 0%, #e2f3f3 25%, #daeeee 50%, #d2eaea 75%, #bbe2e2 100%); }
+  9.375% { background: linear-gradient(135deg, #e7f5f5 0%, #dff1f1 25%, #d7eded 50%, #cee8e8 75%, #b7e0e0 100%); }
+  12.5% { background: linear-gradient(135deg, #e4f4f4 0%, #dcf0f0 25%, #d4ebeb 50%, #cbe6e6 75%, #b3dede 100%); }
+  15.625% { background: linear-gradient(135deg, #e1f2f2 0%, #d9eeee 25%, #d1eaea 50%, #c8e5e5 75%, #afdcdc 100%); }
+  18.75% { background: linear-gradient(135deg, #def1f1 0%, #d6eded 25%, #cee8e8 50%, #c5e3e3 75%, #abdada 100%); }
+  21.875% { background: linear-gradient(135deg, #dbefef 0%, #d3ebeb 25%, #cbe7e7 50%, #c2e2e2 75%, #a7d8d8 100%); }
+  25% { background: linear-gradient(135deg, #d8eeee 0%, #d0eaea 25%, #c8e5e5 50%, #bfe0e0 75%, #a3d6d6 100%); }
+  28.125% { background: linear-gradient(135deg, #d5ecec 0%, #cde8e8 25%, #c5e4e4 50%, #bcdfdf 75%, #9fd4d4 100%); }
+  31.25% { background: linear-gradient(135deg, #d2ebeb 0%, #cae7e7 25%, #c2e2e2 50%, #b9dddd 75%, #9bd2d2 100%); }
+  34.375% { background: linear-gradient(135deg, #cfe9e9 0%, #c7e5e5 25%, #bfe1e1 50%, #b6dcdc 75%, #97d0d0 100%); }
+  37.5% { background: linear-gradient(135deg, #cce8e8 0%, #c4e4e4 25%, #bcdfdf 50%, #b3dada 75%, #93cece 100%); }
+  40.625% { background: linear-gradient(135deg, #c9e6e6 0%, #c1e2e2 25%, #b9dede 50%, #b0d9d9 75%, #8fcccc 100%); }
+  43.75% { background: linear-gradient(135deg, #c6e5e5 0%, #bee1e1 25%, #b6dcdc 50%, #add7d7 75%, #8bcaca 100%); }
+  46.875% { background: linear-gradient(135deg, #c3e3e3 0%, #bbdfdf 25%, #b3dbdb 50%, #aad6d6 75%, #87c8c8 100%); }
+  50% { background: linear-gradient(135deg, #c0e2e2 0%, #b8dede 25%, #b0d9d9 50%, #a7d4d4 75%, #83c6c6 100%); }
+  53.125% { background: linear-gradient(135deg, #bde0e0 0%, #b5dcdc 25%, #add8d8 50%, #a4d3d3 75%, #7fc4c4 100%); }
+  56.25% { background: linear-gradient(135deg, #badfdf 0%, #b2dbdb 25%, #aad6d6 50%, #a1d1d1 75%, #7bc2c2 100%); }
+  59.375% { background: linear-gradient(135deg, #b7dddd 0%, #afd9d9 25%, #a7d5d5 50%, #9ed0d0 75%, #77c0c0 100%); }
+  62.5% { background: linear-gradient(135deg, #b4dcdc 0%, #acd8d8 25%, #a4d3d3 50%, #9bcece 75%, #73bebe 100%); }
+  65.625% { background: linear-gradient(135deg, #b1dada 0%, #a9d6d6 25%, #a1d2d2 50%, #98cdcd 75%, #6fbcbc 100%); }
+  68.75% { background: linear-gradient(135deg, #aed9d9 0%, #a6d5d5 25%, #9ed0d0 50%, #95cbcb 75%, #6bbaba 100%); }
+  71.875% { background: linear-gradient(135deg, #abd7d7 0%, #a3d3d3 25%, #9bcfcf 50%, #92caca 75%, #67b8b8 100%); }
+  75% { background: linear-gradient(135deg, #a8d6d6 0%, #a0d2d2 25%, #98cdcd 50%, #8fc8c8 75%, #63b6b6 100%); }
+  78.125% { background: linear-gradient(135deg, #a5d4d4 0%, #9dd0d0 25%, #95cccc 50%, #8cc7c7 75%, #5fb4b4 100%); }
+  81.25% { background: linear-gradient(135deg, #a2d3d3 0%, #9acfcf 25%, #92caca 50%, #89c5c5 75%, #5bb2b2 100%); }
+  84.375% { background: linear-gradient(135deg, #9fd1d1 0%, #97cdcd 25%, #8fc9c9 50%, #86c4c4 75%, #57b0b0 100%); }
+  87.5% { background: linear-gradient(135deg, #9cd0d0 0%, #94cccc 25%, #8cc7c7 50%, #83c2c2 75%, #53aeae 100%); }
+  90.625% { background: linear-gradient(135deg, #99cece 0%, #91caca 25%, #89c6c6 50%, #80c1c1 75%, #4facac 100%); }
+  93.75% { background: linear-gradient(135deg, #96cdcd 0%, #8ec9c9 25%, #86c4c4 50%, #7dbfbf 75%, #4baaaa 100%); }
+  96.875% { background: linear-gradient(135deg, #aad2d2 0%, #b8dede 25%, #c6eaea 50%, #d4f6f6 75%, #e2fff2 100%); }
+  100% { background: linear-gradient(135deg, #f0f9f9 0%, #e8f6f6 25%, #e1f2f2 50%, #d9eeee 75%, #c3e6e6 100%); }
+}
+
+.animate-gradient-flow {
+  animation: silkFlow 80s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+
+.animate-elegant-flow {
+  animation: elegantFlow 90s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+
+/* 인쇄 스타일 */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+}
