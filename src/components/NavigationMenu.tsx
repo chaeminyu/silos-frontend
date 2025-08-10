@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ChevronDown, ChevronRight, Home } from 'lucide-react';
+import Link from 'next/link';
 
 const navigationData = [
   {
@@ -83,14 +84,12 @@ const navigationData = [
     title: '레이저 리프팅',
     href: '/procedures/laser-lifting',
     submenu: [
-      { title: '울쎄라', href: '/procedures/laser-lifting/ulthera' },
-      { title: '온다', href: '/procedures/laser-lifting/onda' },
-      { title: '올타이트', href: '/procedures/laser-lifting/altight' },
-      { title: '브이로', href: '/procedures/laser-lifting/vero' },
-      { title: '슈링크', href: '/procedures/laser-lifting/shrink' },
-      { title: '덴서티', href: '/procedures/laser-lifting/density' },
-      { title: '엔코어', href: '/procedures/laser-lifting/encore' },
-      { title: 'LDM', href: '/procedures/laser-lifting/ldm' }
+      { title: '울쎄라', href: '/procedures/laser-lifting?procedure=ulthera' },
+      { title: '슈링크', href: '/procedures/laser-lifting?procedure=shrink' },
+      { title: '온다', href: '/procedures/laser-lifting?procedure=onda' },
+      { title: '엔코어', href: '/procedures/laser-lifting?procedure=encore' },
+      { title: '덴서티', href: '/procedures/laser-lifting?procedure=density' },
+      { title: '브이로', href: '/procedures/laser-lifting?procedure=vero' }
     ]
   },
   {
@@ -204,13 +203,13 @@ export default function NavigationMenu() {
         <div className="flex items-center w-full">
           {/* Logo/Home - 실로스 */}
           <div className="flex-shrink-0 mr-6">
-            <a
+            <Link
               href="/"
               className="flex items-center px-3 py-2.5 rounded-lg text-lg font-display font-medium text-teal-smoke-800 hover:text-teal-smoke-900 transition-all duration-300 hover:bg-teal-smoke-50"
             >
               <Home className="w-4 h-4 mr-2" />
               <span className="tracking-wide">실로스</span>
-            </a>
+            </Link>
           </div>
           
           {/* Navigation Items Container */}
@@ -236,7 +235,7 @@ export default function NavigationMenu() {
               onMouseEnter={(e) => item.submenu && handleMouseEnter(item.id, e)}
             >
               {/* 메인 메뉴 아이템 */}
-              <a
+              <Link
                 href={item.href}
                 className="flex items-center px-2.5 py-2.5 rounded-lg text-[13px] font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-teal-smoke-700 hover:text-teal-smoke-800 whitespace-nowrap"
               >
@@ -251,7 +250,7 @@ export default function NavigationMenu() {
                 {item.submenu && (
                   <ChevronDown className="w-3 h-3 ml-1 transition-transform duration-200 group-hover:rotate-180 flex-shrink-0" />
                 )}
-              </a>
+              </Link>
 
             </div>
           ))}
@@ -283,7 +282,7 @@ export default function NavigationMenu() {
                   {menuItem.title}
                 </h4>
                 {menuItem.submenu.map((subItem, index) => (
-                  <a
+                  <Link
                     key={index}
                     href={subItem.href}
                     className="flex items-start px-4 py-3 rounded-xl text-teal-smoke-700 hover:text-teal-smoke-800 hover:bg-teal-smoke-50/80 transition-all duration-200 group"
@@ -300,7 +299,7 @@ export default function NavigationMenu() {
                       )}
                     </div>
                     <ChevronRight className="w-3 h-3 text-teal-smoke-400 mt-1 ml-2 group-hover:translate-x-0.5 transition-transform" />
-                  </a>
+                  </Link>
                 ))}
               </div>
             );
@@ -310,31 +309,31 @@ export default function NavigationMenu() {
 
       {/* Mobile Menu - Simple version */}
       <div className="lg:hidden flex items-center space-x-2 overflow-x-auto">
-        <a
+        <Link
           href="/"
           className="flex items-center px-3 py-2 rounded-lg text-sm font-elegant-sans font-light text-teal-smoke-800 hover:text-teal-smoke-900 hover:bg-teal-smoke-50 transition-all duration-300 flex-shrink-0"
         >
           <Home className="w-4 h-4 mr-1" />
           실로스
-        </a>
-        <a
+        </Link>
+        <Link
           href="/about"
           className="px-3 py-2 rounded-lg text-sm font-elegant-sans font-light text-teal-smoke-700 hover:text-teal-smoke-800 hover:bg-teal-smoke-50 transition-all duration-300 flex-shrink-0"
         >
           병원소개
-        </a>
-        <a
+        </Link>
+        <Link
           href="/procedures"
           className="px-3 py-2 rounded-lg text-sm font-elegant-sans font-light text-teal-smoke-700 hover:text-teal-smoke-800 hover:bg-teal-smoke-50 transition-all duration-300 flex-shrink-0"
         >
           시술안내
-        </a>
-        <a
+        </Link>
+        <Link
           href="#contact"
           className="px-3 py-2 rounded-lg text-sm font-elegant-sans font-light text-teal-smoke-700 hover:text-teal-smoke-800 hover:bg-teal-smoke-50 transition-all duration-300 flex-shrink-0"
         >
           상담
-        </a>
+        </Link>
       </div>
     </nav>
   );

@@ -35,11 +35,12 @@ module.exports = {
         }
       },
       
-      // ✅ Elegant font families
+      // ✅ Pretendard font families
       fontFamily: {
-        'elegant': ['var(--font-playfair)', '"Noto Serif KR"', 'serif'],
-        'elegant-sans': ['var(--font-inter)', '"Pretendard"', 'sans-serif'],
-        'display': ['var(--font-cormorant)', '"Noto Serif KR"', 'serif'],
+        'sans': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'sans-serif'],
+        'elegant': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        'elegant-sans': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        'display': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
       },
       // ✅ 1. animation & keyframes
       animation: {

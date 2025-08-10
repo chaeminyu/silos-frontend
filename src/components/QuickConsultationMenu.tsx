@@ -1,10 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { MessageCircle, Calendar, Phone, ChevronRight, ChevronLeft } from 'lucide-react';
 
 export default function QuickConsultationMenu() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsExpanded(false);
+      }
+    };
+
+    if (isExpanded) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isExpanded]);
 
   const consultationOptions = [
     {
@@ -34,7 +52,7 @@ export default function QuickConsultationMenu() {
   ];
 
   return (
-    <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40">
+    <div ref={menuRef} className="fixed right-0 top-1/2 -translate-y-1/2 z-40">
       {/* 토글 버튼 - Always visible */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
