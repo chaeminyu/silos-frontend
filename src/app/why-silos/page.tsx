@@ -68,22 +68,23 @@ export default function WhySilosPage() {
           </div>
 
           {/* Before/After Image */}
-          <div className="max-w-4xl mx-auto mb-12">
+          <div className="max-w-2xl mx-auto mb-12">
             <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-teal-smoke-200/30">
-              <div className="aspect-[4/3] relative">
+              <div className="relative">
                 <Image 
                   src="/images/why-silos/why-silos-before-after.jpg"
                   alt="실로스 비포 애프터 결과"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
+                  width={640}
+                  height={400}
+                  className="w-full h-auto"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 56vw, 640px"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.parentElement?.querySelector('.image-placeholder')?.classList.remove('hidden');
                   }}
                 />
                 {/* Fallback placeholder */}
-                <div className="hidden image-placeholder absolute inset-0 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 flex items-center justify-center">
+                <div className="hidden image-placeholder absolute inset-0 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 flex items-center justify-center aspect-[4/3]">
                   <div className="text-center">
                     <div className="w-24 h-24 bg-teal-smoke-300 rounded-2xl flex items-center justify-center mx-auto mb-6">
                       <Star className="w-12 h-12 text-white" />
@@ -116,12 +117,13 @@ export default function WhySilosPage() {
           {/* First Large Poster Image */}
           <div className="mb-16">
             <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-teal-smoke-200/30">
-              <div className="aspect-[3/2] relative">
+              <div className="relative">
                 <Image 
                   src="/images/why-silos/why-silos-seminar-main.jpg"
                   alt="실로스 세미나 메인 포스터"
-                  fill
-                  className="object-cover"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
@@ -129,7 +131,7 @@ export default function WhySilosPage() {
                   }}
                 />
                 {/* Fallback placeholder */}
-                <div className="hidden image-placeholder absolute inset-0 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 flex items-center justify-center">
+                <div className="hidden image-placeholder absolute inset-0 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 flex items-center justify-center aspect-[3/2]">
                   <div className="text-center">
                     <div className="w-32 h-32 bg-teal-smoke-300 rounded-2xl flex items-center justify-center mx-auto mb-6">
                       <Award className="w-16 h-16 text-white" />
@@ -153,23 +155,24 @@ export default function WhySilosPage() {
             </div>
           </div>
 
-          {/* Two Additional Poster Images */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Two Additional Poster Images - Vertically Stacked */}
+          <div className="space-y-8 max-w-3xl mx-auto">
             <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-elegant-200/30">
-              <div className="aspect-[4/3] relative">
+              <div className="relative">
                 <Image 
                   src="/images/why-silos/why-silos-seminar-2.jpg"
                   alt="실로스 세미나 포스터 2"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.parentElement?.querySelector('.image-placeholder')?.classList.remove('hidden');
                   }}
                 />
                 {/* Fallback placeholder */}
-                <div className="hidden image-placeholder absolute inset-0 bg-gradient-to-br from-elegant-100 to-teal-smoke-100 flex items-center justify-center">
+                <div className="hidden image-placeholder absolute inset-0 bg-gradient-to-br from-elegant-100 to-teal-smoke-100 flex items-center justify-center aspect-[4/3]">
                   <div className="text-center">
                     <div className="w-24 h-24 bg-elegant-300 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Award className="w-12 h-12 text-white" />
@@ -186,20 +189,21 @@ export default function WhySilosPage() {
             </div>
 
             <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-teal-smoke-200/30">
-              <div className="aspect-[4/3] relative">
+              <div className="relative">
                 <Image 
                   src="/images/why-silos/why-silos-seminar-3.jpg"
                   alt="실로스 세미나 포스터 3"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.parentElement?.querySelector('.image-placeholder')?.classList.remove('hidden');
                   }}
                 />
                 {/* Fallback placeholder */}
-                <div className="hidden image-placeholder absolute inset-0 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 flex items-center justify-center">
+                <div className="hidden image-placeholder absolute inset-0 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 flex items-center justify-center aspect-[4/3]">
                   <div className="text-center">
                     <div className="w-24 h-24 bg-teal-smoke-300 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Award className="w-12 h-12 text-white" />
