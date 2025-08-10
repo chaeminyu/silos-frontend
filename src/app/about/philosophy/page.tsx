@@ -183,7 +183,7 @@ export default function PhilosophyPage() {
                             src={section.image} 
                             alt={section.title}
                             fill
-                            className="object-cover"
+                            className="object-contain"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                             onError={(e) => {
                               // Fallback to placeholder if image fails to load
