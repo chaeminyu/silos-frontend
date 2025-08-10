@@ -8,18 +8,18 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-smoke-50 via-white to-teal-smoke-100">
       {/* 헤더 네비게이션 */}
-      <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/90 backdrop-blur-xl border-b border-teal-smoke-200/50 shadow-sm overflow-visible">
-        <div className="w-full overflow-visible">
-          <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">
-            <div className="flex items-center justify-between h-20 overflow-visible">
+      <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/90 backdrop-blur-xl border-b border-teal-smoke-200/50 shadow-sm">
+        <div className="w-full">
+          <div className="w-full px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-20 w-full">
               {/* 네비게이션 메뉴 - 전체 너비 사용 */}
-              <div className="flex-1 flex justify-center overflow-visible">
+              <div className="flex-1 min-w-0">
                 <NavigationMenu />
               </div>
               
               {/* 상담 버튼 */}
-              <div className="hidden lg:block">
-                <button className="bg-teal-smoke-300 hover:bg-teal-smoke-400 text-teal-smoke-800 px-6 py-2.5 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300 shadow-lg hover:shadow-xl border border-teal-smoke-400/30">
+              <div className="hidden lg:block flex-shrink-0 ml-4">
+                <button className="bg-teal-smoke-300 hover:bg-teal-smoke-400 text-teal-smoke-800 px-6 py-2.5 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300 shadow-lg hover:shadow-xl border border-teal-smoke-400/30 whitespace-nowrap">
                   온라인 상담
                 </button>
               </div>

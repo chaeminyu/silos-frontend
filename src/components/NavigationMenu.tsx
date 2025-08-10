@@ -16,7 +16,7 @@ const navigationData = [
     title: '병원소개',
     href: '/about',
     submenu: [
-      { title: '실로스 진료 철학', href: '/about/philosophy' },
+      { title: '실로스 리프팅 철학', href: '/about/philosophy' },
       { title: '의료진 소개', href: '/about/doctors' },
       { title: '둘러보기', href: '/about/tour' },
       { title: '진료시간 안내/오시는길', href: '/about/location' },
@@ -198,26 +198,37 @@ export default function NavigationMenu() {
   }, [isMouseOverMenu, isMouseOverDropdown]);
 
   return (
-    <nav className="relative w-full overflow-visible">
+    <nav className="relative w-full">
       {/* Desktop Menu */}
-      <div className="hidden lg:flex items-center w-full overflow-visible">
-        {/* Logo/Home - 실로스 */}
-        <div className="flex-shrink-0 mr-8">
-          <a
-            href="/"
-            className="flex items-center px-4 py-3 rounded-lg text-xl font-display font-medium text-teal-smoke-800 hover:text-teal-smoke-900 transition-all duration-300 hover:bg-teal-smoke-50"
+      <div className="hidden lg:block w-full">
+        <div className="flex items-center w-full">
+          {/* Logo/Home - 실로스 */}
+          <div className="flex-shrink-0 mr-6">
+            <a
+              href="/"
+              className="flex items-center px-3 py-2.5 rounded-lg text-lg font-display font-medium text-teal-smoke-800 hover:text-teal-smoke-900 transition-all duration-300 hover:bg-teal-smoke-50"
+            >
+              <Home className="w-4 h-4 mr-2" />
+              <span className="tracking-wide">실로스</span>
+            </a>
+          </div>
+          
+          {/* Navigation Items Container */}
+          <div 
+            className="flex-1 min-w-0 overflow-x-auto overflow-y-visible scrollbar-hide"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+              msOverflowStyle: 'none',
+              scrollbarWidth: 'none',
+              maxWidth: 'calc(100vw - 300px)' // Account for logo and button
+            }}
           >
-            <Home className="w-5 h-5 mr-2" />
-            <span className="tracking-wide">실로스</span>
-          </a>
-        </div>
-        
-        {/* Navigation Items */}
-        <div 
-          className="flex items-center space-x-1 justify-center flex-1 overflow-x-auto overflow-y-visible scrollbar-hide whitespace-nowrap"
-          onMouseEnter={() => setIsMouseOverMenu(true)}
-          onMouseLeave={() => setIsMouseOverMenu(false)}
-        >
+            <div 
+              className="inline-flex items-center gap-0.5"
+              style={{ minWidth: 'max-content' }}
+              onMouseEnter={() => setIsMouseOverMenu(true)}
+              onMouseLeave={() => setIsMouseOverMenu(false)}
+            >
           {navigationData.slice(1).map((item) => (
             <div
               key={item.id}
@@ -227,23 +238,25 @@ export default function NavigationMenu() {
               {/* 메인 메뉴 아이템 */}
               <a
                 href={item.href}
-                className="flex items-center px-3 py-3 rounded-lg text-sm font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-teal-smoke-700 hover:text-teal-smoke-800"
+                className="flex items-center px-2.5 py-2.5 rounded-lg text-[13px] font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-teal-smoke-700 hover:text-teal-smoke-800 whitespace-nowrap"
               >
-                <span className="whitespace-nowrap">
-                  {item.title}
+                <span className="flex flex-col">
+                  <span className="whitespace-nowrap">{item.title}</span>
                   {item.subtitle && (
-                    <span className="block text-xs text-teal-smoke-500 leading-tight">
+                    <span className="text-[11px] text-teal-smoke-500 leading-tight whitespace-nowrap">
                       {item.subtitle}
                     </span>
                   )}
                 </span>
                 {item.submenu && (
-                  <ChevronDown className="w-3 h-3 ml-1 transition-transform duration-200 group-hover:rotate-180" />
+                  <ChevronDown className="w-3 h-3 ml-1 transition-transform duration-200 group-hover:rotate-180 flex-shrink-0" />
                 )}
               </a>
 
             </div>
           ))}
+            </div>
+          </div>
         </div>
       </div>
 

@@ -21,7 +21,7 @@ export default function QuickConsultationMenu() {
       description: '실시간 카카오톡 상담',
       icon: MessageCircle,
       color: 'from-elegant-300 to-teal-smoke-300',
-      href: '#'
+      href: 'http://pf.kakao.com/_AxebKG/chat'
     },
     {
       id: 3,

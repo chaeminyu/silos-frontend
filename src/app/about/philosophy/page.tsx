@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Search, Award, Lightbulb, Shield, Heart, ChevronRight } from 'lucide-react';
-import NavigationMenu from '../../../components/NavigationMenu';
-import QuickConsultationMenu from '../../../components/QuickConsultationMenu';
+import PageLayout from '../../../components/PageLayout';
 
 const philosophySections = [
   {
@@ -13,6 +13,7 @@ const philosophySections = [
     description: '정확한 진단은 좋은 결과의 시작입니다. 실로스는 피부와 얼굴의 상태를 다각도로 분석해 환자에게 꼭 필요한 리프팅만을 설계합니다.',
     color: 'from-teal-smoke-100 to-teal-smoke-200',
     accentColor: 'teal-smoke-300',
+    image: '/images/philosophy/diagnosis.jpg', // Add your image here: diagnosis.jpg
     imagePlaceholder: 'diagnosis-image.jpg'
   },
   {
@@ -22,6 +23,7 @@ const philosophySections = [
     description: '실로스는 수많은 임상 경험과 기술력을 바탕으로 리프팅 분야를 선도하고 있습니다. 정확한 진단, 맞춤 설계, 그리고 안전한 시술 시스템은 실로스 리프팅의 핵심입니다. 환자 한 사람의 얼굴에 집중하며, 리프팅 그 이상의 가치를 실현합니다.',
     color: 'from-elegant-100 to-elegant-200',
     accentColor: 'elegant-300',
+    image: '/images/philosophy/leading-hospital.jpg', // Add your image here: leading-hospital.jpg
     imagePlaceholder: 'leading-hospital.jpg'
   },
   {
@@ -31,6 +33,7 @@ const philosophySections = [
     description: '실로스는 혁신 소재와 시술 연구 개발을 위해 실리프팅 R&D 센터를 운영하고 있습니다. 리프팅에 사용되는 실, 부스터 등 핵심 요소를 자체 개발 함으로써 보다 전문화된 리프팅 서비스를 제공하기 위해 노력하고 있습니다.',
     color: 'from-teal-smoke-200 to-elegant-200',
     accentColor: 'teal-smoke-400',
+    image: '/images/philosophy/rnd-center.jpg', // Add your image here: rnd-center.jpg
     imagePlaceholder: 'rnd-center.jpg'
   },
   {
@@ -40,6 +43,7 @@ const philosophySections = [
     description: '실로스에서는 진단부터 1인 맞춤으로 진행되며 모든 시술과 수술은 1인실 환경을 제공하고 있습니다.',
     color: 'from-elegant-200 to-teal-smoke-300',
     accentColor: 'elegant-400',
+    image: '/images/philosophy/private-service.jpg', // Add your image here: private-service.jpg
     imagePlaceholder: 'private-service.jpg'
   },
   {
@@ -49,6 +53,7 @@ const philosophySections = [
     description: '시술은 끝이 아니라 시작입니다. 실로스의 리프팅 케어 서비스는 붓기 완화 케어, 회복 단계별 맞춤 안내 등을 제공, 환자의 빠른 회복을 돕습니다.',
     color: 'from-teal-smoke-300 to-elegant-300',
     accentColor: 'teal-smoke-500',
+    image: '/images/philosophy/aftercare-service.jpg', // Add your image here: aftercare-service.jpg
     imagePlaceholder: 'aftercare-service.jpg'
   }
 ];
@@ -57,27 +62,10 @@ export default function PhilosophyPage() {
   const [activeSection, setActiveSection] = useState(1);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-smoke-50 via-white to-elegant-50">
-      {/* 헤더 네비게이션 */}
-      <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/90 backdrop-blur-xl border-b border-teal-smoke-200/50 shadow-sm overflow-visible">
-        <div className="w-full overflow-visible">
-          <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">
-            <div className="flex items-center justify-between h-20 overflow-visible">
-              <div className="flex-1 flex justify-center overflow-visible">
-                <NavigationMenu />
-              </div>
-              <div className="hidden lg:block">
-                <button className="bg-teal-smoke-300 hover:bg-teal-smoke-400 text-teal-smoke-800 px-6 py-2.5 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300 shadow-lg hover:shadow-xl border border-teal-smoke-400/30">
-                  온라인 상담
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+    <PageLayout>
 
       {/* 히어로 섹션 - 대각선 디자인 */}
-      <div className="relative pt-20 pb-32 overflow-hidden">
+      <div className="relative pb-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/10"></div>
         
@@ -94,7 +82,7 @@ export default function PhilosophyPage() {
               About SILOS Philosophy
             </div>
             <h1 className="text-5xl lg:text-6xl font-display font-light mb-6 tracking-wide leading-tight">
-              실로스 진료 철학
+              실로스 리프팅 철학
             </h1>
             <div className="w-24 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
             <p className="text-xl font-elegant-sans font-light max-w-3xl mx-auto leading-relaxed text-white/90">
@@ -188,15 +176,30 @@ export default function PhilosophyPage() {
                   {/* 이미지 섹션 */}
                   <div className={`${isEven ? 'lg:order-2' : 'lg:order-1'} relative group`}>
                     <div className="relative">
-                      {/* 이미지 플레이스홀더 */}
-                      <div className={`aspect-[4/3] bg-gradient-to-br ${section.color} rounded-3xl shadow-2xl overflow-hidden border border-white/50 group-hover:scale-105 transition-all duration-700`}>
-                        <div className="absolute inset-0 flex items-center justify-center">
+                      {/* 이미지 컨테이너 */}
+                      <div className={`aspect-[4/3] rounded-3xl shadow-2xl overflow-hidden border border-white/50 group-hover:scale-105 transition-all duration-700 relative`}>
+                        {section.image ? (
+                          <Image 
+                            src={section.image} 
+                            alt={section.title}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                            onError={(e) => {
+                              // Fallback to placeholder if image fails to load
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.parentElement?.querySelector('.image-placeholder')?.classList.remove('hidden');
+                            }}
+                          />
+                        ) : null}
+                        {/* Placeholder shown when no image or image fails to load */}
+                        <div className={`${section.image ? 'hidden' : ''} image-placeholder absolute inset-0 bg-gradient-to-br ${section.color} flex items-center justify-center`}>
                           <div className="text-center">
                             <div className={`w-24 h-24 bg-${section.accentColor} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl`}>
                               <IconComponent className="w-12 h-12 text-white" />
                             </div>
                             <p className="text-teal-smoke-700 font-elegant-sans font-light text-sm">
-                              이미지 업로드 예정
+                              이미지를 추가해주세요
                             </p>
                             <p className="text-teal-smoke-500 font-elegant-sans font-light text-xs mt-1">
                               {section.imagePlaceholder}
@@ -327,107 +330,6 @@ export default function PhilosophyPage() {
         </div>
       </div>
 
-      {/* 온라인 상담 섹션 - 전체 폭 사용 */}
-      <section id="contact" className="w-full py-24 bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500">
-        <div className="w-full">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center text-white">
-              <h2 className="text-4xl font-display font-light mb-6 tracking-wide">온라인 상담 예약</h2>
-              <div className="w-20 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
-              <p className="text-xl font-elegant-sans font-light mb-16 text-white/90 max-w-3xl mx-auto leading-relaxed">
-                전문의와의 1:1 맞춤 상담으로 당신만의 아름다움을 계획하세요
-              </p>
-              
-              <div className="max-w-5xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl p-12 border border-white/20 shadow-2xl">
-                <form className="space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <input
-                      type="text"
-                      placeholder="이름"
-                      className="w-full px-5 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 text-white placeholder-white/70 font-elegant-sans font-light transition-all"
-                    />
-                    <input
-                      type="tel"
-                      placeholder="연락처"
-                      className="w-full px-5 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 text-white placeholder-white/70 font-elegant-sans font-light transition-all"
-                    />
-                  </div>
-                  <select className="w-full px-5 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 text-white font-elegant-sans font-light transition-all">
-                    <option className="text-teal-smoke-800 bg-white">관심 시술을 선택해주세요</option>
-                    <option className="text-teal-smoke-800 bg-white">실로스 실리프팅</option>
-                    <option className="text-teal-smoke-800 bg-white">이마 눈썹 리프팅</option>
-                    <option className="text-teal-smoke-800 bg-white">눈밑 지방레이저</option>
-                    <option className="text-teal-smoke-800 bg-white">실로팻</option>
-                  </select>
-                  <textarea
-                    placeholder="상담 내용을 적어주세요"
-                    rows={4}
-                    className="w-full px-5 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 text-white placeholder-white/70 font-elegant-sans font-light transition-all resize-none"
-                  ></textarea>
-                  <button
-                    type="submit"
-                    className="w-full bg-white/90 hover:bg-white text-teal-smoke-800 py-4 rounded-xl font-elegant-sans font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                  >
-                    상담 신청하기
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 푸터 */}
-      <footer className="w-full bg-gradient-to-br from-teal-smoke-800 via-elegant-800 to-teal-smoke-900 text-white py-16">
-        <div className="w-full">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
-              <div className="md:col-span-1 flex flex-col items-center md:items-start">
-                <h3 className="text-3xl font-display font-light text-teal-smoke-200 mb-4 tracking-wide">실로스</h3>
-                <p className="text-teal-smoke-300 font-elegant-sans font-light">실리프팅은 실로스</p>
-              </div>
-              
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-teal-smoke-200 tracking-wide">시술 안내</h4>
-                <ul className="space-y-3 text-teal-smoke-400">
-                  <li><a href="#" className="hover:text-teal-smoke-200 transition-colors font-elegant-sans font-light">실로스 실리프팅</a></li>
-                  <li><a href="#" className="hover:text-teal-smoke-200 transition-colors font-elegant-sans font-light">이마 눈썹 리프팅</a></li>
-                  <li><a href="#" className="hover:text-teal-smoke-200 transition-colors font-elegant-sans font-light">눈밑 지방레이저</a></li>
-                  <li><a href="#" className="hover:text-teal-smoke-200 transition-colors font-elegant-sans font-light">실로팻</a></li>
-                </ul>
-              </div>
-              
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-teal-smoke-200 tracking-wide">병원 정보</h4>
-                <ul className="space-y-3 text-teal-smoke-400 font-elegant-sans font-light">
-                  <li>경상남도 창원시 성산구 중앙대로 114, 1층</li>
-                  <li>TEL: 000-0000-0000 (추후 정보 수정 예정)</li>
-                  <li>진료시간: (추후 정보 수정 예정)</li>
-                  <li>휴진일: (추후 정보 수정 예정)</li>
-                </ul>
-              </div>
-              
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-teal-smoke-200 tracking-wide">빠른 상담</h4>
-                <button className="bg-teal-smoke-300 hover:bg-teal-smoke-200 text-teal-smoke-800 px-8 py-3 rounded-full font-elegant-sans font-medium transition-all duration-300 mb-6 shadow-lg hover:shadow-xl">
-                  카카오톡 상담
-                </button>
-                <div className="text-teal-smoke-400 text-sm font-elegant-sans font-light leading-relaxed">
-                  진료시간: (추후 정보 수정 예정)<br />
-                  휴진일: (추후 정보 수정 예정)
-                </div>
-              </div>
-            </div>
-            
-            <div className="border-t border-teal-smoke-700/50 mt-12 pt-8 text-center">
-              <p className="text-teal-smoke-400 font-elegant-sans font-light">&copy; 2024 실로스 성형외과. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* 플로팅 퀵 상담 메뉴 */}
-      <QuickConsultationMenu />
-    </div>
+    </PageLayout>
   );
 }
