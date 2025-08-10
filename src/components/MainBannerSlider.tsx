@@ -170,10 +170,10 @@ export default function VisualImpactBanner() {
     <div 
       className="relative h-screen min-h-[800px] overflow-hidden flex items-center z-10"
     >
-      {/* 동적 배경 - 부드러운 그라데이션 애니메이션 */}
+      {/* 동적 배경 - 아름다운 teal 그라데이션 */}
       <div className="absolute inset-0 animate-gradient-flow">
         {/* 보조 그라데이션 레이어 */}
-        <div className="absolute inset-0 animate-elegant-flow opacity-40"></div>
+        <div className="absolute inset-0 animate-elegant-flow opacity-50"></div>
         
         {/* 3D 배경 효과들 */}
         <div className="absolute inset-0">
@@ -181,7 +181,8 @@ export default function VisualImpactBanner() {
           <div className="absolute bottom-20 right-20 w-80 h-80 bg-white/12 rounded-full blur-2xl animate-pulse delay-1000"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/4 rounded-full blur-3xl animate-spin-slow"></div>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/15"></div>
+        {/* 가독성을 위한 약간의 오버레이 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-black/10"></div>
       </div>
 
       {/* 메인 콘텐츠 */}
@@ -208,14 +209,14 @@ export default function VisualImpactBanner() {
               {/* 메인 타이틀 - Box 1 */}
               <div className="space-y-4 animate-fade-in-up" key={currentSlide}>
                 {/* Box 1 */}
-                <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 shadow-lg transition-all duration-700 hover:bg-white/15 mb-4">
+                <div className="bg-white/25 backdrop-blur-lg rounded-xl p-6 border border-white/30 shadow-lg transition-all duration-700 hover:bg-white/30 mb-4 relative">
                   {currentProcedure.subTitle && (
-                    <p className="text-sm font-elegant-sans font-light text-white/85 mb-2 leading-relaxed">
+                    <p className="text-base font-elegant-sans font-semibold text-teal-smoke-800 mb-2 leading-relaxed">
                       {currentProcedure.subTitle}
                     </p>
                   )}
                   {currentProcedure.mainTitle && (
-                    <h1 className="text-2xl lg:text-3xl font-display font-bold leading-tight tracking-wide drop-shadow-lg mb-2 whitespace-pre-line">
+                    <h1 className="text-2xl lg:text-3xl font-display font-bold leading-tight tracking-wide drop-shadow-sm mb-2 whitespace-pre-line text-teal-smoke-900">
                       {currentProcedure.mainTitle.includes('young') ? (
                         currentProcedure.mainTitle.split('young').map((part, index) => (
                           <span key={index}>
@@ -231,7 +232,7 @@ export default function VisualImpactBanner() {
                     </h1>
                   )}
                   {currentProcedure.subTitle2 && (
-                    <p className="text-sm font-elegant-sans font-light text-white/80 leading-relaxed whitespace-pre-line">
+                    <p className="text-base font-elegant-sans font-medium text-teal-smoke-700 leading-relaxed whitespace-pre-line">
                       {currentProcedure.subTitle2}
                     </p>
                   )}
@@ -239,14 +240,14 @@ export default function VisualImpactBanner() {
 
                 {/* Box 2 */}
                 {(currentProcedure.mainTitle2 || currentProcedure.subTitle3) && (
-                  <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 shadow-lg transition-all duration-700 hover:bg-white/15">
+                  <div className="bg-white/25 backdrop-blur-lg rounded-xl p-6 border border-white/30 shadow-lg transition-all duration-700 hover:bg-white/30">
                     {currentProcedure.subTitle3 && (
-                      <p className="text-sm font-elegant-sans font-light text-white/85 mb-2 leading-relaxed">
+                      <p className="text-base font-elegant-sans font-semibold text-elegant-800 mb-2 leading-relaxed">
                         {currentProcedure.subTitle3}
                       </p>
                     )}
                     {currentProcedure.mainTitle2 && (
-                      <h2 className="text-xl lg:text-2xl font-display font-bold leading-tight tracking-wide drop-shadow-lg mb-2 whitespace-pre-line">
+                      <h2 className="text-xl lg:text-2xl font-display font-bold leading-tight tracking-wide mb-2 whitespace-pre-line text-elegant-900 drop-shadow-sm">
                         {currentProcedure.mainTitle2.includes('어려졌어!') ? (
                           currentProcedure.mainTitle2.split('어려졌어!').map((part, index) => (
                             <span key={index}>
@@ -266,7 +267,7 @@ export default function VisualImpactBanner() {
                       </h2>
                     )}
                     {currentProcedure.subTitle4 && (
-                      <p className="text-sm font-elegant-sans font-light text-white/80 leading-relaxed whitespace-pre-line">
+                      <p className="text-base font-elegant-sans font-medium text-elegant-700 leading-relaxed whitespace-pre-line">
                         {currentProcedure.subTitle4}
                       </p>
                     )}
