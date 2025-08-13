@@ -34,13 +34,13 @@ const navigationData = [
     title: '실로스 커스터마이징 실리프팅',
     href: '/procedures/silos-lifting',
     submenu: [
-      { title: '실로스 실리프팅', href: '/procedures/silos-lifting/thread-lifting' },
-      { title: '실로스 파워 실리프팅', href: '/procedures/silos-lifting/power-lifting' },
-      { title: '코리프팅', href: '/procedures/silos-lifting/nose-lifting' },
-      { title: '턱라인 리프팅', href: '/procedures/silos-lifting/jawline-lifting' },
-      { title: '이마 리프팅', href: '/procedures/silos-lifting/forehead-lifting' },
-      { title: '불독살 리프팅', href: '/procedures/silos-lifting/jowl-lifting' },
-      { title: '팔자주름 리프팅', href: '/procedures/silos-lifting/nasolabial-lifting' }
+      { title: '실로스 실리프팅', href: '/procedures/silos-lifting?procedure=thread-lifting' },
+      { title: '실로스 파워 실리프팅', href: '/procedures/silos-lifting?procedure=power-lifting' },
+      { title: '코리프팅', href: '/procedures/silos-lifting?procedure=nose-lifting' },
+      { title: '턱라인 리프팅', href: '/procedures/silos-lifting?procedure=jawline-lifting' },
+      { title: '이마 리프팅', href: '/procedures/silos-lifting?procedure=forehead-lifting' },
+      { title: '불독살 리프팅', href: '/procedures/silos-lifting?procedure=jowl-lifting' },
+      { title: '팔자주름 리프팅', href: '/procedures/silos-lifting?procedure=nasolabial-lifting' }
     ]
   },
   {
@@ -95,20 +95,20 @@ const navigationData = [
   {
     id: 'silopat',
     title: '실로팻',
-    href: '/procedures/silopat'
+    href: '/silofat'
   },
   {
     id: 'skin-lifting',
     title: '피부 리프팅',
     href: '/procedures/skin-lifting',
     submenu: [
-      { title: '콜라채움', href: '/procedures/skin-lifting/collagen' },
-      { title: '리쥬란', href: '/procedures/skin-lifting/rejuran' },
-      { title: '올리디아', href: '/procedures/skin-lifting/olydia' },
-      { title: '쥬베룩', href: '/procedures/skin-lifting/juvelook' },
-      { title: '래디어스', href: '/procedures/skin-lifting/radius' },
-      { title: '볼라썸', href: '/procedures/skin-lifting/vollasome' },
-      { title: '물광주사', href: '/procedures/skin-lifting/skin-booster' }
+      { title: '콜라채움', href: '/procedures/skin-lifting?procedure=collagen' },
+      { title: '리쥬란', href: '/procedures/skin-lifting?procedure=rejuran' },
+      { title: '올리디아', href: '/procedures/skin-lifting?procedure=olydia' },
+      { title: '쥬베룩', href: '/procedures/skin-lifting?procedure=juvelook' },
+      { title: '래디어스', href: '/procedures/skin-lifting?procedure=radius' },
+      { title: '볼라썸', href: '/procedures/skin-lifting?procedure=vollasome' },
+      { title: '물광주사', href: '/procedures/skin-lifting?procedure=skin-booster' }
     ]
   },
   {
