@@ -7,12 +7,14 @@ import PageLayout from '../../components/PageLayout';
 export default function SiloFatPage() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState<string[]>([]);
+  const [selectedBodyPart, setSelectedBodyPart] = useState<string>('01'); // 기본값: 부유방
 
   const toggleDropdown = (id: string) => {
     setOpenDropdown(openDropdown === id ? null : id);
   };
 
-  const handleAddToCart = (partId: string, partName: string) => {
+  const handleAddToCart = (partId: string, partName: string, event: React.MouseEvent) => {
+    event.stopPropagation(); // 부모 클릭 이벤트 방지
     // Simulate adding to cart
     if (!addedToCart.includes(partId)) {
       setAddedToCart([...addedToCart, partId]);
@@ -29,7 +31,8 @@ export default function SiloFatPage() {
       content: `더 직접적인 방법으로 지방세포자체를
 추출하여 제거하는 방식입니다.
 지방추출주사는 특히 큰 지방 덩어리나 특정 부위의
-명확한 체형 조정이 필요한 경우 더 효과적일 수 있습니다.`
+명확한 체형 조정이 필요한 경우 더 효과적일 수 있습니다.`,
+      image: '/images/procedures/silofat/what-is-silofat.jpg'
     },
     {
       id: 'difference',
@@ -38,7 +41,8 @@ export default function SiloFatPage() {
       content: `기존 지방 세포 크기만 줄여주고 약물 주사 후 체내 순환을 통해
 체외로 배출되며 여러 차례 시술을 받아야 했던 지방분해주사와 달리
 지방추출주사는 약물 주사 후 주사기를 통해 직접 지방을 추출해
-직접적으로 지방의 세포의 개수를 줄여줘 영구적 효과가 있습니다.`
+직접적으로 지방의 세포의 개수를 줄여줘 영구적 효과가 있습니다.`,
+      image: '/images/procedures/silofat/procedure-process.jpg'
     },
     {
       id: 'advantages',
@@ -49,16 +53,17 @@ export default function SiloFatPage() {
 • 짧은 시술 시간
 • 일상 생활 바로 가능
 • 뽑아낸 지방을 눈으로 바로 확인
-• 압박복 미착용`
+• 압박복 미착용`,
+      image: '/images/procedures/silofat/advantages.jpg'
     }
   ];
 
   const bodyParts = [
-    { id: '01', name: '부유방' },
-    { id: '02', name: '팔 라인' },
-    { id: '03', name: '복부' },
-    { id: '04', name: '러브핸들' },
-    { id: '05', name: '종아리/허벅지' }
+    { id: '01', name: '부유방', image: '/images/procedures/silofat/areas/accessory-breast.jpg' },
+    { id: '02', name: '팔 라인', image: '/images/procedures/silofat/areas/arm-line.jpg' },
+    { id: '03', name: '복부', image: '/images/procedures/silofat/areas/abdomen.jpg' },
+    { id: '04', name: '러브핸들', image: '/images/procedures/silofat/areas/love-handles.jpg' },
+    { id: '05', name: '종아리/허벅지', image: '/images/procedures/silofat/areas/legs.jpg' }
   ];
 
   return (
@@ -100,8 +105,12 @@ export default function SiloFatPage() {
               </div>
             </div>
             <div className="relative h-[400px] lg:h-[500px]">
-              <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20 flex items-center justify-center">
-                <span className="text-white/50 font-elegant-sans">이미지 준비중</span>
+              <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20 overflow-hidden">
+                <img 
+                  src="/images/procedures/silofat/hero-main.jpg" 
+                  alt="실로팻 시술"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -170,6 +179,7 @@ export default function SiloFatPage() {
               </div>
             ))}
           </div>
+
         </div>
       </div>
 
@@ -207,7 +217,7 @@ export default function SiloFatPage() {
                 
                 <div
                   className={`overflow-hidden transition-all duration-500 ${
-                    openDropdown === item.id ? 'max-h-96' : 'max-h-0'
+                    openDropdown === item.id ? 'max-h-[600px]' : 'max-h-0'
                   }`}
                 >
                   <div className="px-8 py-6 border-t border-teal-smoke-100">
@@ -220,9 +230,13 @@ export default function SiloFatPage() {
                           {item.content}
                         </p>
                       </div>
-                      <div className="flex items-center justify-center">
-                        <div className="w-full h-48 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-xl flex items-center justify-center">
-                          <span className="text-teal-smoke-400 font-elegant-sans">이미지 준비중</span>
+                      <div className="flex items-start justify-center">
+                        <div className="w-full bg-white rounded-xl p-4 shadow-md border border-teal-smoke-200/30">
+                          <img 
+                            src={item.image} 
+                            alt={item.title}
+                            className="w-full h-auto object-contain rounded-lg max-h-80"
+                          />
                         </div>
                       </div>
                     </div>
@@ -249,8 +263,21 @@ export default function SiloFatPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="relative h-[500px] bg-white/60 backdrop-blur-sm rounded-3xl shadow-xl border border-teal-smoke-200/50 flex items-center justify-center">
-                <span className="text-teal-smoke-400 font-elegant-sans">몸 이미지 준비중</span>
+              <div className="relative h-[500px] bg-white/60 backdrop-blur-sm rounded-3xl shadow-xl border border-teal-smoke-200/50 overflow-hidden">
+                {(() => {
+                  const selectedPart = bodyParts.find(part => part.id === selectedBodyPart);
+                  return selectedPart ? (
+                    <img 
+                      src={selectedPart.image} 
+                      alt={selectedPart.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <span className="text-teal-smoke-400 font-elegant-sans">이미지를 선택해주세요</span>
+                    </div>
+                  );
+                })()}
               </div>
             </div>
             
@@ -258,21 +285,30 @@ export default function SiloFatPage() {
               {bodyParts.map((part, index) => (
                 <div
                   key={part.id}
-                  className="group bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-teal-smoke-200/50"
+                  onClick={() => setSelectedBodyPart(part.id)}
+                  className={`group cursor-pointer rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 ${
+                    selectedBodyPart === part.id 
+                      ? 'bg-gradient-to-r from-teal-smoke-100 to-elegant-100 border-teal-smoke-400' 
+                      : 'bg-white/60 backdrop-blur-sm border-teal-smoke-200/50 hover:border-teal-smoke-300'
+                  }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-4">
-                        <span className="text-2xl font-display font-light text-teal-smoke-500">
-                          CASE {part.id}
-                        </span>
-                        <p className="text-lg font-elegant font-medium text-teal-smoke-800 group-hover:text-teal-smoke-900 transition-colors">
-                          {part.name}
-                        </p>
-                      </div>
+                    <div className="flex items-center space-x-4 flex-1">
+                      <span className={`text-2xl font-display font-light ${
+                        selectedBodyPart === part.id ? 'text-teal-smoke-600' : 'text-teal-smoke-500'
+                      }`}>
+                        CASE {part.id}
+                      </span>
+                      <p className={`text-lg font-elegant font-medium transition-colors ${
+                        selectedBodyPart === part.id 
+                          ? 'text-teal-smoke-800' 
+                          : 'text-teal-smoke-700 group-hover:text-teal-smoke-900'
+                      }`}>
+                        {part.name}
+                      </p>
                     </div>
                     <button
-                      onClick={() => handleAddToCart(part.id, part.name)}
+                      onClick={(e) => handleAddToCart(part.id, part.name, e)}
                       className={`px-4 py-2 rounded-lg font-elegant-sans text-sm transition-all duration-300 flex items-center space-x-2 ${
                         addedToCart.includes(part.id)
                           ? 'bg-green-100 text-green-700 cursor-default'

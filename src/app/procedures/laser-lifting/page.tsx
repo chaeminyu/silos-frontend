@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
-import { Zap, Clock, Shield, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { Zap, Clock, Shield, Star, ChevronDown, ChevronUp, ShoppingCart, Check } from 'lucide-react';
 
 const laserProcedures = [
   {
@@ -95,6 +95,8 @@ const laserProcedures = [
 export default function LaserLiftingPage() {
   const searchParams = useSearchParams();
   const [expandedProcedure, setExpandedProcedure] = useState<string | null>(null);
+  const [addedToCart, setAddedToCart] = useState<string[]>([]);
+  const [selectedBodyPart, setSelectedBodyPart] = useState<string>('01');
 
   // Handle URL parameter for auto-expanding and scrolling
   useEffect(() => {
@@ -114,6 +116,22 @@ export default function LaserLiftingPage() {
   const toggleProcedure = (procedureId: string) => {
     setExpandedProcedure(expandedProcedure === procedureId ? null : procedureId);
   };
+
+  const handleAddToCart = (partId: string, partName: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (!addedToCart.includes(partId)) {
+      setAddedToCart([...addedToCart, partId]);
+      console.log(`Added to cart: 레이저 리프팅 - ${partName}`);
+    }
+  };
+
+  const bodyParts = [
+    { id: '01', name: '이마주름', image: '/images/procedures/laser-lifting/areas/forehead.png' },
+    { id: '02', name: '눈가라인', image: '/images/procedures/laser-lifting/areas/eye-area.png' },
+    { id: '03', name: '심부볼', image: '/images/procedures/laser-lifting/areas/deep-cheek.png' },
+    { id: '04', name: '팔자주름', image: '/images/procedures/laser-lifting/areas/nasolabial.png' },
+    { id: '05', name: '이중턱/목주름', image: '/images/procedures/laser-lifting/areas/neck-double-chin.png' }
+  ];
 
   return (
     <PageLayout>
@@ -258,13 +276,17 @@ export default function LaserLiftingPage() {
 
                           {/* 오른쪽: 장비 이미지 */}
                           <div className="flex justify-center">
-                            <div className="w-80 h-60 bg-gray-100 rounded-2xl border-2 border-teal-smoke-200/30 flex items-center justify-center">
-                              <div className="text-center text-teal-smoke-400">
-                                <Zap className="w-16 h-16 mx-auto mb-4" />
-                                <p className="font-elegant-sans font-light">
-                                  {procedure.subtitle}<br />Equipment
-                                </p>
-                              </div>
+                            <div className="w-80 h-60 bg-white rounded-2xl border-2 border-teal-smoke-200/30 p-4 shadow-lg">
+                              <img 
+                                src={`/images/procedures/silos-lifting/equipment/lifting_${procedure.id === 'ulthera' ? 'ulthera' : 
+                                      procedure.id === 'shrink' ? 'shurink' : 
+                                      procedure.id === 'onda' ? 'onda' : 
+                                      procedure.id === 'encore' ? 'ncore' : 
+                                      procedure.id === 'density' ? 'density' : 
+                                      'vro'}.png`}
+                                alt={`${procedure.title} 장비`}
+                                className="w-full h-full object-contain"
+                              />
                             </div>
                           </div>
                         </div>
@@ -276,14 +298,105 @@ export default function LaserLiftingPage() {
             </div>
           </div>
 
+          {/* Body Parts Section */}
+          <div className="py-24 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-3xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl lg:text-5xl font-display font-light text-teal-smoke-800 mb-4">
+                PART
+              </h2>
+              <h3 className="text-3xl font-display font-light text-teal-smoke-700 mb-6">
+                리프팅 시술 부위
+              </h3>
+              <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mx-auto"></div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-8">
+              <div className="order-2 lg:order-1">
+                <div className="relative h-[500px] bg-white/60 backdrop-blur-sm rounded-3xl shadow-xl border border-teal-smoke-200/50 overflow-hidden">
+                  {(() => {
+                    const selectedPart = bodyParts.find(part => part.id === selectedBodyPart);
+                    return selectedPart ? (
+                      <img 
+                        src={selectedPart.image} 
+                        alt={selectedPart.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full">
+                        <span className="text-teal-smoke-400 font-elegant-sans">이미지를 선택해주세요</span>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+              
+              <div className="order-1 lg:order-2 space-y-4">
+                {bodyParts.map((part) => (
+                  <div
+                    key={part.id}
+                    onClick={() => setSelectedBodyPart(part.id)}
+                    className={`group cursor-pointer rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 ${
+                      selectedBodyPart === part.id 
+                        ? 'bg-gradient-to-r from-teal-smoke-100 to-elegant-100 border-teal-smoke-400' 
+                        : 'bg-white/60 backdrop-blur-sm border-teal-smoke-200/50 hover:border-teal-smoke-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4 flex-1">
+                        <span className={`text-2xl font-display font-light ${
+                          selectedBodyPart === part.id ? 'text-teal-smoke-600' : 'text-teal-smoke-500'
+                        }`}>
+                          CASE {part.id}
+                        </span>
+                        <p className={`text-lg font-elegant font-medium transition-colors ${
+                          selectedBodyPart === part.id 
+                            ? 'text-teal-smoke-800' 
+                            : 'text-teal-smoke-700 group-hover:text-teal-smoke-900'
+                        }`}>
+                          {part.name}
+                        </p>
+                      </div>
+                      <button
+                        onClick={(e) => handleAddToCart(part.id, part.name, e)}
+                        className={`px-4 py-2 rounded-lg font-elegant-sans text-sm transition-all duration-300 flex items-center space-x-2 ${
+                          addedToCart.includes(part.id)
+                            ? 'bg-green-100 text-green-700 cursor-default'
+                            : 'bg-teal-smoke-300 text-white hover:bg-teal-smoke-400 hover:shadow-lg'
+                        }`}
+                        disabled={addedToCart.includes(part.id)}
+                      >
+                        {addedToCart.includes(part.id) ? (
+                          <>
+                            <Check className="w-4 h-4" />
+                            <span>담김</span>
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingCart className="w-4 h-4" />
+                            <span>담기</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
           {/* CASE 섹션 */}
-          <div className="bg-gradient-to-br from-gray-600 to-gray-800 rounded-3xl p-12 text-white">
-            <div className="text-center mb-12">
+          <div className="relative rounded-3xl p-12 text-white mt-16 overflow-hidden">
+            <div className="absolute inset-0 bg-black/50"></div>
+            <div 
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: 'url(/images/procedures/laser-lifting/case-bg.png)' }}
+            ></div>
+            <div className="relative text-center mb-12">
               <h3 className="text-3xl font-display font-light mb-4">CASE</h3>
               <h4 className="text-2xl font-elegant font-light mb-6">레이저 리프팅이 필요한 경우</h4>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
                   case: 'CASE 01',
@@ -316,6 +429,74 @@ export default function LaserLiftingPage() {
           </div>
         </div>
       </div>
+
+      {/* Online Consultation Section - Full Width */}
+      <section className="w-full bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500">
+        <div className="w-full py-24 px-4 sm:px-6 lg:px-8 text-white">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl lg:text-4xl font-display font-light mb-6">
+                온라인 상담 신청
+              </h2>
+              <div className="w-24 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
+              <p className="text-lg font-elegant-sans font-light text-white/90 max-w-2xl mx-auto">
+                레이저 리프팅에 대해 더 자세한 상담을 원하시나요?<br />
+                전문 의료진이 맞춤형 상담을 도와드립니다.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="성함"
+                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
+                />
+                <input
+                  type="tel"
+                  placeholder="연락처"
+                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
+                />
+                <input
+                  type="email"
+                  placeholder="이메일 (선택)"
+                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
+                />
+              </div>
+              
+              <div className="space-y-4">
+                <select className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white font-elegant-sans focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer">
+                  <option value="" className="text-teal-smoke-700">상담 부위 선택</option>
+                  <option value="이마주름" className="text-teal-smoke-700">이마주름</option>
+                  <option value="눈가라인" className="text-teal-smoke-700">눈가라인</option>
+                  <option value="심부볼" className="text-teal-smoke-700">심부볼</option>
+                  <option value="팔자주름" className="text-teal-smoke-700">팔자주름</option>
+                  <option value="이중턱/목주름" className="text-teal-smoke-700">이중턱/목주름</option>
+                  <option value="기타" className="text-teal-smoke-700">기타</option>
+                </select>
+                <textarea
+                  placeholder="상담 내용을 입력해주세요"
+                  rows={5}
+                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors resize-none"
+                />
+              </div>
+            </div>
+            
+            <div className="mt-8 text-center">
+              <button className="px-12 py-4 bg-white text-teal-smoke-700 rounded-xl font-elegant-sans font-medium text-lg hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl">
+                상담 신청하기
+              </button>
+            </div>
+            
+            <div className="mt-12 pt-8 border-t border-white/20 text-center">
+              <p className="text-sm font-elegant-sans font-light text-white/80">
+                상담 가능 시간: 평일 10:00 - 19:00 | 토요일 10:00 - 17:00<br />
+                개인정보는 상담 목적으로만 사용되며 안전하게 보호됩니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </PageLayout>
   );
 }

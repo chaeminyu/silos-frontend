@@ -118,18 +118,25 @@ export default function SilosLiftingPage() {
   const [expandedProcedure, setExpandedProcedure] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState<string[]>([]);
   const [selectedThread, setSelectedThread] = useState<number>(0);
+  const [activeProcedureTab, setActiveProcedureTab] = useState<string>('thread-lifting');
 
-  // Handle URL parameter for auto-expanding and scrolling
+  // Handle URL parameter for direct access to procedures
   useEffect(() => {
     const procedureParam = searchParams.get('procedure');
     if (procedureParam) {
-      setExpandedProcedure(procedureParam);
-      setTimeout(() => {
-        const element = document.getElementById(procedureParam);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 100);
+      // 유효한 procedure ID인지 확인
+      const validProcedure = silosliftingProcedures.find(proc => proc.id === procedureParam);
+      if (validProcedure) {
+        setActiveProcedureTab(procedureParam);
+        
+        // PROCEDURE 섹션으로 스크롤
+        setTimeout(() => {
+          const procedureSection = document.querySelector('[data-procedure-section]');
+          if (procedureSection) {
+            procedureSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      }
     }
   }, [searchParams]);
 
@@ -147,26 +154,39 @@ export default function SilosLiftingPage() {
   return (
     <PageLayout>
       {/* 히어로 섹션 */}
-      <div className="relative pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/10"></div>
+      <div className="relative pb-16 overflow-hidden h-[500px] lg:h-[600px]">
+        <div 
+          className="absolute inset-0 bg-cover bg-no-repeat"
+          style={{ 
+            backgroundImage: 'url(/images/procedures/silos-lifting/silos-custom-lifting-bg.png)',
+            backgroundPosition: 'center top'
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent"></div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-          <div className="text-center text-white">
-            <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-sm font-elegant-sans font-medium mb-8 border border-white/30">
-              <Sparkles className="w-4 h-4 mr-2" />
-              SILOS CUSTOMIZING LIFTING
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 h-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
+            <div className="text-white space-y-6">
+              <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-sm font-elegant-sans font-medium mb-4 border border-white/30">
+                <Sparkles className="w-4 h-4 mr-2" />
+                SILOS CUSTOMIZING LIFTING
+              </div>
+              <div>
+                <h1 className="text-3xl lg:text-4xl font-display font-light mb-4 tracking-wide leading-tight">
+                  SILOS CUSTOMIZING<br />
+                  <span className="text-4xl lg:text-5xl">실리프팅</span>
+                </h1>
+                <div className="w-24 h-0.5 bg-white/60 rounded-full mb-4"></div>
+                <p className="text-base lg:text-lg font-elegant-sans font-light leading-relaxed text-white/90">
+                  시술 부위, 피부 처짐, 지방량, 골격, 니즈 등을 고려해<br />
+                  다양한 실을 복합적으로 활용하여<br />
+                  <span className="font-medium">보다 안전적이고, 만족스러운 실리프팅 시술을 진행해드립니다</span>
+                </p>
+              </div>
             </div>
-            <h1 className="text-4xl lg:text-5xl font-display font-light mb-6 tracking-wide leading-tight">
-              SILOS CUSTOMIZING<br />
-              <span className="text-5xl lg:text-6xl">실리프팅</span>
-            </h1>
-            <div className="w-24 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
-            <p className="text-lg lg:text-xl font-elegant-sans font-light max-w-4xl mx-auto leading-relaxed text-white/90">
-              시술 부위, 피부 처짐, 지방량, 골격, 니즈 등을 고려해<br />
-              다양한 실을 복합적으로 활용하여<br />
-              <span className="font-medium">보다 안전적이고, 만족스러운 실리프팅 시술을 진행해드립니다</span>
-            </p>
+            <div className="relative">
+              {/* 오른쪽 공간은 배경 이미지가 채움 */}
+            </div>
           </div>
         </div>
       </div>
@@ -236,10 +256,10 @@ export default function SilosLiftingPage() {
               </div>
             </div>
 
-            {/* 3M 실프케어키트 증정 */}
+            {/* 3M 셀프케어키트 증정 */}
             <div className="text-center mb-12">
               <h4 className="text-3xl lg:text-4xl font-display font-bold text-teal-smoke-800 mb-6">
-                3M 실프케어키트 증정
+                3M 셀프케어키트 증정
               </h4>
               <p className="text-lg font-elegant-sans font-medium text-elegant-600">
                 자체제작 리프팅밴드
@@ -409,132 +429,127 @@ export default function SilosLiftingPage() {
             </div>
           </div>
 
-          {/* PROCEDURE 섹션 - 아코디언 스타일 */}
-          <div className="mb-20 mt-20">
-            <div className="text-center mb-16">
-              <h3 className="text-4xl lg:text-5xl font-display font-bold text-teal-smoke-800 mb-6">
+          {/* PROCEDURE 섹션 - 탭 네비게이션 */}
+          <div className="mb-20 mt-20" data-procedure-section>
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-4">
                 PROCEDURE
               </h3>
-              <h4 className="text-2xl lg:text-3xl font-elegant font-bold text-elegant-600 mb-8">
+              <h4 className="text-2xl font-elegant font-light text-elegant-600 mb-6">
                 실로스 커스터마이징 실리프팅 시술
               </h4>
-              <div className="w-32 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto"></div>
+              <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto"></div>
             </div>
 
-            {/* 아코디언 프로시저 리스트 */}
-            <div className="space-y-6">
-              {silosliftingProcedures.map((procedure, index) => {
-                const isExpanded = expandedProcedure === procedure.id;
-                return (
-                  <div
-                    key={procedure.id}
-                    id={procedure.id}
-                    className="bg-white rounded-3xl shadow-xl border border-teal-smoke-200/30 overflow-hidden transform hover:scale-[1.02] transition-all duration-300"
-                  >
-                    {/* 헤더 - 클릭 가능 */}
-                    <button
-                      onClick={() => toggleProcedure(procedure.id)}
-                      className="w-full bg-gradient-to-r from-teal-smoke-500 to-elegant-500 py-8 px-8 hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-6">
-                          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                            <span className="text-lg font-bold text-white">
-                              {String(index + 1).padStart(2, '0')}
-                            </span>
-                          </div>
-                          <h3 className="text-2xl lg:text-3xl font-display font-bold text-white tracking-wide">
-                            {procedure.title}
-                          </h3>
-                        </div>
-                        {isExpanded ? (
-                          <ChevronUp className="w-7 h-7 text-white transition-transform" />
-                        ) : (
-                          <ChevronDown className="w-7 h-7 text-white transition-transform" />
-                        )}
-                      </div>
-                    </button>
+            {/* 탭 버튼들 */}
+            <div className="flex flex-wrap justify-center gap-2 mb-12 max-w-6xl mx-auto">
+              {silosliftingProcedures.map((procedure) => (
+                <button
+                  key={procedure.id}
+                  onClick={() => setActiveProcedureTab(procedure.id)}
+                  className={`px-4 py-3 rounded-xl font-elegant-sans font-medium transition-all duration-300 text-sm ${
+                    activeProcedureTab === procedure.id
+                      ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
+                      : 'bg-white text-teal-smoke-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
+                  }`}
+                >
+                  {procedure.title}
+                </button>
+              ))}
+            </div>
 
-                    {/* 확장 가능한 콘텐츠 */}
-                    {isExpanded && (
-                      <div className="p-10 bg-gradient-to-br from-white to-teal-smoke-25">
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                          {/* 왼쪽: 설명 (2/3 너비) */}
-                          <div className="lg:col-span-2">
-                            <h4 className="text-3xl lg:text-4xl font-display font-bold text-teal-smoke-800 mb-8 tracking-wide">
-                              {procedure.subtitle}
-                            </h4>
-                            <div className="space-y-4 mb-10">
-                              {procedure.description.map((desc, i) => (
-                                <p key={i} className="text-lg text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
-                                  {desc}
-                                </p>
-                              ))}
-                            </div>
-
-                            {/* 특징 배지들 */}
-                            <div className="flex flex-wrap gap-4 mb-8">
-                              {procedure.features.map((feature, i) => (
-                                <div key={i} className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-teal-smoke-800 border-2 border-teal-smoke-200 shadow-lg">
-                                  <Sparkles className="w-4 h-4 mr-2" />
-                                  {feature}
-                                </div>
-                              ))}
-                            </div>
-
-                            {/* 시술시간 */}
-                            <div className="flex items-center space-x-4">
-                              <div className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-elegant-200 to-teal-smoke-200 text-teal-smoke-800 border-2 border-elegant-300 shadow-lg">
-                                <Clock className="w-4 h-4 mr-2" />
-                                {procedure.duration}
-                              </div>
-                              <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-elegant-sans font-bold bg-gray-200 text-gray-700 border border-gray-300">
-                                {procedure.category}
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* 오른쪽: 이미지 및 장바구니 (1/3 너비) */}
-                          <div className="flex flex-col items-center justify-between">
-                            <div className="w-full h-56 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl border-2 border-teal-smoke-200/30 flex items-center justify-center mb-8 shadow-lg">
-                              <div className="text-center text-teal-smoke-400">
-                                <Sparkles className="w-16 h-16 mx-auto mb-3" />
-                                <p className="font-elegant-sans font-medium">
-                                  {procedure.title}
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* 장바구니 버튼 */}
-                            <button
-                              onClick={() => handleAddToCart(procedure.id, procedure.title)}
-                              className={`w-full py-4 px-6 rounded-xl font-elegant-sans font-bold text-base transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 ${
-                                addedToCart.includes(procedure.id)
-                                  ? 'bg-gradient-to-r from-green-200 to-green-300 text-green-800 cursor-default border-2 border-green-400'
-                                  : 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white hover:from-teal-smoke-500 hover:to-elegant-500 border-2 border-transparent'
-                              }`}
-                              disabled={addedToCart.includes(procedure.id)}
-                            >
-                              {addedToCart.includes(procedure.id) ? (
-                                <>
-                                  <Check className="w-5 h-5" />
-                                  <span>상담 리스트에 담김</span>
-                                </>
-                              ) : (
-                                <>
-                                  <ShoppingCart className="w-5 h-5" />
-                                  <span>상담 신청하기</span>
-                                </>
-                              )}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+            {/* 선택된 시술 상세 정보 */}
+            {(() => {
+              const activeProcedure = silosliftingProcedures.find(proc => proc.id === activeProcedureTab) || silosliftingProcedures[0];
+              return (
+                <div className="bg-white rounded-3xl shadow-2xl border border-teal-smoke-200/30 overflow-hidden">
+                  {/* 헤더 */}
+                  <div className="bg-gradient-to-r from-teal-smoke-500 to-elegant-500 py-12 px-8 text-center">
+                    <h3 className="text-4xl font-display font-light text-white mb-4 tracking-wide">
+                      {activeProcedure.title}
+                    </h3>
+                    <p className="text-xl font-elegant-sans font-light text-white/90">
+                      {activeProcedure.subtitle}
+                    </p>
                   </div>
-                );
-              })}
-            </div>
+
+                  {/* 콘텐츠 */}
+                  <div className="p-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                      {/* 설명 (2/3) */}
+                      <div className="lg:col-span-2">
+                        <div className="space-y-6 mb-10">
+                          {activeProcedure.description.map((desc, i) => (
+                            <div key={i} className="flex items-start space-x-4">
+                              <div className="w-2 h-2 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mt-3 flex-shrink-0"></div>
+                              <p className="text-lg text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                                {desc}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* 특징 배지들 */}
+                        <div className="flex flex-wrap gap-4 mb-8">
+                          {activeProcedure.features.map((feature, i) => (
+                            <div key={i} className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-teal-smoke-800 border-2 border-teal-smoke-200 shadow-lg">
+                              <Sparkles className="w-4 h-4 mr-2" />
+                              {feature}
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* 시술시간 및 카테고리 */}
+                        <div className="flex items-center space-x-4">
+                          <div className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-elegant-200 to-teal-smoke-200 text-teal-smoke-800 border-2 border-elegant-300 shadow-lg">
+                            <Clock className="w-4 h-4 mr-2" />
+                            {activeProcedure.duration}
+                          </div>
+                          <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-elegant-sans font-bold bg-gray-200 text-gray-700 border border-gray-300">
+                            {activeProcedure.category}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 이미지 및 장바구니 (1/3) */}
+                      <div className="flex flex-col items-center justify-between">
+                        <div className="w-full h-64 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl border-2 border-teal-smoke-200/30 flex items-center justify-center mb-8 shadow-lg">
+                          <div className="text-center text-teal-smoke-400">
+                            <Sparkles className="w-20 h-20 mx-auto mb-4" />
+                            <p className="font-elegant-sans font-medium">
+                              {activeProcedure.title}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* 장바구니 버튼 */}
+                        <button
+                          onClick={() => handleAddToCart(activeProcedure.id, activeProcedure.title)}
+                          className={`w-full py-4 px-6 rounded-xl font-elegant-sans font-bold text-base transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+                            addedToCart.includes(activeProcedure.id)
+                              ? 'bg-gradient-to-r from-green-200 to-green-300 text-green-800 cursor-default border-2 border-green-400'
+                              : 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white hover:from-teal-smoke-500 hover:to-elegant-500 border-2 border-transparent'
+                          }`}
+                          disabled={addedToCart.includes(activeProcedure.id)}
+                        >
+                          {addedToCart.includes(activeProcedure.id) ? (
+                            <>
+                              <Check className="w-5 h-5" />
+                              <span>상담 리스트에 담김</span>
+                            </>
+                          ) : (
+                            <>
+                              <ShoppingCart className="w-5 h-5" />
+                              <span>상담 신청하기</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
 
           {/* 전체 상담 신청 섹션 */}
