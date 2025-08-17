@@ -202,16 +202,6 @@ export default function NavigationMenu() {
     setActiveDropdown(menuId);
   };
 
-  const handleMouseLeave = () => {
-    setIsMouseOverMenu(false);
-    
-    // Close dropdown after delay only if not hovering over dropdown
-    setTimeout(() => {
-      if (!isMouseOverDropdown && !isMouseOverMenu) {
-        setActiveDropdown(null);
-      }
-    }, 200);
-  };
 
   const handleDropdownEnter = () => {
     setIsMouseOverDropdown(true);
@@ -237,6 +227,7 @@ export default function NavigationMenu() {
       
       return () => clearTimeout(cleanup);
     }
+    return () => {}; // Return empty cleanup function when condition is not met
   }, [isMouseOverMenu, isMouseOverDropdown]);
 
   return (
@@ -288,14 +279,7 @@ export default function NavigationMenu() {
                 href={item.href}
                 className="flex items-center px-2.5 py-2.5 rounded-lg text-[15px] font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-teal-smoke-700 hover:text-teal-smoke-800 whitespace-nowrap"
               >
-                <span className="flex flex-col">
-                  <span className="whitespace-nowrap">{item.title}</span>
-                  {item.subtitle && (
-                    <span className="text-[12px] text-teal-smoke-500 leading-tight whitespace-nowrap">
-                      {item.subtitle}
-                    </span>
-                  )}
-                </span>
+                <span className="whitespace-nowrap">{item.title}</span>
                 {item.submenu && (
                   <ChevronDown className="w-3 h-3 ml-1 transition-transform duration-200 group-hover:rotate-180 flex-shrink-0" />
                 )}
@@ -332,8 +316,8 @@ export default function NavigationMenu() {
             // 시술안내 메뉴의 특별한 레이아웃
             if (activeDropdown === 'procedures') {
               // Group items into columns
-              const itemsWithSubmenus = menuItem.submenu.filter(item => item.items);
-              const standaloneItems = menuItem.submenu.filter(item => !item.items);
+              const itemsWithSubmenus = menuItem.submenu.filter((item: any) => item.items);
+              const standaloneItems = menuItem.submenu.filter((item: any) => !item.items);
               
               // Distribute items with submenus across first two columns
               const column1 = itemsWithSubmenus.slice(0, Math.ceil(itemsWithSubmenus.length / 2));
@@ -370,7 +354,7 @@ export default function NavigationMenu() {
                           
                           {/* 카테고리 하위 항목들 */}
                           <div className="pl-2 space-y-1">
-                            {category.items.map((item, itemIndex) => (
+                            {(category as any).items?.map((item: any, itemIndex: number) => (
                               <Link
                                 key={itemIndex}
                                 href={item.href}
@@ -389,6 +373,42 @@ export default function NavigationMenu() {
                                 <ChevronRight className="w-3 h-3 text-teal-smoke-400 mt-1 ml-2 group-hover:translate-x-0.5 transition-transform opacity-0 group-hover:opacity-100" />
                               </Link>
                             ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {/* Standalone items in third column */}
+                  <div className="space-y-0.5">
+                    {standaloneItems.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={item.href}
+                        className="block px-3 py-2 text-sm text-teal-smoke-700 hover:text-teal-smoke-800 hover:bg-teal-smoke-50 rounded-lg transition-all duration-200"
+                        onClick={() => setActiveDropdown(null)}
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            
+            // 다른 메뉴들의 일반적인 드롭다운 레이아웃
+            return (
+              <div className="w-56 bg-white border border-teal-smoke-200/50 rounded-lg shadow-xl py-1">
+                {menuItem.submenu.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="block px-3 py-2 text-sm text-teal-smoke-700 hover:text-teal-smoke-800 hover:bg-teal-smoke-50 transition-all duration-200"
+                    onClick={() => setActiveDropdown(null)}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
                           </div>
                         </div>
                       ))}
@@ -410,7 +430,7 @@ export default function NavigationMenu() {
                           
                           {/* 카테고리 하위 항목들 */}
                           <div className="pl-2 space-y-1">
-                            {category.items.map((item, itemIndex) => (
+                            {(category as any).items?.map((item: any, itemIndex: number) => (
                               <Link
                                 key={itemIndex}
                                 href={item.href}
@@ -429,6 +449,42 @@ export default function NavigationMenu() {
                                 <ChevronRight className="w-3 h-3 text-teal-smoke-400 mt-1 ml-2 group-hover:translate-x-0.5 transition-transform opacity-0 group-hover:opacity-100" />
                               </Link>
                             ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {/* Standalone items in third column */}
+                  <div className="space-y-0.5">
+                    {standaloneItems.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={item.href}
+                        className="block px-3 py-2 text-sm text-teal-smoke-700 hover:text-teal-smoke-800 hover:bg-teal-smoke-50 rounded-lg transition-all duration-200"
+                        onClick={() => setActiveDropdown(null)}
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            
+            // 다른 메뉴들의 일반적인 드롭다운 레이아웃
+            return (
+              <div className="w-56 bg-white border border-teal-smoke-200/50 rounded-lg shadow-xl py-1">
+                {menuItem.submenu.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="block px-3 py-2 text-sm text-teal-smoke-700 hover:text-teal-smoke-800 hover:bg-teal-smoke-50 transition-all duration-200"
+                    onClick={() => setActiveDropdown(null)}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
                           </div>
                         </div>
                       ))}

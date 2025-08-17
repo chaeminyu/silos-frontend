@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
-import { Eye, Clock, Shield, Star, ChevronDown, ChevronUp, ShoppingCart, Check, Sparkles, Zap } from 'lucide-react';
+import { Eye, Clock, Shield, Star, ChevronDown, ChevronUp, ShoppingCart, Check, Sparkles } from 'lucide-react';
 
 const underEyeProcedures = [
   {

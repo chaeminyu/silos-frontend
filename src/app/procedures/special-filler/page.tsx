@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import PageLayout from '../../../components/PageLayout';
-import { Sparkles, Clock, Shield, Star, ShoppingCart, Check, Syringe } from 'lucide-react';
+import { Clock, Shield, Star, ShoppingCart, Check, Syringe } from 'lucide-react';
 
 // 특수 부위 필러 데이터
 const fillerAreas = [

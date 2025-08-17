@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight, Star, Clock, Zap, Heart, Award, Shield, Sparkles, Play, Camera, Stethoscope } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, Zap, Heart, Award, Shield, Sparkles, Play, Camera, Stethoscope } from 'lucide-react';
 
 const procedures = [
   {
@@ -311,7 +311,7 @@ export default function VisualImpactBanner() {
                   <div className="relative inline-block bg-white/5 rounded-3xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-700 overflow-hidden">
                     <Image 
                       src={currentProcedure.image}
-                      alt={currentProcedure.title}
+                      alt={currentProcedure.mainTitle}
                       width={600}
                       height={450}
                       className="object-cover rounded-3xl"
@@ -320,7 +320,7 @@ export default function VisualImpactBanner() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent rounded-3xl" />
                     <div className="absolute bottom-0 left-0 right-0 p-8 text-center text-white">
-                      <h3 className="text-2xl font-elegant font-light mb-2">{currentProcedure.title}</h3>
+                      <h3 className="text-2xl font-elegant font-light mb-2">{currentProcedure.mainTitle}</h3>
                       <p className="text-white/90 text-sm font-elegant-sans font-light">{currentProcedure.duration}</p>
                     </div>
                   </div>
@@ -330,7 +330,7 @@ export default function VisualImpactBanner() {
                         <div className="w-32 h-32 bg-white/20 rounded-2xl mb-6 flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all duration-700 border border-white/30">
                           <div className="text-3xl font-display font-light transition-all duration-500">{currentSlide + 1}</div>
                         </div>
-                        <h3 className="text-lg font-elegant font-light mb-2 transition-all duration-700">{currentProcedure.title}</h3>
+                        <h3 className="text-lg font-elegant font-light mb-2 transition-all duration-700">{currentProcedure.mainTitle}</h3>
                         <p className="text-white/70 text-sm font-elegant-sans font-light transition-all duration-500">{currentProcedure.duration}</p>
                       </div>
                   </div>
