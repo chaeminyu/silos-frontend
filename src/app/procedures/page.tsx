@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import PageLayout from '../../components/PageLayout';
-import { Sparkles, Clock, Shield, Star, ShoppingCart, Check, Eye, Zap, Syringe } from 'lucide-react';
+import { Sparkles, Clock, ShoppingCart, Check, Eye, Zap, Syringe } from 'lucide-react';
 
 // 전체 시술 데이터
 const proceduresData = {
