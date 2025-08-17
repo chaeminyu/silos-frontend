@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import PageLayout from '../../../components/PageLayout';
 import { User, Lock, Mail } from 'lucide-react';
-import authService from '@/services/auth.service';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {

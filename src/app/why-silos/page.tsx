@@ -232,7 +232,7 @@ export default function WhySilosPage() {
             <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed whitespace-pre-line max-w-4xl mx-auto">
               내 얼굴의 선과 흐름을 이해하고,{'\n'}
               그에 맞는 실의 종류와 방향을 설계합니다.{'\n'}
-              그래야 <span className="font-bold">'자연스럽고 오래가는 리프팅'</span>이 가능합니다.
+              그래야 <span className="font-bold">&apos;자연스럽고 오래가는 리프팅&apos;</span>이 가능합니다.
             </p>
           </div>
 

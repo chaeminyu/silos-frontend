@@ -215,7 +215,7 @@ export default function LaserLiftingPage() {
 
             {/* 아코디언 프로시저 리스트 */}
             <div className="space-y-4">
-              {laserProcedures.map((procedure, index) => {
+              {laserProcedures.map((procedure) => {
                 const isExpanded = expandedProcedure === procedure.id;
                 return (
                   <div
