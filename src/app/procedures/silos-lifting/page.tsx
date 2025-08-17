@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
-import { Sparkles, Clock, Shield, Star, ChevronDown, ChevronUp, ShoppingCart, Check } from 'lucide-react';
+import { Sparkles, Clock, ShoppingCart, Check } from 'lucide-react';
 
 const silosliftingProcedures = [
   {
@@ -115,7 +115,6 @@ const silosliftingProcedures = [
 
 export default function SilosLiftingPage() {
   const searchParams = useSearchParams();
-  const [expandedProcedure, setExpandedProcedure] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState<string[]>([]);
   const [selectedThread, setSelectedThread] = useState<number>(0);
   const [activeProcedureTab, setActiveProcedureTab] = useState<string>('thread-lifting');
@@ -139,10 +138,6 @@ export default function SilosLiftingPage() {
       }
     }
   }, [searchParams]);
-
-  const toggleProcedure = (procedureId: string) => {
-    setExpandedProcedure(expandedProcedure === procedureId ? null : procedureId);
-  };
 
   const handleAddToCart = (procedureId: string, procedureName: string) => {
     if (!addedToCart.includes(procedureId)) {

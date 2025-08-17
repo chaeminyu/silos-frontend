@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronRight, Clock, Syringe, Calendar, ShoppingCart, Check } from 'lucide-react';
+import { ChevronDown, Clock, Syringe, Calendar, ShoppingCart, Check } from 'lucide-react';
 import PageLayout from '../../components/PageLayout';
 
 export default function SiloFatPage() {
@@ -282,7 +282,7 @@ export default function SiloFatPage() {
             </div>
             
             <div className="order-1 lg:order-2 space-y-4">
-              {bodyParts.map((part, index) => (
+              {bodyParts.map((part) => (
                 <div
                   key={part.id}
                   onClick={() => setSelectedBodyPart(part.id)}

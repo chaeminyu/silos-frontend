@@ -202,16 +202,6 @@ export default function NavigationMenu() {
     setActiveDropdown(menuId);
   };
 
-  const handleMouseLeave = () => {
-    setIsMouseOverMenu(false);
-    
-    // Close dropdown after delay only if not hovering over dropdown
-    setTimeout(() => {
-      if (!isMouseOverDropdown && !isMouseOverMenu) {
-        setActiveDropdown(null);
-      }
-    }, 200);
-  };
 
   const handleDropdownEnter = () => {
     setIsMouseOverDropdown(true);
@@ -237,6 +227,7 @@ export default function NavigationMenu() {
       
       return () => clearTimeout(cleanup);
     }
+    return () => {}; // Return empty cleanup function when condition is not met
   }, [isMouseOverMenu, isMouseOverDropdown]);
 
   return (
@@ -290,9 +281,9 @@ export default function NavigationMenu() {
               >
                 <span className="flex flex-col">
                   <span className="whitespace-nowrap">{item.title}</span>
-                  {item.subtitle && (
+                  {(item as any).subtitle && (
                     <span className="text-[12px] text-teal-smoke-500 leading-tight whitespace-nowrap">
-                      {item.subtitle}
+                      {(item as any).subtitle}
                     </span>
                   )}
                 </span>
@@ -332,8 +323,8 @@ export default function NavigationMenu() {
             // 시술안내 메뉴의 특별한 레이아웃
             if (activeDropdown === 'procedures') {
               // Group items into columns
-              const itemsWithSubmenus = menuItem.submenu.filter(item => item.items);
-              const standaloneItems = menuItem.submenu.filter(item => !item.items);
+              const itemsWithSubmenus = menuItem.submenu.filter(item => (item as any).items);
+              const standaloneItems = menuItem.submenu.filter(item => !(item as any).items);
               
               // Distribute items with submenus across first two columns
               const column1 = itemsWithSubmenus.slice(0, Math.ceil(itemsWithSubmenus.length / 2));
@@ -370,7 +361,7 @@ export default function NavigationMenu() {
                           
                           {/* 카테고리 하위 항목들 */}
                           <div className="pl-2 space-y-1">
-                            {category.items.map((item, itemIndex) => (
+                            {(category as any).items.map((item: any, itemIndex: number) => (
                               <Link
                                 key={itemIndex}
                                 href={item.href}
@@ -410,7 +401,7 @@ export default function NavigationMenu() {
                           
                           {/* 카테고리 하위 항목들 */}
                           <div className="pl-2 space-y-1">
-                            {category.items.map((item, itemIndex) => (
+                            {(category as any).items.map((item: any, itemIndex: number) => (
                               <Link
                                 key={itemIndex}
                                 href={item.href}

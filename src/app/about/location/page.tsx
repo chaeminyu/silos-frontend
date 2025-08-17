@@ -111,7 +111,7 @@ export default function LocationPage() {
         });
       }
     }
-  }, []);
+  }, [clinicInfo.naverMapUrl]);
 
   const handleMapClick = () => {
     window.open(clinicInfo.naverMapUrl, '_blank');

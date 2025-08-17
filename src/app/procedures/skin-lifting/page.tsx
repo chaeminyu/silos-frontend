@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
-import { Droplets, Clock, Shield, Star, ShoppingCart, Check } from 'lucide-react';
+import { Droplets, Clock, ShoppingCart, Check } from 'lucide-react';
 import { useCart } from '../../../contexts/CartContext';
 
 const skinLiftingProcedures = [
