@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
   id: string;
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const signup = async (email: string, password: string, name: string, phone: string) => {
+  const signup = async (email: string, _password: string, name: string, phone: string) => {
     try {
       // Simulate API call - replace with actual API
       const userData: User = {
