@@ -1,5 +1,6 @@
 import PageLayout from '../../components/PageLayout';
 import { Award, Users, Clock, MapPin, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 const aboutSections = [
   {
@@ -85,10 +86,10 @@ export default function AboutPage() {
             {aboutSections.map((section, index) => {
               const IconComponent = section.icon;
               return (
-                <a
+                <Link
                   key={index}
                   href={section.href}
-                  className="group"
+                  className="group block"
                 >
                   <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-teal-smoke-200/50">
                     <div className="flex items-start space-x-6">
@@ -106,7 +107,7 @@ export default function AboutPage() {
                       <ChevronRight className="w-5 h-5 text-teal-smoke-400 mt-1 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
-                </a>
+                </Link>
               );
             })}
           </div>

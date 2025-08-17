@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { CartProvider } from '@/contexts/CartContext';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -40,7 +42,11 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${playfair.variable} ${cormorant.variable} font-elegant-sans antialiased`}>
-        {children}
+        <AuthProvider>
+          <CartProvider>
+            {children}
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

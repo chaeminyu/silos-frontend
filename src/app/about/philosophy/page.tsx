@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
-import { Search, Award, Lightbulb, Shield, Heart, ChevronRight } from 'lucide-react';
+import { Search, Award, Lightbulb, Shield, Heart } from 'lucide-react';
 import PageLayout from '../../../components/PageLayout';
 
 const philosophySections = [
@@ -59,7 +58,6 @@ const philosophySections = [
 ];
 
 export default function PhilosophyPage() {
-  const [activeSection, setActiveSection] = useState(1);
 
   return (
     <PageLayout>
@@ -147,7 +145,7 @@ export default function PhilosophyPage() {
                   노화 속도를 고려해 가장 자연스럽고 조화로운
                   리프팅 솔루션을 제시합니다.
                   기본에 충실하고, 결과에 책임지는
-                  실로스는 '나를 위한 커스텀 리프팅' 메디컬 파트너입니다.
+                  실로스는 &apos;나를 위한 커스텀 리프팅&apos; 메디컬 파트너입니다.
                 </p>
               </div>
             </div>

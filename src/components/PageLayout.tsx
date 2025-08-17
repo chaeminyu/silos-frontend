@@ -2,6 +2,7 @@
 
 import NavigationMenu from './NavigationMenu';
 import QuickConsultationMenu from './QuickConsultationMenu';
+import Link from 'next/link';
 import { ReactNode } from 'react';
 
 interface PageLayoutProps {
@@ -21,11 +22,27 @@ export default function PageLayout({ children }: PageLayoutProps) {
                 <NavigationMenu />
               </div>
               
-              {/* 상담 버튼 */}
-              <div className="hidden lg:block flex-shrink-0 ml-4">
-                <button className="bg-teal-smoke-300 hover:bg-teal-smoke-400 text-teal-smoke-800 px-6 py-2.5 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300 shadow-lg hover:shadow-xl border border-teal-smoke-400/30 whitespace-nowrap">
-                  온라인 상담
-                </button>
+              {/* 로그인/장바구니 버튼 */}
+              <div className="hidden lg:flex items-center space-x-3 flex-shrink-0 ml-4">
+                <Link 
+                  href="/consultation/request"
+                  className="relative p-2.5 hover:bg-teal-smoke-50 rounded-lg transition-all duration-300 group block"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-teal-smoke-600 group-hover:text-teal-smoke-800">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                  </svg>
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-teal-smoke-400 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                    0
+                  </span>
+                </Link>
+                <Link 
+                  href="/auth/login"
+                  className="bg-teal-smoke-300 hover:bg-teal-smoke-400 text-teal-smoke-800 px-5 py-2 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300 shadow-lg hover:shadow-xl border border-teal-smoke-400/30 whitespace-nowrap inline-block"
+                >
+                  로그인
+                </Link>
               </div>
             </div>
           </div>
