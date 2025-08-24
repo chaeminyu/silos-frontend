@@ -273,6 +273,7 @@ export default function NavigationMenu() {
       document.addEventListener('click', handleClickOutside);
       return () => document.removeEventListener('click', handleClickOutside);
     }
+    return undefined;
   }, [isMobile, activeDropdown]);
 
   // Detect mobile screen size
