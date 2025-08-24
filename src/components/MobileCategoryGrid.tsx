@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronDown, Star, Crown } from 'lucide-react';
+import { ChevronDown, Star } from 'lucide-react';
 import Link from 'next/link';
 
 // 15개 카테고리 데이터 구조 - 새로운 계층 구조 URL 적용
