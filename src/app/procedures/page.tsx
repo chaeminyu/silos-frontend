@@ -336,13 +336,13 @@ export default function ProceduresPage() {
               <div
                 key={procedure.id}
                 className={`bg-white rounded-3xl shadow-xl border overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col relative ${
-                  procedure.isSignature 
+                  (procedure as any).isSignature 
                     ? 'border-cyan-300/50 ring-2 ring-cyan-200/30 shadow-cyan-200/20' 
                     : 'border-teal-smoke-200/30'
                 }`}
               >
                 {/* Signature Badge */}
-                {procedure.isSignature && (
+                {(procedure as any).isSignature && (
                   <div className="absolute -top-2 -right-2 z-10">
                     <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full flex items-center justify-center shadow-lg animate-pulse">
                       <Sparkles className="w-4 h-4 text-white fill-white" />

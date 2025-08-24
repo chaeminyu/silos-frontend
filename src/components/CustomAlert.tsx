@@ -31,6 +31,7 @@ export default function CustomAlert({
       
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [isOpen, autoClose, autoCloseDelay, onClose]);
 
   if (!isOpen) return null;
