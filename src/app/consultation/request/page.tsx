@@ -26,7 +26,7 @@ interface ConsultationData {
 
 export default function ConsultationRequestPage() {
   const router = useRouter();
-  const { cart, userInfo, removeFromCart, updateUserInfo, clearAll } = useCart();
+  const { cart, userInfo, removeFromCart, updateUserInfo } = useCart();
   const [formData, setFormData] = useState({
     preferredDate: '',
     preferredTime: '',
