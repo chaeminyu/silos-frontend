@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
-import Image from 'next/image';
-import { useCart } from '@/contexts/CartContext';
 
 // 새로운 15개 카테고리 기반 시술 데이터 구조 
 const procedureCategories = [
