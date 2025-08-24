@@ -7,31 +7,31 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // ✅ Custom elegant colors - teal smoke theme
+      // ✅ Bright Teal theme - lighter and modern
       colors: {
         'teal-smoke': {
-          50: '#f0f9f9',
-          100: '#e1f2f2',
-          200: '#c3e6e6',
-          300: '#b4cdcd', // Main teal smoke color
-          400: '#8eb8b8',
-          500: '#6aa3a3',
-          600: '#558888',
-          700: '#446d6d',
-          800: '#335252',
-          900: '#223737'
+          50: '#f0f9fa',
+          100: '#d9eff1',
+          200: '#b3dfe3',
+          300: '#69C5CC', // Main color - darkest point
+          400: '#7ACDD3',
+          500: '#8BD5DA',
+          600: '#9CDDE1',
+          700: '#ADE5E8',
+          800: '#BEEDEF',
+          900: '#CFF5F6'
         },
         'elegant': {
-          50: '#fafbfb',
-          100: '#f5f7f7',
-          200: '#e8eded',
-          300: '#dbe3e3',
-          400: '#c1d0d0',
-          500: '#a7bdbd',
-          600: '#8daaaa',
-          700: '#739797',
-          800: '#597a7a',
-          900: '#3f5d5d'
+          50: '#f5fbfc',
+          100: '#e8f5f7',
+          200: '#d1eaed',
+          300: '#a9d7dc',
+          400: '#88CCD3',
+          500: '#95D2D8',
+          600: '#A2D8DD',
+          700: '#AFDEE2',
+          800: '#BCE4E7',
+          900: '#C9EAEC'
         }
       },
       

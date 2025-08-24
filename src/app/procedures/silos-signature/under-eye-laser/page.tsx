@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import PageLayout from '../../../components/PageLayout';
+import PageLayout from '../../../../components/PageLayout';
+import StandardConsultationSection from '../../../../components/StandardConsultationSection';
 import { Eye, Clock, Shield, Star, ChevronDown, ChevronUp, ShoppingCart, Check, Sparkles } from 'lucide-react';
 
 const underEyeProcedures = [
@@ -179,25 +180,25 @@ export default function UnderEyeLaserPage() {
 
           {/* 시술 정보 카드 */}
           <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 mb-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-teal-smoke-50 to-white rounded-2xl">
-                <Clock className="w-10 h-10 text-teal-smoke-500 flex-shrink-0" />
+            <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-6 pb-4">
+              <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-teal-smoke-50 to-white rounded-2xl flex-shrink-0 w-72 md:w-auto">
+                <Clock className="w-10 h-10 text-slate-600 flex-shrink-0" />
                 <div>
-                  <h3 className="font-elegant font-medium text-teal-smoke-700 mb-1">시술시간</h3>
+                  <h3 className="font-elegant font-medium text-slate-600 mb-1">시술시간</h3>
                   <p className="text-teal-smoke-800 font-elegant-sans font-medium">20-30분내외</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-elegant-50 to-white rounded-2xl">
-                <Shield className="w-10 h-10 text-elegant-500 flex-shrink-0" />
+              <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-elegant-50 to-white rounded-2xl flex-shrink-0 w-72 md:w-auto">
+                <Shield className="w-10 h-10 text-slate-700 flex-shrink-0" />
                 <div>
-                  <h3 className="font-elegant font-medium text-teal-smoke-700 mb-1">마취방법</h3>
+                  <h3 className="font-elegant font-medium text-slate-600 mb-1">마취방법</h3>
                   <p className="text-teal-smoke-800 font-elegant-sans font-medium">국소마취</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-teal-smoke-50 to-white rounded-2xl">
-                <Star className="w-10 h-10 text-teal-smoke-500 flex-shrink-0" />
+              <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-teal-smoke-50 to-white rounded-2xl flex-shrink-0 w-72 md:w-auto">
+                <Star className="w-10 h-10 text-slate-600 flex-shrink-0" />
                 <div>
-                  <h3 className="font-elegant font-medium text-teal-smoke-700 mb-1">회복기간</h3>
+                  <h3 className="font-elegant font-medium text-slate-600 mb-1">회복기간</h3>
                   <p className="text-teal-smoke-800 font-elegant-sans font-medium">일상생활 바로가능</p>
                 </div>
               </div>
@@ -208,25 +209,25 @@ export default function UnderEyeLaserPage() {
           <div className="mb-20">
             <div className="text-center mb-16">
               <h3 className="text-3xl lg:text-4xl font-display font-light text-teal-smoke-800 mb-6">
-                눈밑지방 레이저의 <span className="text-elegant-600">특별한 점</span>
+                눈밑지방 레이저의 <span className="text-slate-700">특별한 점</span>
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
-              <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed max-w-4xl mx-auto">
+              <p className="text-lg font-elegant-sans font-light text-slate-600 leading-relaxed max-w-4xl mx-auto">
                 수술이 아닌 레이저로 눈밑 지방을 개선하고<br />
                 동시에 피부 탄력까지 향상시키는 혁신적인 시술입니다
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 pb-4">
               {benefits.map((benefit, index) => (
-                <div key={index} className="text-center p-6 bg-white rounded-2xl shadow-lg border border-teal-smoke-200/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <div key={index} className="text-center p-6 bg-white rounded-2xl shadow-lg border border-teal-smoke-200/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-60 md:w-auto">
                   <div className="w-16 h-16 bg-gradient-to-br from-teal-smoke-400 to-elegant-400 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
                     <span className="text-white font-bold text-lg">{benefit.number}</span>
                   </div>
                   <h4 className="text-lg font-elegant font-bold text-teal-smoke-800 mb-3">
                     {benefit.title}
                   </h4>
-                  <p className="text-sm font-elegant-sans text-teal-smoke-600 leading-relaxed">
+                  <p className="text-sm font-elegant-sans text-slate-600 leading-relaxed">
                     {benefit.description}
                   </p>
                 </div>
@@ -238,21 +239,21 @@ export default function UnderEyeLaserPage() {
           <div className="mb-20">
             <div className="text-center mb-16">
               <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-6">
-                시술 <span className="text-elegant-600">과정</span>
+                시술 <span className="text-slate-700">과정</span>
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto"></div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-8 pb-4">
               {treatmentProcess.map((step, index) => (
-                <div key={index} className="text-center p-8 bg-white rounded-2xl shadow-lg border border-teal-smoke-200/30">
+                <div key={index} className="text-center p-8 bg-white rounded-2xl shadow-lg border border-teal-smoke-200/30 flex-shrink-0 w-72 md:w-auto">
                   <div className="w-20 h-20 bg-gradient-to-br from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg">
                     <span className="text-white font-bold text-xl">{step.step}</span>
                   </div>
                   <h4 className="font-elegant font-bold text-teal-smoke-800 mb-4 text-lg">
                     {step.title}
                   </h4>
-                  <p className="text-sm font-elegant-sans text-teal-smoke-600 leading-relaxed">
+                  <p className="text-sm font-elegant-sans text-slate-600 leading-relaxed">
                     {step.description}
                   </p>
                 </div>
@@ -264,7 +265,7 @@ export default function UnderEyeLaserPage() {
           <div className="mb-20">
             <div className="text-center mb-16">
               <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-6">
-                시술 전후 <span className="text-elegant-600">주의사항</span>
+                시술 전후 <span className="text-slate-700">주의사항</span>
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto"></div>
             </div>
@@ -281,7 +282,7 @@ export default function UnderEyeLaserPage() {
                   {beforeAfterCare.before.map((item, index) => (
                     <div key={index} className="flex items-start">
                       <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-teal-smoke-700 font-elegant-sans">{item}</p>
+                      <p className="text-slate-600 font-elegant-sans">{item}</p>
                     </div>
                   ))}
                 </div>
@@ -298,7 +299,7 @@ export default function UnderEyeLaserPage() {
                   {beforeAfterCare.after.map((item, index) => (
                     <div key={index} className="flex items-start">
                       <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <p className="text-teal-smoke-700 font-elegant-sans">{item}</p>
+                      <p className="text-slate-600 font-elegant-sans">{item}</p>
                     </div>
                   ))}
                 </div>
@@ -312,7 +313,7 @@ export default function UnderEyeLaserPage() {
               <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-4">
                 PROCEDURE
               </h3>
-              <h4 className="text-2xl font-elegant font-light text-elegant-600 mb-6">
+              <h4 className="text-2xl font-elegant font-light text-slate-700 mb-6">
                 눈밑지방 레이저 시술
               </h4>
               <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto"></div>
@@ -327,7 +328,7 @@ export default function UnderEyeLaserPage() {
                   className={`px-6 py-3 rounded-xl font-elegant-sans font-medium transition-all duration-300 text-sm ${
                     activeProcedureTab === procedure.id
                       ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
-                      : 'bg-white text-teal-smoke-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
+                      : 'bg-white text-slate-600 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
                   }`}
                 >
                   {procedure.title}
@@ -359,7 +360,7 @@ export default function UnderEyeLaserPage() {
                           {activeProcedure.description.map((desc, i) => (
                             <div key={i} className="flex items-start space-x-4">
                               <div className="w-2 h-2 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mt-3 flex-shrink-0"></div>
-                              <p className="text-lg text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                              <p className="text-lg text-slate-600 font-elegant-sans font-light leading-relaxed">
                                 {desc}
                               </p>
                             </div>
@@ -382,7 +383,7 @@ export default function UnderEyeLaserPage() {
                             <Clock className="w-4 h-4 mr-2" />
                             {activeProcedure.duration}
                           </div>
-                          <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-elegant-sans font-bold bg-gray-200 text-gray-700 border border-gray-300">
+                          <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-elegant-sans font-bold bg-gray-200 text-slate-800 border border-gray-300">
                             {activeProcedure.category}
                           </div>
                         </div>
@@ -391,7 +392,7 @@ export default function UnderEyeLaserPage() {
                       {/* 이미지 및 장바구니 (1/3) */}
                       <div className="flex flex-col items-center justify-between">
                         <div className="w-full h-64 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl border-2 border-teal-smoke-200/30 flex items-center justify-center mb-8 shadow-lg">
-                          <div className="text-center text-teal-smoke-400">
+                          <div className="text-center text-slate-700">
                             <Eye className="w-20 h-20 mx-auto mb-4" />
                             <p className="font-elegant-sans font-medium">
                               {activeProcedure.title}
@@ -435,7 +436,7 @@ export default function UnderEyeLaserPage() {
               <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-6">
                 FAQ
               </h3>
-              <h4 className="text-2xl font-elegant font-light text-elegant-600 mb-6">
+              <h4 className="text-2xl font-elegant font-light text-slate-700 mb-6">
                 자주 묻는 질문
               </h4>
               <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto"></div>
@@ -452,14 +453,14 @@ export default function UnderEyeLaserPage() {
                       Q. {faq.question}
                     </span>
                     {expandedFaq === index ? (
-                      <ChevronUp className="w-6 h-6 text-teal-smoke-500 flex-shrink-0" />
+                      <ChevronUp className="w-6 h-6 text-slate-600 flex-shrink-0" />
                     ) : (
-                      <ChevronDown className="w-6 h-6 text-teal-smoke-500 flex-shrink-0" />
+                      <ChevronDown className="w-6 h-6 text-slate-600 flex-shrink-0" />
                     )}
                   </button>
                   {expandedFaq === index && (
                     <div className="px-8 pb-6 border-t border-teal-smoke-200/30">
-                      <p className="font-elegant-sans text-teal-smoke-700 leading-relaxed pt-4">
+                      <p className="font-elegant-sans text-slate-600 leading-relaxed pt-4">
                         A. {faq.answer}
                       </p>
                     </div>
@@ -469,92 +470,15 @@ export default function UnderEyeLaserPage() {
             </div>
           </div>
 
-          {/* 온라인 상담 신청 섹션 */}
-          <div className="mt-20 text-center">
-            <div className="bg-gradient-to-br from-white/80 to-teal-smoke-50/80 backdrop-blur-sm rounded-3xl p-12 shadow-2xl border border-white/50">
-              <h3 className="text-3xl lg:text-4xl font-display font-bold text-teal-smoke-800 mb-6">
-                눈밑지방 레이저 상담 신청
-              </h3>
-              <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
-              <p className="text-xl font-elegant-sans font-medium text-teal-smoke-700 mb-10">
-                전문 의료진과 함께 나에게 가장 적합한 눈밑 개선술을 찾아보세요
-              </p>
-              <a
-                href="/consultation/request"
-                className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-xl font-elegant-sans font-bold text-lg hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 space-x-3"
-              >
-                <ShoppingCart className="w-6 h-6" />
-                <span>전체 상담 신청하기</span>
-              </a>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Online Consultation Section - Full Width */}
-      <section className="w-full bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500">
-        <div className="w-full py-24 px-4 sm:px-6 lg:px-8 text-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-display font-light mb-6">
-                온라인 상담 신청
-              </h2>
-              <div className="w-24 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
-              <p className="text-lg font-elegant-sans font-light text-white/90 max-w-2xl mx-auto">
-                눈밑지방 레이저에 대해 더 자세한 상담을 원하시나요?<br />
-                전문 의료진이 맞춤형 상담을 도와드립니다.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="성함"
-                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
-                />
-                <input
-                  type="tel"
-                  placeholder="연락처"
-                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
-                />
-                <input
-                  type="email"
-                  placeholder="이메일 (선택)"
-                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
-                />
-              </div>
-              
-              <div className="space-y-4">
-                <select className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white font-elegant-sans focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer">
-                  <option value="" className="text-teal-smoke-700">상담 시술 선택</option>
-                  <option value="반달레이저" className="text-teal-smoke-700">반달레이저 (눈밑지방레이저)</option>
-                  <option value="다크서클레이저" className="text-teal-smoke-700">다크서클 레이저</option>
-                  <option value="기타" className="text-teal-smoke-700">기타</option>
-                </select>
-                <textarea
-                  placeholder="상담 내용을 입력해주세요"
-                  rows={5}
-                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors resize-none"
-                />
-              </div>
-            </div>
-            
-            <div className="mt-8 text-center">
-              <button className="px-12 py-4 bg-white text-teal-smoke-700 rounded-xl font-elegant-sans font-medium text-lg hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl">
-                상담 신청하기
-              </button>
-            </div>
-            
-            <div className="mt-12 pt-8 border-t border-white/20 text-center">
-              <p className="text-sm font-elegant-sans font-light text-white/80">
-                상담 가능 시간: 평일 10:00 - 19:00 | 토요일 10:00 - 17:00<br />
-                개인정보는 상담 목적으로만 사용되며 안전하게 보호됩니다.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 상담 신청 섹션 */}
+      <StandardConsultationSection
+        title="눈밑지방 레이저 상담 신청"
+        description="전문 의료진과 함께 나에게 가장 적합한 눈밑 개선술을 찾아보세요"
+        initialProcedureId="silos-signature"
+      />
     </PageLayout>
   );
 }

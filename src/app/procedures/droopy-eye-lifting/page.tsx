@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
+import StandardConsultationSection from '../../../components/StandardConsultationSection';
 import { Clock, Shield, Star, ChevronDown, ChevronUp, ShoppingCart, Check, Eye, Users, Sparkles } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
 
 const eyelidProcedures = [
   {
@@ -165,8 +167,8 @@ const faqData = [
 
 export default function EyelidLiftingPage() {
   const searchParams = useSearchParams();
+  const { addToCart, isInCart } = useCart();
   const [activeProcedureTab, setActiveProcedureTab] = useState<string>('upper-blepharoplasty');
-  const [addedToCart, setAddedToCart] = useState<string[]>([]);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   // Handle URL parameter for direct access to procedures
@@ -188,8 +190,12 @@ export default function EyelidLiftingPage() {
   }, [searchParams]);
 
   const handleAddToCart = (procedureId: string, procedureName: string) => {
-    if (!addedToCart.includes(procedureId)) {
-      setAddedToCart([...addedToCart, procedureId]);
+    if (!isInCart(procedureId)) {
+      addToCart({
+        id: procedureId,
+        name: procedureName,
+        category: '눈꺼풀 처짐 리프팅'
+      });
       console.log(`Added to cart: ${procedureName}`);
     }
   };
@@ -204,7 +210,7 @@ export default function EyelidLiftingPage() {
       <div className="relative pb-16 overflow-hidden h-[400px] lg:h-[480px]">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/images/procedures/eyelid-lifting/eyelid-hero.jpg)' }}
+          style={{ backgroundImage: 'url(/images/procedures/droopy-eye-lifting/eyelid-hero.jpg)' }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-r from-teal-smoke-400/50 via-elegant-400/20 to-transparent"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent"></div>
@@ -218,7 +224,7 @@ export default function EyelidLiftingPage() {
               </div>
               <div>
                 <h1 className="text-3xl lg:text-4xl font-display font-light mb-4 tracking-wide leading-tight">
-                  실로스 눈 성형<br />
+                  실로스 처진눈리프팅<br />
                   <span className="text-4xl lg:text-5xl">눈꺼풀 처짐 리프팅</span>
                 </h1>
                 <div className="w-24 h-0.5 bg-white/60 rounded-full mb-4"></div>
@@ -243,7 +249,7 @@ export default function EyelidLiftingPage() {
           {/* 눈썹 거상술 설명 텍스트 */}
           <div className="mb-20">
             <div className="text-center mb-12">
-              <p className="text-lg lg:text-xl font-elegant-sans font-light text-teal-smoke-700 leading-relaxed max-w-5xl mx-auto">
+              <p className="text-lg lg:text-xl font-elegant-sans font-light text-slate-600 leading-relaxed max-w-5xl mx-auto">
                 눈썹 거상술은 눈썹 위 혹은 아래 부분을 절개하여 처진 피부를 당겨주어 주름을 개선하는 수술법으로<br />
                 절개 부위가 눈썹이기 때문에 피부가 두껍고 단단한 경우에도 시술이 가능합니다.
               </p>
@@ -254,7 +260,7 @@ export default function EyelidLiftingPage() {
               <div className="bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-3xl p-8 shadow-xl">
                 <div className="bg-white rounded-2xl overflow-hidden">
                   <img 
-                    src="/images/procedures/eyelid-lifting/brow-lift-explanation.jpg" 
+                    src="/images/procedures/droopy-eye-lifting/brow-lift-explanation.jpg" 
                     alt="눈썹 거상술 설명"
                     className="w-full h-auto"
                   />
@@ -266,19 +272,19 @@ export default function EyelidLiftingPage() {
           {/* 눈꺼풀 처짐이 필요한 경우 */}
           <div className="mb-20">
             <div className="text-center mb-16">
-              <h3 className="text-3xl lg:text-4xl font-display font-light text-teal-smoke-800 mb-6">
-                상안검/하안검, <span className="text-elegant-600">누구에게 필요할까?</span>
+              <h3 className="text-3xl lg:text-4xl font-display font-light text-slate-800 mb-6">
+                <span className="font-medium">상안검/하안검,</span> <span className="text-slate-600">누구에게 필요할까?</span>
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
+            <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-6 mb-16 pb-4">
               {cases.map((item, index) => (
-                <div key={index} className="text-center p-6 bg-white rounded-2xl shadow-lg border border-teal-smoke-200/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <div key={index} className="text-center p-6 bg-white rounded-2xl shadow-lg border border-teal-smoke-200/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-60 md:w-auto">
                   <div className="w-16 h-16 bg-gradient-to-br from-teal-smoke-400 to-elegant-400 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
                     <span className="text-white font-bold text-lg">{item.number}</span>
                   </div>
-                  <p className="text-sm font-elegant-sans font-medium text-teal-smoke-700 leading-relaxed">
+                  <p className="text-sm font-elegant-sans font-medium text-slate-600 leading-relaxed">
                     {item.title}
                   </p>
                 </div>
@@ -290,37 +296,37 @@ export default function EyelidLiftingPage() {
           {/* 수술 관련 정보 */}
           <div className="mb-20">
             <div className="text-center mb-16">
-              <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-6">
-                상안검/하안검 <span className="text-elegant-600">수술 관련 정보</span>
+              <h3 className="text-3xl font-display font-light text-slate-800 mb-6">
+                <span className="font-medium">상안검/하안검</span> <span className="text-slate-600">수술 관련 정보</span>
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto"></div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-4xl mx-auto">
-              <div className="text-center p-6 bg-gradient-to-br from-white to-teal-smoke-50 rounded-2xl shadow-lg border border-teal-smoke-200/30">
-                <Clock className="w-12 h-12 text-teal-smoke-500 mx-auto mb-4" />
-                <h4 className="font-elegant font-bold text-teal-smoke-800 mb-2">수술시간</h4>
-                <p className="text-sm text-teal-smoke-600">{surgeryInfo.duration}</p>
+            <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-5 md:gap-6 max-w-4xl mx-auto pb-4">
+              <div className="text-center p-6 bg-gradient-to-br from-white to-teal-smoke-50 rounded-2xl shadow-lg border border-teal-smoke-200/30 flex-shrink-0 w-48 md:w-auto">
+                <Clock className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                <h4 className="font-elegant font-bold text-slate-800 mb-2">수술시간</h4>
+                <p className="text-sm text-slate-600">{surgeryInfo.duration}</p>
               </div>
-              <div className="text-center p-6 bg-gradient-to-br from-white to-elegant-50 rounded-2xl shadow-lg border border-elegant-200/30">
-                <Shield className="w-12 h-12 text-elegant-500 mx-auto mb-4" />
-                <h4 className="font-elegant font-bold text-teal-smoke-800 mb-2">마취방법</h4>
-                <p className="text-sm text-teal-smoke-600">{surgeryInfo.anesthesia}</p>
+              <div className="text-center p-6 bg-gradient-to-br from-white to-elegant-50 rounded-2xl shadow-lg border border-elegant-200/30 flex-shrink-0 w-48 md:w-auto">
+                <Shield className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                <h4 className="font-elegant font-bold text-slate-800 mb-2">마취방법</h4>
+                <p className="text-sm text-slate-600">{surgeryInfo.anesthesia}</p>
               </div>
-              <div className="text-center p-6 bg-gradient-to-br from-white to-teal-smoke-50 rounded-2xl shadow-lg border border-teal-smoke-200/30">
-                <Users className="w-12 h-12 text-teal-smoke-500 mx-auto mb-4" />
-                <h4 className="font-elegant font-bold text-teal-smoke-800 mb-2">입원치료</h4>
-                <p className="text-sm text-teal-smoke-600">{surgeryInfo.hospitalization}</p>
+              <div className="text-center p-6 bg-gradient-to-br from-white to-teal-smoke-50 rounded-2xl shadow-lg border border-teal-smoke-200/30 flex-shrink-0 w-48 md:w-auto">
+                <Users className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                <h4 className="font-elegant font-bold text-slate-800 mb-2">입원치료</h4>
+                <p className="text-sm text-slate-600">{surgeryInfo.hospitalization}</p>
               </div>
-              <div className="text-center p-6 bg-gradient-to-br from-white to-elegant-50 rounded-2xl shadow-lg border border-elegant-200/30">
-                <Star className="w-12 h-12 text-elegant-500 mx-auto mb-4" />
-                <h4 className="font-elegant font-bold text-teal-smoke-800 mb-2">실밥제거</h4>
-                <p className="text-sm text-teal-smoke-600">{surgeryInfo.stitchRemoval}</p>
+              <div className="text-center p-6 bg-gradient-to-br from-white to-elegant-50 rounded-2xl shadow-lg border border-elegant-200/30 flex-shrink-0 w-48 md:w-auto">
+                <Star className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                <h4 className="font-elegant font-bold text-slate-800 mb-2">실밥제거</h4>
+                <p className="text-sm text-slate-600">{surgeryInfo.stitchRemoval}</p>
               </div>
-              <div className="text-center p-6 bg-gradient-to-br from-white to-teal-smoke-50 rounded-2xl shadow-lg border border-teal-smoke-200/30">
-                <Check className="w-12 h-12 text-teal-smoke-500 mx-auto mb-4" />
-                <h4 className="font-elegant font-bold text-teal-smoke-800 mb-2">회복과정</h4>
-                <p className="text-sm text-teal-smoke-600">{surgeryInfo.recovery}</p>
+              <div className="text-center p-6 bg-gradient-to-br from-white to-teal-smoke-50 rounded-2xl shadow-lg border border-teal-smoke-200/30 flex-shrink-0 w-48 md:w-auto">
+                <Check className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                <h4 className="font-elegant font-bold text-slate-800 mb-2">회복과정</h4>
+                <p className="text-sm text-slate-600">{surgeryInfo.recovery}</p>
               </div>
             </div>
           </div>
@@ -328,19 +334,19 @@ export default function EyelidLiftingPage() {
           {/* 실로스만의 상안검/하안검 */}
           <div className="mb-20">
             <div className="text-center mb-16">
-              <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-6">
-                실로스만의 <span className="text-elegant-600">상안검/하안검</span>
+              <h3 className="text-3xl font-display font-light text-slate-800 mb-6">
+                실로스만의 <span className="font-medium text-slate-700">상안검/하안검</span>
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
             </div>
 
             {/* 실로스만의 상안검/하안검 4개 이미지 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-4 pb-4">
               {benefits.map((benefit, index) => (
-                <div key={index} className="bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl p-4 shadow-xl">
+                <div key={index} className="bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl p-4 shadow-xl flex-shrink-0 w-72 md:w-auto">
                   <div className="bg-white rounded-xl overflow-hidden mb-4">
                     <img 
-                      src={`/images/procedures/eyelid-lifting/benefit-${index + 1}.jpg`}
+                      src={`/images/procedures/droopy-eye-lifting/benefit-${index + 1}.jpg`}
                       alt={benefit.title}
                       className="w-full h-auto"
                     />
@@ -349,10 +355,10 @@ export default function EyelidLiftingPage() {
                     <div className="w-12 h-12 bg-gradient-to-br from-elegant-400 to-teal-smoke-400 rounded-full mx-auto mb-3 flex items-center justify-center shadow-lg">
                       <span className="text-white font-bold text-base">{benefit.number}</span>
                     </div>
-                    <h4 className="font-elegant font-bold text-teal-smoke-800 mb-2 text-lg">
+                    <h4 className="font-elegant font-bold text-slate-800 mb-2 text-lg">
                       {benefit.title}
                     </h4>
-                    <p className="text-sm font-elegant-sans text-teal-smoke-600 leading-relaxed">
+                    <p className="text-sm font-elegant-sans text-slate-600 leading-relaxed">
                       {benefit.description}
                     </p>
                   </div>
@@ -364,8 +370,8 @@ export default function EyelidLiftingPage() {
           {/* 수술 과정 */}
           <div className="mb-20">
             <div className="text-center mb-16">
-              <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-6">
-                상안검/하안검 <span className="text-elegant-600">수술 과정</span>
+              <h3 className="text-3xl font-display font-light text-slate-800 mb-6">
+                <span className="font-medium">상안검/하안검</span> <span className="text-slate-600">수술 과정</span>
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
             </div>
@@ -374,7 +380,7 @@ export default function EyelidLiftingPage() {
               <div className="bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-3xl p-8 shadow-xl">
                 <div className="bg-white rounded-2xl overflow-hidden">
                   <img 
-                    src="/images/procedures/eyelid-lifting/eyelid-process.jpg" 
+                    src="/images/procedures/droopy-eye-lifting/eyelid-process.jpg" 
                     alt="상안검/하안검 수술 과정"
                     className="w-full h-auto"
                   />
@@ -382,16 +388,16 @@ export default function EyelidLiftingPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-3 md:gap-8 pb-4">
               {procedureSteps.map((step, index) => (
-                <div key={index} className="text-center p-8 bg-white rounded-2xl shadow-lg border border-teal-smoke-200/30">
+                <div key={index} className="text-center p-8 bg-white rounded-2xl shadow-lg border border-teal-smoke-200/30 flex-shrink-0 w-72 md:w-auto">
                   <div className="w-20 h-20 bg-gradient-to-br from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg">
                     <span className="text-white font-bold text-xl">{step.step}</span>
                   </div>
-                  <h4 className="font-elegant font-bold text-teal-smoke-800 mb-4 text-lg">
+                  <h4 className="font-elegant font-bold text-slate-800 mb-4 text-lg">
                     {step.title}
                   </h4>
-                  <p className="text-sm font-elegant-sans text-teal-smoke-600 leading-relaxed">
+                  <p className="text-sm font-elegant-sans text-slate-600 leading-relaxed">
                     {step.description}
                   </p>
                 </div>
@@ -402,10 +408,10 @@ export default function EyelidLiftingPage() {
           {/* PROCEDURE 섹션 - 탭 네비게이션 */}
           <div className="mb-20" data-procedure-section>
             <div className="text-center mb-12">
-              <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-4">
+              <h3 className="text-3xl font-display font-light text-slate-800 mb-4">
                 PROCEDURE
               </h3>
-              <h4 className="text-2xl font-elegant font-light text-elegant-600 mb-6">
+              <h4 className="text-2xl font-elegant font-light text-slate-700 mb-6">
                 눈꺼풀 처짐 리프팅 시술
               </h4>
               <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto"></div>
@@ -420,7 +426,7 @@ export default function EyelidLiftingPage() {
                   className={`px-6 py-3 rounded-xl font-elegant-sans font-medium transition-all duration-300 text-sm ${
                     activeProcedureTab === procedure.id
                       ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
-                      : 'bg-white text-teal-smoke-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
+                      : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
                   }`}
                 >
                   {procedure.title}
@@ -452,7 +458,7 @@ export default function EyelidLiftingPage() {
                           {activeProcedure.description.map((desc, i) => (
                             <div key={i} className="flex items-start space-x-4">
                               <div className="w-2 h-2 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mt-3 flex-shrink-0"></div>
-                              <p className="text-lg text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                              <p className="text-lg text-slate-600 font-elegant-sans font-light leading-relaxed">
                                 {desc}
                               </p>
                             </div>
@@ -462,7 +468,7 @@ export default function EyelidLiftingPage() {
                         {/* 특징 배지들 */}
                         <div className="flex flex-wrap gap-4 mb-8">
                           {activeProcedure.features.map((feature, i) => (
-                            <div key={i} className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-teal-smoke-800 border-2 border-teal-smoke-200 shadow-lg">
+                            <div key={i} className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-slate-700 border-2 border-teal-smoke-200 shadow-lg">
                               <Sparkles className="w-4 h-4 mr-2" />
                               {feature}
                             </div>
@@ -471,11 +477,11 @@ export default function EyelidLiftingPage() {
 
                         {/* 시술시간 및 카테고리 */}
                         <div className="flex items-center space-x-4">
-                          <div className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-elegant-200 to-teal-smoke-200 text-teal-smoke-800 border-2 border-elegant-300 shadow-lg">
+                          <div className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-elegant-200 to-teal-smoke-200 text-slate-700 border-2 border-elegant-300 shadow-lg">
                             <Clock className="w-4 h-4 mr-2" />
                             {activeProcedure.duration}
                           </div>
-                          <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-elegant-sans font-bold bg-gray-200 text-gray-700 border border-gray-300">
+                          <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-elegant-sans font-bold bg-gray-200 text-slate-800 border border-gray-300">
                             {activeProcedure.category}
                           </div>
                         </div>
@@ -484,8 +490,8 @@ export default function EyelidLiftingPage() {
                       {/* 이미지 및 장바구니 (1/3) */}
                       <div className="flex flex-col items-center justify-between">
                         <div className="w-full h-64 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl border-2 border-teal-smoke-200/30 flex items-center justify-center mb-8 shadow-lg">
-                          <div className="text-center text-teal-smoke-400">
-                            <Eye className="w-20 h-20 mx-auto mb-4" />
+                          <div className="text-center text-slate-700">
+                            <Eye className="w-20 h-20 mx-auto mb-4 text-slate-600" />
                             <p className="font-elegant-sans font-medium">
                               {activeProcedure.title}
                             </p>
@@ -496,13 +502,13 @@ export default function EyelidLiftingPage() {
                         <button
                           onClick={() => handleAddToCart(activeProcedure.id, activeProcedure.title)}
                           className={`w-full py-4 px-6 rounded-xl font-elegant-sans font-bold text-base transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 ${
-                            addedToCart.includes(activeProcedure.id)
+                            isInCart(activeProcedure.id)
                               ? 'bg-gradient-to-r from-green-200 to-green-300 text-green-800 cursor-default border-2 border-green-400'
                               : 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white hover:from-teal-smoke-500 hover:to-elegant-500 border-2 border-transparent'
                           }`}
-                          disabled={addedToCart.includes(activeProcedure.id)}
+                          disabled={isInCart(activeProcedure.id)}
                         >
-                          {addedToCart.includes(activeProcedure.id) ? (
+                          {isInCart(activeProcedure.id) ? (
                             <>
                               <Check className="w-5 h-5" />
                               <span>상담 리스트에 담김</span>
@@ -525,11 +531,11 @@ export default function EyelidLiftingPage() {
           {/* FAQ 섹션 */}
           <div className="mb-20">
             <div className="text-center mb-16">
-              <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-6">
+              <h3 className="text-3xl font-display font-light text-slate-800 mb-6">
                 FAQ
               </h3>
-              <h4 className="text-2xl font-elegant font-light text-elegant-600 mb-6">
-                눈 성형 자주 묻는 질문
+              <h4 className="text-2xl font-elegant font-light text-slate-700 mb-6">
+                처진눈리프팅 자주 묻는 질문
               </h4>
               <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto"></div>
             </div>
@@ -541,18 +547,18 @@ export default function EyelidLiftingPage() {
                     onClick={() => toggleFaq(index)}
                     className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-teal-smoke-50/50 transition-all duration-300"
                   >
-                    <span className="font-elegant-sans font-bold text-teal-smoke-800 text-lg">
+                    <span className="font-elegant-sans font-bold text-slate-800 text-lg">
                       Q. {faq.question}
                     </span>
                     {expandedFaq === index ? (
-                      <ChevronUp className="w-6 h-6 text-teal-smoke-500 flex-shrink-0" />
+                      <ChevronUp className="w-6 h-6 text-slate-600 flex-shrink-0" />
                     ) : (
-                      <ChevronDown className="w-6 h-6 text-teal-smoke-500 flex-shrink-0" />
+                      <ChevronDown className="w-6 h-6 text-slate-600 flex-shrink-0" />
                     )}
                   </button>
                   {expandedFaq === index && (
                     <div className="px-8 pb-6 border-t border-teal-smoke-200/30">
-                      <p className="font-elegant-sans text-teal-smoke-700 leading-relaxed pt-4">
+                      <p className="font-elegant-sans text-slate-600 leading-relaxed pt-4">
                         A. {faq.answer}
                       </p>
                     </div>
@@ -562,27 +568,15 @@ export default function EyelidLiftingPage() {
             </div>
           </div>
 
-          {/* 전체 상담 신청 섹션 */}
-          <div className="mt-20 text-center">
-            <div className="bg-gradient-to-br from-white/80 to-teal-smoke-50/80 backdrop-blur-sm rounded-3xl p-12 shadow-2xl border border-white/50">
-              <h3 className="text-3xl lg:text-4xl font-display font-bold text-teal-smoke-800 mb-6">
-                눈꺼풀 처짐 리프팅 상담 신청
-              </h3>
-              <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
-              <p className="text-xl font-elegant-sans font-medium text-teal-smoke-700 mb-10">
-                전문 의료진과 함께 나에게 가장 적합한 눈꺼풀 수술을 찾아보세요
-              </p>
-              <a
-                href="/consultation/request"
-                className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-xl font-elegant-sans font-bold text-lg hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 space-x-3"
-              >
-                <ShoppingCart className="w-6 h-6" />
-                <span>전체 상담 신청하기</span>
-              </a>
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* 상담 신청 섹션 */}
+      <StandardConsultationSection
+        title="눈꺼풀 처짐 리프팅 상담 신청"
+        description="전문 의료진과 함께 나에게 가장 적합한 처진눈리프팅을 찾아보세요"
+        initialProcedureId="droopy-eye-lifting"
+      />
     </PageLayout>
   );
 }

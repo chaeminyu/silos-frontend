@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
-import { Zap, Clock, Shield, Star, ChevronDown, ChevronUp, ShoppingCart, Check } from 'lucide-react';
+import StandardConsultationSection from '../../../components/StandardConsultationSection';
+import { Zap, Clock, Shield, Star, ShoppingCart, Check } from 'lucide-react';
 
-const laserProcedures = [
+const customLiftingProcedures = [
   {
     id: 'ulthera',
-    title: '울쎄라 리프팅',
+    title: '울쎄라',
     subtitle: 'ULTHERA',
     description: [
       'FDA 승인 글로벌 비수술 안면거상 리프트레이저',
@@ -21,51 +22,9 @@ const laserProcedures = [
     duration: '15분내외'
   },
   {
-    id: 'shrink',
-    title: '슈링크 리프팅',
-    subtitle: 'SHURINK',
-    description: [
-      '근막층(SMAS)부터 끌어올리는 HIFU에너지',
-      '콜라겐 섬유의 재생과 자연스러운 리프팅 효과',
-      '콜라겐과 엘라스틴의 재생반응으로 오랜기간 동안 유지되는 탄력감',
-      '일반레이저는 침투하지 못하는 안면거상술의 타겟층까지 도달',
-      '빠르고 강력한 효과, 적은 시술통증'
-    ],
-    features: ['HIFU에너지', '자연리프팅', '강력효과'],
-    duration: '30분내외'
-  },
-  {
-    id: 'onda',
-    title: '온다 리프팅',
-    subtitle: 'ONDA',
-    description: [
-      '고주파, 초음파를 대신하는 극초단파를 사용하는 새로운 원리의 리프팅',
-      '빠르고 자연스러운 리프팅 효과 및 타이트닝으로 이중턱, 심술보 개선에 도움',
-      '시술 후 지속적인 콜라겐 리모델링 효과로 피부결, 피부 탄력 효과와 함께',
-      '비침습적 방식으로 통증 및 일상생활 지장 없이 시술이 가능하며',
-      '팔·허벅지·복부 등 부분 지방 파괴 등 개선에 효과적'
-    ],
-    features: ['극초단파', '비침습적', '지방개선'],
-    duration: '20분내외'
-  },
-  {
-    id: 'encore',
-    title: '엔코어 리프팅',
-    subtitle: 'N CORE',
-    description: [
-      '일반적인 HIFU 초음파, 고주파 방식이 아닌',
-      '755, 808, 1064nm의 세 가지 파장을 이용',
-      '빛 에너지를 동시에 조사하여 피부 깊은 곳에 위치한',
-      '피부 코어(유지인대)를 리프팅하는 새로운 방식의 리프팅',
-      '통증/염/붓기 부담이 적은 저자극 시술'
-    ],
-    features: ['3파장', '저자극', '유지인대'],
-    duration: '25분내외'
-  },
-  {
     id: 'density',
-    title: '덴서티 리프팅',
-    subtitle: 'DENSIRY',
+    title: '덴서티',
+    subtitle: 'DENSITY',
     description: [
       '강력한 모노폴라 타입의 고주파 에너지를',
       '피부 깊은곳까지 각 부위 별로 균일하게 전달하며',
@@ -78,59 +37,137 @@ const laserProcedures = [
     duration: '30분내외'
   },
   {
-    id: 'vero',
-    title: '브이로 리프팅',
-    subtitle: 'V-RO',
+    id: 'oltight',
+    title: '올타이트',
+    subtitle: 'OLTIGHT',
+    description: [
+      '프리미엄 리프팅 장비로 깊은 층부터 표면층까지',
+      '다층적 리프팅으로 확실한 효과를 제공',
+      '개인별 피부 상태에 맞춘 맞춤형 시술',
+      '즉시 확인 가능한 리프팅 효과',
+      '지속적인 콜라겐 재생으로 오래가는 탄력'
+    ],
+    features: ['다층리프팅', '즉시효과', '맞춤시술'],
+    duration: '25분내외'
+  },
+  {
+    id: 'onda',
+    title: '온다',
+    subtitle: 'ONDA',
+    description: [
+      '고주파, 초음파를 대신하는 극초단파를 사용하는 새로운 원리의 리프팅',
+      '빠르고 자연스러운 리프팅 효과 및 타이트닝으로 이중턱, 심술보 개선에 도움',
+      '시술 후 지속적인 콜라겐 리모델링 효과로 피부결, 피부 탄력 효과와 함께',
+      '비침습적 방식으로 통증 및 일상생활 지장 없이 시술이 가능하며',
+      '팔·허벅지·복부 등 부분 지방 파괴 등 개선에 효과적'
+    ],
+    features: ['극초단파', '비침습적', '지방개선'],
+    duration: '20분내외'
+  },
+  {
+    id: 'virtue-rf',
+    title: '버츄RF',
+    subtitle: 'VIRTUE RF',
+    description: [
+      '마이크로니들 RF 기술로 정밀한 깊이 조절 가능',
+      '최소한의 다운타임으로 최대한의 리프팅 효과',
+      '흉터와 모공 개선까지 동시에 가능',
+      '개인별 피부 타입에 맞춘 에너지 조절',
+      '자연스러운 콜라겐 재생과 피부 재생 효과'
+    ],
+    features: ['마이크로니들RF', '최소다운타임', '흉터개선'],
+    duration: '35분내외'
+  },
+  {
+    id: 'vro-advance',
+    title: '브이로어드밴스',
+    subtitle: 'V-RO ADVANCE',
     description: [
       '7가지 카트리지로 진피층, SMAS층 등 다양한 피부층에',
       '미세한 열응고 구역을 다수 생성시킨 후',
       '열에너지를 이용하여 재생 및 회복 작용을 이용하는',
-      '집속초음파(HIFU) + 고주파(RF) 리프팅 장비'
+      '집속초음파(HIFU) + 고주파(RF) 리프팅 장비',
+      '어드밴스 기술로 더욱 정밀하고 효과적인 시술'
     ],
     features: ['7카트리지', 'HIFU+RF', '열에너지'],
     duration: '35분내외'
+  },
+  {
+    id: 'shrink-universe',
+    title: '슈링크유니버스',
+    subtitle: 'SHURINK UNIVERSE',
+    description: [
+      '근막층(SMAS)부터 끌어올리는 HIFU에너지',
+      '콜라겐 섬유의 재생과 자연스러운 리프팅 효과',
+      '콜라겐과 엘라스틴의 재생반응으로 오랜기간 동안 유지되는 탄력감',
+      '일반레이저는 침투하지 못하는 안면거상술의 타겟층까지 도달',
+      '빠르고 강력한 효과, 적은 시술통증'
+    ],
+    features: ['HIFU에너지', '자연리프팅', '강력효과'],
+    duration: '30분내외'
+  },
+  {
+    id: 'encore3d',
+    title: '엔코어3D',
+    subtitle: 'ENCORE 3D',
+    description: [
+      '일반적인 HIFU 초음파, 고주파 방식이 아닌',
+      '755, 808, 1064nm의 세 가지 파장을 이용',
+      '빛 에너지를 동시에 조사하여 피부 깊은 곳에 위치한',
+      '피부 코어(유지인대)를 리프팅하는 새로운 방식의 리프팅',
+      '통증/염/붓기 부담이 적은 저자극 시술'
+    ],
+    features: ['3파장', '저자극', '유지인대'],
+    duration: '25분내외'
+  },
+  {
+    id: 'revive',
+    title: '리바이브',
+    subtitle: 'REVIVE',
+    description: [
+      '피부 재생과 리프팅을 동시에 해결하는 혁신적 시술',
+      '자연스러운 볼륨 복원과 탄력 개선',
+      '노화된 피부를 젊고 건강한 상태로 되돌림',
+      '개인별 피부 상태에 맞춘 맞춤형 에너지 전달',
+      '지속적인 재생 효과로 오래가는 아름다움'
+    ],
+    features: ['피부재생', '볼륨복원', '지속효과'],
+    duration: '40분내외'
   }
 ];
 
-export default function LaserLiftingPage() {
+export default function CustomLiftingPage() {
   const searchParams = useSearchParams();
-  const [expandedProcedure, setExpandedProcedure] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('ulthera');
   const [addedToCart, setAddedToCart] = useState<string[]>([]);
   const [selectedBodyPart, setSelectedBodyPart] = useState<string>('01');
 
-  // Handle URL parameter for auto-expanding and scrolling
+  // Handle URL parameter for direct tab access
   useEffect(() => {
     const procedureParam = searchParams.get('procedure');
     if (procedureParam) {
-      setExpandedProcedure(procedureParam);
-      // Scroll to the specific procedure after a short delay
-      setTimeout(() => {
-        const element = document.getElementById(procedureParam);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 100);
+      // Find matching procedure
+      const validProcedure = customLiftingProcedures.find(proc => proc.id === procedureParam);
+      if (validProcedure) {
+        setActiveTab(procedureParam);
+      }
     }
   }, [searchParams]);
-
-  const toggleProcedure = (procedureId: string) => {
-    setExpandedProcedure(expandedProcedure === procedureId ? null : procedureId);
-  };
 
   const handleAddToCart = (partId: string, partName: string, event: React.MouseEvent) => {
     event.stopPropagation();
     if (!addedToCart.includes(partId)) {
       setAddedToCart([...addedToCart, partId]);
-      console.log(`Added to cart: 레이저 리프팅 - ${partName}`);
+      console.log(`Added to cart: 커스텀 리프팅 - ${partName}`);
     }
   };
 
   const bodyParts = [
-    { id: '01', name: '이마주름', image: '/images/procedures/laser-lifting/areas/forehead.png' },
-    { id: '02', name: '눈가라인', image: '/images/procedures/laser-lifting/areas/eye-area.png' },
-    { id: '03', name: '심부볼', image: '/images/procedures/laser-lifting/areas/deep-cheek.png' },
-    { id: '04', name: '팔자주름', image: '/images/procedures/laser-lifting/areas/nasolabial.png' },
-    { id: '05', name: '이중턱/목주름', image: '/images/procedures/laser-lifting/areas/neck-double-chin.png' }
+    { id: '01', name: '이마주름', image: '/images/procedures/custom-lifting/areas/forehead.png' },
+    { id: '02', name: '눈가라인', image: '/images/procedures/custom-lifting/areas/eye-area.png' },
+    { id: '03', name: '심부볼', image: '/images/procedures/custom-lifting/areas/deep-cheek.png' },
+    { id: '04', name: '팔자주름', image: '/images/procedures/custom-lifting/areas/nasolabial.png' },
+    { id: '05', name: '이중턱/목주름', image: '/images/procedures/custom-lifting/areas/neck-double-chin.png' }
   ];
 
   return (
@@ -147,7 +184,7 @@ export default function LaserLiftingPage() {
               SILOS LIFTING
             </div>
             <h1 className="text-5xl lg:text-6xl font-display font-light mb-6 tracking-wide leading-tight">
-              레이저 리프팅
+              커스텀 리프팅
             </h1>
             <div className="w-24 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
             <p className="text-xl font-elegant-sans font-light max-w-3xl mx-auto leading-relaxed text-white/90">
@@ -166,21 +203,21 @@ export default function LaserLiftingPage() {
             <div className="text-center mb-12">
               <h2 className="text-4xl lg:text-5xl font-display font-light text-teal-smoke-800 mb-8 tracking-wide">
                 SILOS LIFTING<br />
-                <span className="text-3xl lg:text-4xl text-elegant-600">레이저 리프팅</span>
+                <span className="text-3xl lg:text-4xl text-slate-700">커스텀 리프팅</span>
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mx-auto mb-8"></div>
             </div>
             
             <div className="max-w-4xl mx-auto text-center mb-12">
-              <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed mb-8">
-                같은 레이저라도 시술은 엄밀하게 다르게 진행되어야 합니다.<br />
-                실로스에서는 개개인의 피부를 분석하여 효과적으로 작용할 수 있는<br />
-                장비를 통한 최상의 결과를 만들어 냅니다.
+              <p className="text-lg font-elegant-sans font-light text-slate-600 leading-relaxed mb-8">
+                FDA 승인 의료 장비를 통한 안전하고 효과적인 리프팅<br />
+                실로스에서는 개개인의 피부 상태와 니즈를 분석하여<br />
+                가장 적합한 장비와 방법으로 커스텀 리프팅을 진행합니다.
               </p>
             </div>
 
             {/* 주요 특징 */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+            <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-4 md:gap-6 mt-12 pb-4">
               {[
                 { title: '시술시간', value: '15분내외', icon: Clock },
                 { title: '마취방법', value: '연고마취', icon: Shield },
@@ -189,12 +226,12 @@ export default function LaserLiftingPage() {
               ].map((item, index) => {
                 const IconComponent = item.icon;
                 return (
-                  <div key={index} className="text-center">
+                  <div key={index} className="text-center flex-shrink-0 w-48 md:w-auto">
                     <div className="w-16 h-16 bg-gradient-to-br from-teal-smoke-300 to-elegant-300 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                       <IconComponent className="w-8 h-8 text-white" />
                     </div>
                     <h4 className="text-lg font-elegant font-medium text-teal-smoke-800 mb-2">{item.title}</h4>
-                    <p className="text-teal-smoke-600 font-elegant-sans font-light text-sm">{item.value}</p>
+                    <p className="text-slate-600 font-elegant-sans font-light text-sm">{item.value}</p>
                   </div>
                 );
               })}
@@ -207,15 +244,15 @@ export default function LaserLiftingPage() {
               <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-4">
                 EQUIPMENT
               </h3>
-              <h4 className="text-2xl font-elegant font-light text-elegant-600 mb-6">
-                레이저 리프팅 장비
+              <h4 className="text-2xl font-elegant font-light text-slate-700 mb-6">
+                커스텀 리프팅 장비
               </h4>
               <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto"></div>
             </div>
 
             {/* 아코디언 프로시저 리스트 */}
             <div className="space-y-4">
-              {laserProcedures.map((procedure) => {
+              {customLiftingProcedures.map((procedure) => {
                 const isExpanded = expandedProcedure === procedure.id;
                 return (
                   <div
@@ -251,7 +288,7 @@ export default function LaserLiftingPage() {
                             </h4>
                             <div className="space-y-3 mb-8">
                               {procedure.description.map((desc, i) => (
-                                <p key={i} className="text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                                <p key={i} className="text-slate-600 font-elegant-sans font-light leading-relaxed">
                                   {desc}
                                 </p>
                               ))}
@@ -260,7 +297,7 @@ export default function LaserLiftingPage() {
                             {/* 특징 배지들 */}
                             <div className="flex flex-wrap gap-3 mb-6">
                               {procedure.features.map((feature, i) => (
-                                <div key={i} className="inline-flex items-center px-4 py-2 rounded-full text-sm font-elegant-sans font-medium bg-teal-smoke-100 text-teal-smoke-700 border border-teal-smoke-200">
+                                <div key={i} className="inline-flex items-center px-4 py-2 rounded-full text-sm font-elegant-sans font-medium bg-teal-smoke-100 text-slate-600 border border-teal-smoke-200">
                                   <Zap className="w-3 h-3 mr-2" />
                                   {feature}
                                 </div>
@@ -268,7 +305,7 @@ export default function LaserLiftingPage() {
                             </div>
 
                             {/* 시술시간 */}
-                            <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-elegant-sans font-medium bg-elegant-100 text-elegant-700 border border-elegant-200">
+                            <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-elegant-sans font-medium bg-elegant-100 text-slate-700 border border-elegant-200">
                               <Clock className="w-4 h-4 mr-2" />
                               {procedure.duration}
                             </div>
@@ -304,7 +341,7 @@ export default function LaserLiftingPage() {
               <h2 className="text-4xl lg:text-5xl font-display font-light text-teal-smoke-800 mb-4">
                 PART
               </h2>
-              <h3 className="text-3xl font-display font-light text-teal-smoke-700 mb-6">
+              <h3 className="text-3xl font-display font-light text-slate-600 mb-6">
                 리프팅 시술 부위
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mx-auto"></div>
@@ -312,7 +349,7 @@ export default function LaserLiftingPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-8">
               <div className="order-2 lg:order-1">
-                <div className="relative h-[500px] bg-white/60 backdrop-blur-sm rounded-3xl shadow-xl border border-teal-smoke-200/50 overflow-hidden">
+                <div className="relative h-[500px] glass-effect-strong rounded-3xl shadow-xl overflow-hidden">
                   {(() => {
                     const selectedPart = bodyParts.find(part => part.id === selectedBodyPart);
                     return selectedPart ? (
@@ -323,7 +360,7 @@ export default function LaserLiftingPage() {
                       />
                     ) : (
                       <div className="flex items-center justify-center h-full">
-                        <span className="text-teal-smoke-400 font-elegant-sans">이미지를 선택해주세요</span>
+                        <span className="text-slate-600 font-elegant-sans">이미지를 선택해주세요</span>
                       </div>
                     );
                   })()}
@@ -338,20 +375,20 @@ export default function LaserLiftingPage() {
                     className={`group cursor-pointer rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 ${
                       selectedBodyPart === part.id 
                         ? 'bg-gradient-to-r from-teal-smoke-100 to-elegant-100 border-teal-smoke-400' 
-                        : 'bg-white/60 backdrop-blur-sm border-teal-smoke-200/50 hover:border-teal-smoke-300'
+                        : 'glass-effect hover:shadow-xl'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4 flex-1">
                         <span className={`text-2xl font-display font-light ${
-                          selectedBodyPart === part.id ? 'text-teal-smoke-600' : 'text-teal-smoke-500'
+                          selectedBodyPart === part.id ? 'text-slate-600' : 'text-slate-600'
                         }`}>
                           CASE {part.id}
                         </span>
                         <p className={`text-lg font-elegant font-medium transition-colors ${
                           selectedBodyPart === part.id 
                             ? 'text-teal-smoke-800' 
-                            : 'text-teal-smoke-700 group-hover:text-teal-smoke-900'
+                            : 'text-slate-600 group-hover:text-teal-smoke-900'
                         }`}>
                           {part.name}
                         </p>
@@ -389,14 +426,14 @@ export default function LaserLiftingPage() {
             <div className="absolute inset-0 bg-black/50"></div>
             <div 
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: 'url(/images/procedures/laser-lifting/case-bg.png)' }}
+              style={{ backgroundImage: 'url(/images/procedures/custom-lifting/case-bg.png)' }}
             ></div>
             <div className="relative text-center mb-12">
               <h3 className="text-3xl font-display font-light mb-4">CASE</h3>
-              <h4 className="text-2xl font-elegant font-light mb-6">레이저 리프팅이 필요한 경우</h4>
+              <h4 className="text-2xl font-elegant font-light mb-6">커스텀 리프팅이 필요한 경우</h4>
             </div>
 
-            <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="relative flex overflow-x-auto gap-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-8 pb-4">
               {[
                 {
                   case: 'CASE 01',
@@ -415,11 +452,11 @@ export default function LaserLiftingPage() {
                   title: '탄력을잃은피부로인해\n고민인경우'
                 }
               ].map((item, index) => (
-                <div key={index} className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
+                <div key={index} className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 flex-shrink-0 w-60 md:w-auto">
                   <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-xl font-bold">{index + 1}</span>
                   </div>
-                  <h5 className="font-elegant font-medium text-sm mb-2 text-gray-300">{item.case}</h5>
+                  <h5 className="font-elegant font-medium text-sm mb-2 text-white/70">{item.case}</h5>
                   <p className="font-elegant-sans font-light text-sm leading-relaxed whitespace-pre-line">
                     {item.title}
                   </p>
@@ -430,73 +467,12 @@ export default function LaserLiftingPage() {
         </div>
       </div>
 
-      {/* Online Consultation Section - Full Width */}
-      <section className="w-full bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500">
-        <div className="w-full py-24 px-4 sm:px-6 lg:px-8 text-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-display font-light mb-6">
-                온라인 상담 신청
-              </h2>
-              <div className="w-24 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
-              <p className="text-lg font-elegant-sans font-light text-white/90 max-w-2xl mx-auto">
-                레이저 리프팅에 대해 더 자세한 상담을 원하시나요?<br />
-                전문 의료진이 맞춤형 상담을 도와드립니다.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="성함"
-                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
-                />
-                <input
-                  type="tel"
-                  placeholder="연락처"
-                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
-                />
-                <input
-                  type="email"
-                  placeholder="이메일 (선택)"
-                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors"
-                />
-              </div>
-              
-              <div className="space-y-4">
-                <select className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white font-elegant-sans focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer">
-                  <option value="" className="text-teal-smoke-700">상담 부위 선택</option>
-                  <option value="이마주름" className="text-teal-smoke-700">이마주름</option>
-                  <option value="눈가라인" className="text-teal-smoke-700">눈가라인</option>
-                  <option value="심부볼" className="text-teal-smoke-700">심부볼</option>
-                  <option value="팔자주름" className="text-teal-smoke-700">팔자주름</option>
-                  <option value="이중턱/목주름" className="text-teal-smoke-700">이중턱/목주름</option>
-                  <option value="기타" className="text-teal-smoke-700">기타</option>
-                </select>
-                <textarea
-                  placeholder="상담 내용을 입력해주세요"
-                  rows={5}
-                  className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 font-elegant-sans focus:outline-none focus:border-white/50 transition-colors resize-none"
-                />
-              </div>
-            </div>
-            
-            <div className="mt-8 text-center">
-              <button className="px-12 py-4 bg-white text-teal-smoke-700 rounded-xl font-elegant-sans font-medium text-lg hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl">
-                상담 신청하기
-              </button>
-            </div>
-            
-            <div className="mt-12 pt-8 border-t border-white/20 text-center">
-              <p className="text-sm font-elegant-sans font-light text-white/80">
-                상담 가능 시간: 평일 10:00 - 19:00 | 토요일 10:00 - 17:00<br />
-                개인정보는 상담 목적으로만 사용되며 안전하게 보호됩니다.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 상담 신청 섹션 */}
+      <StandardConsultationSection
+        title="커스텀 리프팅 상담 신청"
+        description="전문 의료진과 함께 나에게 가장 적합한 커스텀 리프팅을 찾아보세요"
+        initialProcedureId="custom-lifting"
+      />
     </PageLayout>
   );
 }

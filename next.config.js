@@ -8,11 +8,27 @@ const nextConfig = {
   
   // 이미지 최적화 설정
   images: {
-    domains: [
-      'localhost',
-      'silos-clinic.com', // 실제 도메인으로 변경 필요
-      's3.amazonaws.com',
-      'cdn.silos-clinic.com', // CDN 도메인
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'silos-clinic.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 's3.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.silos-clinic.com',
+      },
     ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],

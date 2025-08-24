@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { ArrowDown, Play, CheckCircle, Star, Award } from 'lucide-react';
 import PageLayout from '../../components/PageLayout';
+import StandardConsultationSection from '../../components/StandardConsultationSection';
 
 export default function WhySilosPage() {
   return (
@@ -16,7 +17,7 @@ export default function WhySilosPage() {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-smoke-200 to-elegant-200 rounded-full text-sm font-elegant-sans font-medium mb-8 text-teal-smoke-700">
+            <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-smoke-200 to-elegant-200 rounded-full text-sm font-elegant-sans font-medium mb-8 text-slate-700">
               <Award className="w-4 h-4 mr-2" />
               Why SILOS Lifting
             </div>
@@ -24,8 +25,8 @@ export default function WhySilosPage() {
           
           {/* Main Message Box */}
           <div className="max-w-5xl mx-auto">
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-12 lg:p-16 shadow-2xl border border-white/50 text-center">
-              <h1 className="text-4xl lg:text-6xl font-display font-bold text-teal-smoke-800 leading-tight mb-8 whitespace-pre-line">
+            <div className="glass-effect rounded-3xl p-12 lg:p-16 shadow-2xl border border-white/50 text-center">
+              <h1 className="text-4xl lg:text-6xl font-display font-bold text-cyan-800 leading-tight mb-8 whitespace-pre-line">
                 실리프팅? 다 똑같다?{'\n'}
                 <span className="text-elegant-600">No!</span>{'\n'}
                 내 얼굴선을 아는 실리프팅, 실로스니까!
@@ -39,14 +40,14 @@ export default function WhySilosPage() {
       <div className="py-16 bg-gradient-to-b from-white to-teal-smoke-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-lg lg:text-xl font-elegant-sans font-light text-teal-smoke-700 leading-relaxed whitespace-pre-line max-w-5xl mx-auto">
+            <p className="text-lg lg:text-xl font-elegant-sans font-light text-slate-700 leading-relaxed whitespace-pre-line max-w-5xl mx-auto">
               실로스는 20년 이상 다양한 안면부 리프팅 수술 케이스와{'\n'}
               국내외 의료진을 교육하는 성령 세미나 및 학술 강의를 바탕으로{'\n'}
               실로스만의 시그니처 실리프팅 솔루션을 개발했습니다.{'\n'}{'\n'}
               개인의 얼굴 형태와 주름에 대한 지속적인 연구를 통해 한번의 시술로도 만족스러운 결과를 누리실 수 있습니다.{'\n'}{'\n'}
               반복적이고, 효과 없는 리프팅 수술(시술)로 지친{'\n'}
               당신을 위한 맞춤형 커스텀 리프팅!{'\n'}{'\n'}
-              <span className="font-bold text-teal-smoke-800">실리프팅은 실로스입니다.</span>
+              <span className="font-bold text-cyan-800">실리프팅은 실로스입니다.</span>
             </p>
           </div>
         </div>
@@ -56,13 +57,13 @@ export default function WhySilosPage() {
       <div className="py-24 bg-gradient-to-br from-teal-smoke-50 to-elegant-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-display font-bold text-teal-smoke-800 mb-6">
+            <h2 className="text-4xl lg:text-5xl font-display font-bold text-cyan-800 mb-6">
               실로스라면 고민하지 않으셔도 됩니다.
             </h2>
-            <p className="text-xl font-elegant-sans font-light text-teal-smoke-600 mb-4">
+            <p className="text-xl font-elegant-sans font-light text-slate-600 mb-4">
               피부 속까지 탄탄하게, 안전하고 입체적인 리프팅 효과!
             </p>
-            <p className="text-lg font-elegant-sans font-medium text-teal-smoke-700">
+            <p className="text-lg font-elegant-sans font-medium text-slate-700">
               실로스는 <span className="font-bold">임상 결과와 누적된 데이터로 증명</span>합니다.
             </p>
           </div>
@@ -89,7 +90,7 @@ export default function WhySilosPage() {
                     <div className="w-24 h-24 bg-teal-smoke-300 rounded-2xl flex items-center justify-center mx-auto mb-6">
                       <Star className="w-12 h-12 text-white" />
                     </div>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light">
+                    <p className="text-slate-700 font-elegant-sans font-light">
                       비포 애프터 이미지를 추가해주세요
                     </p>
                     <p className="text-teal-smoke-500 font-elegant-sans font-light text-sm mt-1">
@@ -136,7 +137,7 @@ export default function WhySilosPage() {
                     <div className="w-32 h-32 bg-teal-smoke-300 rounded-2xl flex items-center justify-center mx-auto mb-6">
                       <Award className="w-16 h-16 text-white" />
                     </div>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light text-lg">
+                    <p className="text-slate-700 font-elegant-sans font-light text-lg">
                       세미나 포스터 이미지를 추가해주세요
                     </p>
                     <p className="text-teal-smoke-500 font-elegant-sans font-light text-sm mt-1">
@@ -148,7 +149,7 @@ export default function WhySilosPage() {
             </div>
             
             <div className="text-center mt-8">
-              <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed whitespace-pre-line">
+              <p className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed whitespace-pre-line">
                 실로스는 리프팅에 대한 기술력을{'\n'}
                 의료진 대상으로 세미나와 강연을 진행함으로써 전수하고 있습니다.
               </p>
@@ -177,7 +178,7 @@ export default function WhySilosPage() {
                     <div className="w-24 h-24 bg-elegant-300 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Award className="w-12 h-12 text-white" />
                     </div>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light">
+                    <p className="text-slate-700 font-elegant-sans font-light">
                       세미나 포스터 2
                     </p>
                     <p className="text-teal-smoke-500 font-elegant-sans font-light text-xs mt-1">
@@ -208,7 +209,7 @@ export default function WhySilosPage() {
                     <div className="w-24 h-24 bg-teal-smoke-300 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Award className="w-12 h-12 text-white" />
                     </div>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light">
+                    <p className="text-slate-700 font-elegant-sans font-light">
                       세미나 포스터 3
                     </p>
                     <p className="text-teal-smoke-500 font-elegant-sans font-light text-xs mt-1">
@@ -226,10 +227,10 @@ export default function WhySilosPage() {
       <div className="py-24 bg-gradient-to-br from-teal-smoke-50 to-elegant-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-display font-bold text-teal-smoke-800 mb-6">
+            <h2 className="text-4xl lg:text-5xl font-display font-bold text-cyan-800 mb-6">
               리프팅은 단순히 올리는 것이 아닙니다.
             </h2>
-            <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed whitespace-pre-line max-w-4xl mx-auto">
+            <p className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed whitespace-pre-line max-w-4xl mx-auto">
               내 얼굴의 선과 흐름을 이해하고,{'\n'}
               그에 맞는 실의 종류와 방향을 설계합니다.{'\n'}
               그래야 <span className="font-bold">&apos;자연스럽고 오래가는 리프팅&apos;</span>이 가능합니다.
@@ -258,7 +259,7 @@ export default function WhySilosPage() {
                     <div className="w-16 h-16 bg-teal-smoke-300 rounded-full flex items-center justify-center mx-auto mb-4">
                       <CheckCircle className="w-8 h-8 text-white" />
                     </div>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light text-sm">
+                    <p className="text-slate-700 font-elegant-sans font-light text-sm">
                       이미지를 추가해주세요
                     </p>
                   </div>
@@ -268,7 +269,7 @@ export default function WhySilosPage() {
 
             {/* Timeline Chart */}
             <div className="relative">
-              <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50">
+              <div className="glass-effect rounded-3xl p-8 shadow-xl border border-white/50">
                 <div className="relative">
                   {/* Vertical line - straight down through center */}
                   <div className="absolute left-8 top-6 bottom-16 w-0.5 bg-gradient-to-b from-teal-smoke-400 to-elegant-400"></div>
@@ -287,7 +288,7 @@ export default function WhySilosPage() {
                         <div className="absolute w-6 h-10 bg-gradient-to-b from-teal-smoke-400 to-elegant-400 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300 z-10" style={{ left: '-77px' }}></div>
                         
                         <div className="flex-1">
-                          <p className="text-teal-smoke-800 font-elegant-sans font-medium text-lg group-hover:text-teal-smoke-900 transition-colors duration-300">
+                          <p className="text-cyan-800 font-elegant-sans font-medium text-lg group-hover:text-teal-smoke-900 transition-colors duration-300">
                             {step}
                           </p>
                         </div>
@@ -305,6 +306,14 @@ export default function WhySilosPage() {
           </div>
         </div>
       </div>
+
+      {/* 온라인 상담 섹션 */}
+      <StandardConsultationSection
+        title="실로스 상담 예약"
+        description="실로스만의 커스텀 리프팅을 경험해보세요. 전문의와의 1:1 맞춤 상담으로 당신만의 아름다움을 계획하세요"
+        initialProcedureId="silos-lifting"
+      />
+
     </PageLayout>
   );
 }

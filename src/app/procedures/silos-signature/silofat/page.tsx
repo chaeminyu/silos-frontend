@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { ChevronDown, Clock, Syringe, Calendar, ShoppingCart, Check } from 'lucide-react';
-import PageLayout from '../../components/PageLayout';
+import PageLayout from '../../../../components/PageLayout';
+import StandardConsultationSection from '../../../../components/StandardConsultationSection';
 
 export default function SiloFatPage() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -76,7 +77,7 @@ export default function SiloFatPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-white space-y-8">
-              <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-sm font-elegant-sans font-medium mb-4 border border-white/30">
+              <div className="inline-flex items-center px-6 py-3 glass-effect rounded-full text-sm font-elegant-sans font-medium mb-4 shadow-lg">
                 <Syringe className="w-4 h-4 mr-2" />
                 Fat Extraction Injection
               </div>
@@ -96,7 +97,7 @@ export default function SiloFatPage() {
                 <div className="mt-8">
                   <a
                     href="/consultation/request"
-                    className="px-8 py-3 bg-white text-teal-smoke-700 rounded-xl font-elegant-sans font-medium hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center space-x-2"
+                    className="px-8 py-3 bg-white text-slate-700 rounded-xl font-elegant-sans font-medium hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center space-x-2"
                   >
                     <ShoppingCart className="w-5 h-5" />
                     <span>상담 신청하기</span>
@@ -125,22 +126,22 @@ export default function SiloFatPage() {
               <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-teal-smoke-50 to-white rounded-2xl">
                 <Clock className="w-10 h-10 text-teal-smoke-500 flex-shrink-0" />
                 <div>
-                  <h3 className="font-elegant font-medium text-teal-smoke-700 mb-1">시술시간</h3>
-                  <p className="text-teal-smoke-800 font-elegant-sans font-medium">1시간 이내</p>
+                  <h3 className="font-elegant font-medium text-slate-700 mb-1">시술시간</h3>
+                  <p className="text-cyan-800 font-elegant-sans font-medium">1시간 이내</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-elegant-50 to-white rounded-2xl">
                 <Syringe className="w-10 h-10 text-elegant-500 flex-shrink-0" />
                 <div>
-                  <h3 className="font-elegant font-medium text-teal-smoke-700 mb-1">마취방법</h3>
-                  <p className="text-teal-smoke-800 font-elegant-sans font-medium">국소마취</p>
+                  <h3 className="font-elegant font-medium text-slate-700 mb-1">마취방법</h3>
+                  <p className="text-cyan-800 font-elegant-sans font-medium">국소마취</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4 p-6 bg-gradient-to-br from-teal-smoke-50 to-white rounded-2xl">
                 <Calendar className="w-10 h-10 text-teal-smoke-500 flex-shrink-0" />
                 <div>
-                  <h3 className="font-elegant font-medium text-teal-smoke-700 mb-1">회복기간</h3>
-                  <p className="text-teal-smoke-800 font-elegant-sans font-medium">일상생활 바로가능</p>
+                  <h3 className="font-elegant font-medium text-slate-700 mb-1">회복기간</h3>
+                  <p className="text-cyan-800 font-elegant-sans font-medium">일상생활 바로가능</p>
                 </div>
               </div>
             </div>
@@ -152,11 +153,11 @@ export default function SiloFatPage() {
       <div className="relative pb-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-display font-bold text-teal-smoke-800 mb-8">
+            <h2 className="text-4xl lg:text-5xl font-display font-bold text-cyan-800 mb-8">
               실로팻이란?
             </h2>
             <div className="w-32 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-12"></div>
-            <p className="text-xl font-elegant-sans font-light text-teal-smoke-700 leading-relaxed max-w-5xl mx-auto">
+            <p className="text-xl font-elegant-sans font-light text-slate-700 leading-relaxed max-w-5xl mx-auto">
               전용주사기로 간단하게 지방을 추출하는 시술, 지방세포를 직접 제거하는 방식으로<br />
               지방세포의 수와 크기를 줄여주어 원하는 부위를 교정해<br />
               <span className="font-medium text-elegant-600">이상적인 라인을 만들어 주는 시술</span>입니다.
@@ -164,7 +165,7 @@ export default function SiloFatPage() {
           </div>
 
           {/* 5가지 장점 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
+          <div className="flex overflow-x-auto gap-4 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-6 mb-16 pb-4">
             {[
               { icon: '🕒', title: '짧은 시술 시간', desc: '빠르고 간편한 시술' },
               { icon: '🫀', title: '순수지방세포 추출 바로 확인', desc: '즉시 확인 가능' },
@@ -172,10 +173,10 @@ export default function SiloFatPage() {
               { icon: '💪', title: '불편한 압박복 NO!', desc: '압박복 착용 불필요' },
               { icon: '🧼', title: '비절개, 흉터 걱정 NO!', desc: '절개 없는 안전한 시술' }
             ].map((advantage, index) => (
-              <div key={index} className="text-center p-6 bg-gradient-to-br from-white to-teal-smoke-25 rounded-2xl shadow-lg border border-teal-smoke-200/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+              <div key={index} className="text-center p-6 bg-gradient-to-br from-white to-teal-smoke-25 rounded-2xl shadow-lg border border-teal-smoke-200/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-60 md:w-auto">
                 <div className="text-4xl mb-4">{advantage.icon}</div>
-                <h4 className="text-lg font-elegant font-bold text-teal-smoke-800 mb-3 leading-tight">{advantage.title}</h4>
-                <p className="text-sm font-elegant-sans font-light text-teal-smoke-600">{advantage.desc}</p>
+                <h4 className="text-lg font-elegant font-bold text-cyan-800 mb-3 leading-tight">{advantage.title}</h4>
+                <p className="text-sm font-elegant-sans font-light text-slate-600">{advantage.desc}</p>
               </div>
             ))}
           </div>
@@ -188,10 +189,10 @@ export default function SiloFatPage() {
       <div className="py-24 bg-gradient-to-b from-white to-teal-smoke-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-display font-light text-teal-smoke-700 mb-4">
+            <h2 className="text-3xl font-display font-light text-slate-700 mb-4">
               주사로 간단하게 쏙!
             </h2>
-            <h3 className="text-4xl lg:text-5xl font-display font-light text-teal-smoke-800 mb-6">
+            <h3 className="text-4xl lg:text-5xl font-display font-light text-cyan-800 mb-6">
               SILO-FAT 알아보기
             </h3>
             <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mx-auto"></div>
@@ -207,7 +208,7 @@ export default function SiloFatPage() {
                   onClick={() => toggleDropdown(item.id)}
                   className="w-full px-8 py-6 flex items-center justify-between hover:bg-teal-smoke-50 transition-colors"
                 >
-                  <span className="text-lg font-elegant font-medium text-teal-smoke-800">{item.title}</span>
+                  <span className="text-lg font-elegant font-medium text-cyan-800">{item.title}</span>
                   <ChevronDown
                     className={`w-5 h-5 text-teal-smoke-500 transition-transform duration-300 ${
                       openDropdown === item.id ? 'rotate-180' : ''
@@ -226,7 +227,7 @@ export default function SiloFatPage() {
                         <span className="inline-block px-4 py-2 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 text-white rounded-full text-sm font-elegant-sans font-medium">
                           {item.label}
                         </span>
-                        <p className="text-teal-smoke-700 whitespace-pre-line leading-relaxed font-elegant-sans font-light">
+                        <p className="text-slate-700 whitespace-pre-line leading-relaxed font-elegant-sans font-light">
                           {item.content}
                         </p>
                       </div>
@@ -252,10 +253,10 @@ export default function SiloFatPage() {
       <div className="py-24 bg-gradient-to-br from-teal-smoke-100 to-elegant-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-display font-light text-teal-smoke-800 mb-4">
+            <h2 className="text-4xl lg:text-5xl font-display font-light text-cyan-800 mb-4">
               PART
             </h2>
-            <h3 className="text-3xl font-display font-light text-teal-smoke-700 mb-6">
+            <h3 className="text-3xl font-display font-light text-slate-700 mb-6">
               실로팻 시술 부위
             </h3>
             <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mx-auto"></div>
@@ -295,14 +296,14 @@ export default function SiloFatPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4 flex-1">
                       <span className={`text-2xl font-display font-light ${
-                        selectedBodyPart === part.id ? 'text-teal-smoke-600' : 'text-teal-smoke-500'
+                        selectedBodyPart === part.id ? 'text-slate-600' : 'text-teal-smoke-500'
                       }`}>
                         CASE {part.id}
                       </span>
                       <p className={`text-lg font-elegant font-medium transition-colors ${
                         selectedBodyPart === part.id 
-                          ? 'text-teal-smoke-800' 
-                          : 'text-teal-smoke-700 group-hover:text-teal-smoke-900'
+                          ? 'text-cyan-800' 
+                          : 'text-slate-700 group-hover:text-teal-smoke-900'
                       }`}>
                         {part.name}
                       </p>
@@ -337,7 +338,13 @@ export default function SiloFatPage() {
       </div>
 
       {/* Online Consultation Section - Full Width */}
-      <section className="w-full bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500">
+      <StandardConsultationSection
+        title="실로팻 상담 예약"
+        description="실로팻에 대해 더 자세한 상담을 원하시나요? 전문 의료진이 맞춤형 상담을 도와드립니다"
+        initialProcedureId="silos-signature"
+      />
+
+      <section className="w-full bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500" style={{display: 'none'}}>
         <div className="w-full py-24 px-4 sm:px-6 lg:px-8 text-white">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
@@ -372,13 +379,13 @@ export default function SiloFatPage() {
               
               <div className="space-y-4">
                 <select className="w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white font-elegant-sans focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer">
-                  <option value="" className="text-teal-smoke-700">상담 부위 선택</option>
-                  <option value="부유방" className="text-teal-smoke-700">부유방</option>
-                  <option value="팔 라인" className="text-teal-smoke-700">팔 라인</option>
-                  <option value="복부" className="text-teal-smoke-700">복부</option>
-                  <option value="러브핸들" className="text-teal-smoke-700">러브핸들</option>
-                  <option value="종아리/허벅지" className="text-teal-smoke-700">종아리/허벅지</option>
-                  <option value="기타" className="text-teal-smoke-700">기타</option>
+                  <option value="" className="text-slate-700">상담 부위 선택</option>
+                  <option value="부유방" className="text-slate-700">부유방</option>
+                  <option value="팔 라인" className="text-slate-700">팔 라인</option>
+                  <option value="복부" className="text-slate-700">복부</option>
+                  <option value="러브핸들" className="text-slate-700">러브핸들</option>
+                  <option value="종아리/허벅지" className="text-slate-700">종아리/허벅지</option>
+                  <option value="기타" className="text-slate-700">기타</option>
                 </select>
                 <textarea
                   placeholder="상담 내용을 입력해주세요"
@@ -389,7 +396,7 @@ export default function SiloFatPage() {
             </div>
             
             <div className="mt-8 text-center">
-              <button className="px-12 py-4 bg-white text-teal-smoke-700 rounded-xl font-elegant-sans font-medium text-lg hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <button className="px-12 py-4 bg-white text-slate-700 rounded-xl font-elegant-sans font-medium text-lg hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl">
                 상담 신청하기
               </button>
             </div>

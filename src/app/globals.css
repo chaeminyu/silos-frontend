@@ -51,6 +51,11 @@
   html {
     @apply scroll-smooth;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    scroll-behavior: smooth;
+  }
+  
+  * {
+    scroll-behavior: smooth;
   }
   
   body {
@@ -126,17 +131,74 @@
     @apply border-red-300 focus:ring-red-400;
   }
   
-  /* 텍스트 스타일 */
+  /* 텍스트 스타일 - Improved for consistency and readability */
   .text-heading {
-    @apply text-gray-900 font-semibold;
+    @apply text-slate-800 font-semibold;
   }
-  
+
+  .text-heading-primary {
+    @apply text-cyan-800 font-semibold;
+  }
+
+  .text-heading-light {
+    @apply text-slate-700 font-medium;
+  }
+
   .text-body {
-    @apply text-gray-700 leading-relaxed;
+    @apply text-slate-700 leading-relaxed;
   }
-  
+
+  .text-body-light {
+    @apply text-slate-600 leading-relaxed;
+  }
+
   .text-muted {
-    @apply text-gray-500;
+    @apply text-slate-500;
+  }
+
+  .text-accent {
+    @apply text-cyan-700;
+  }
+
+  .text-accent-light {
+    @apply text-teal-smoke-600;
+  }
+
+  /* Consistent text colors for different backgrounds */
+  .text-on-glass {
+    @apply text-slate-800;
+  }
+
+  .text-on-glass-light {
+    @apply text-slate-700;
+  }
+
+  .text-on-glass-muted {
+    @apply text-slate-600;
+  }
+
+  .text-on-white {
+    @apply text-slate-800;
+  }
+
+  .text-on-white-light {
+    @apply text-slate-700;
+  }
+
+  .text-on-white-muted {
+    @apply text-slate-600;
+  }
+
+  .text-on-teal {
+    @apply text-white;
+  }
+
+  .text-on-teal-light {
+    @apply text-white/90;
+  }
+
+  .text-on-teal-muted {
+    @apply text-white/80;
   }
   
   /* 그라데이션 배경 */
@@ -190,6 +252,10 @@
     animation: smoothDropdown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   
+  .animate-fadeIn {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+  
   /* 트랜지션 유틸리티 */
   .transition-smooth {
     @apply transition-all duration-300 ease-in-out;
@@ -197,6 +263,15 @@
   
   .transition-fast {
     @apply transition-all duration-150 ease-in-out;
+  }
+  
+  .transition-ultra-smooth {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* 모든 인터랙티브 요소에 스무스 트랜지션 적용 */
+  a, button, .hover\:, .group:hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   /* 그림자 유틸리티 */
@@ -208,10 +283,143 @@
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
   }
   
-  /* 백드롭 필터 */
+  /* Glass-like 효과 - 강화된 백드롭 필터 */
   .backdrop-blur-light {
     backdrop-filter: blur(8px) saturate(150%);
     background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(105, 197, 204, 0.15);
+  }
+  
+  .glass-effect-strong {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(105, 197, 204, 0.2);
+  }
+  
+  .glass-effect-light {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px) saturate(150%);
+    -webkit-backdrop-filter: blur(5px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px 0 rgba(105, 197, 204, 0.1);
+  }
+  
+  .glass-effect-colored {
+    background: linear-gradient(135deg, rgba(105, 197, 204, 0.1) 0%, rgba(255, 255, 255, 0.25) 100%);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(105, 197, 204, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(105, 197, 204, 0.15);
+  }
+
+  /* Advanced Glass Drop Effects for Consultation Sections */
+  .glass-consultation-container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    box-shadow: 
+      0 8px 32px 0 rgba(105, 197, 204, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.40),
+      0 0 80px 0 rgba(105, 197, 204, 0.10);
+  }
+
+  .glass-consultation-form {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.40);
+    box-shadow: 
+      0 4px 16px 0 rgba(255, 255, 255, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.30);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-consultation-form:hover {
+    background: rgba(255, 255, 255, 0.20);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    box-shadow: 
+      0 8px 32px 0 rgba(255, 255, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.40),
+      0 0 40px 0 rgba(105, 197, 204, 0.15);
+  }
+
+  .glass-consultation-form:focus-within {
+    background: rgba(255, 255, 255, 0.20);
+    border: 1px solid rgba(255, 255, 255, 0.60);
+    box-shadow: 
+      0 12px 48px 0 rgba(255, 255, 255, 0.20),
+      inset 0 1px 0 rgba(255, 255, 255, 0.50),
+      0 0 60px 0 rgba(105, 197, 204, 0.20);
+  }
+
+  .glass-consultation-button {
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    box-shadow: 
+      0 4px 20px 0 rgba(255, 255, 255, 0.30),
+      inset 0 1px 0 rgba(255, 255, 255, 0.60);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-consultation-button:hover {
+    background: rgba(255, 255, 255, 1.0);
+    transform: scale(1.02);
+    box-shadow: 
+      0 8px 40px 0 rgba(255, 255, 255, 0.40),
+      inset 0 1px 0 rgba(255, 255, 255, 0.70),
+      0 0 20px 0 rgba(105, 197, 204, 0.20);
+  }
+
+  .glass-background-decoration {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(40px) saturate(120%);
+    -webkit-backdrop-filter: blur(40px) saturate(120%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Glass floating elements */
+  .glass-floating-element {
+    background: rgba(255, 255, 255, 0.20);
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    box-shadow: 0 2px 8px 0 rgba(255, 255, 255, 0.10);
+  }
+
+  /* Glass gradient overlay */
+  .glass-gradient-overlay {
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.10) 0%, 
+      transparent 50%, 
+      rgba(255, 255, 255, 0.05) 100%);
+  }
+
+  /* Responsive glass effects */
+  @media (max-width: 768px) {
+    .glass-consultation-container {
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+    }
+    
+    .glass-consultation-form {
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+    }
   }
   
   /* 모바일 터치 최적화 */
@@ -285,18 +493,28 @@
 @keyframes ultraSmoothDropdown {
   0% {
     opacity: 0;
-    transform: translateY(-15px) scale(0.92) rotateX(-10deg);
-    filter: blur(1px);
+    transform: translateY(-12px) scale(0.95);
+    filter: blur(0.5px);
+  }
+  20% {
+    opacity: 0.3;
+    transform: translateY(-8px) scale(0.97);
+    filter: blur(0.3px);
   }
   40% {
     opacity: 0.6;
-    transform: translateY(-6px) scale(0.96) rotateX(-3deg);
-    filter: blur(0.5px);
-  }
-  70% {
-    opacity: 0.9;
-    transform: translateY(-2px) scale(0.99) rotateX(-1deg);
+    transform: translateY(-5px) scale(0.98);
     filter: blur(0.2px);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(-3px) scale(0.99);
+    filter: blur(0.1px);
+  }
+  80% {
+    opacity: 0.95;
+    transform: translateY(-1px) scale(0.998);
+    filter: blur(0.05px);
   }
   100% {
     opacity: 1;
@@ -313,6 +531,17 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -378,130 +607,130 @@
   transform: translateZ(-40px);
 }
 
-/* Ultra-smooth gradient animations for slider */
+/* Ultra-smooth gradient animations for slider - Calm Teal theme */
 @keyframes tealSmokeFlow {
   0% { 
-    background: linear-gradient(135deg, #f0f9f9 0%, #e1f2f2 30%, #b4cdcd 70%, #c3e6e6 100%);
+    background: linear-gradient(135deg, #f0f9fa 0%, #d9eff1 30%, #69C5CC 70%, #b3dfe3 100%);
   }
   6.25% { 
-    background: linear-gradient(135deg, #e8f6f6 0%, #d4ebeb 30%, #a8c0c0 70%, #b1c7c7 100%);
+    background: linear-gradient(135deg, #e8f4f5 0%, #d4ecee 30%, #8fd1d6 70%, #a1d5da 100%);
   }
   12.5% { 
-    background: linear-gradient(135deg, #e1f2f2 0%, #c3e6e6 30%, #8eb8b8 70%, #9fc1c1 100%);
+    background: linear-gradient(135deg, #e1f0f2 0%, #c3e5e8 30%, #7ec9d0 70%, #9fd2d7 100%);
   }
   18.75% { 
-    background: linear-gradient(135deg, #d9eeee 0%, #b8dddd 30%, #7aacac 70%, #8db9b9 100%);
+    background: linear-gradient(135deg, #d9ecee 0%, #b8dfe2 30%, #7ac5cc 70%, #8dccd2 100%);
   }
   25% { 
-    background: linear-gradient(135deg, #c3e6e6 0%, #b4cdcd 30%, #6aa3a3 70%, #7bb0b0 100%);
+    background: linear-gradient(135deg, #c3e5e8 0%, #69C5CC 30%, #5cb7bf 70%, #7bc5cb 100%);
   }
   31.25% { 
-    background: linear-gradient(135deg, #bce2e2 0%, #a5c5c5 30%, #5e9a9a 70%, #6ba7a7 100%);
+    background: linear-gradient(135deg, #bce1e4 0%, #a5d6da 30%, #5eb5bc 70%, #6bbfc5 100%);
   }
   37.5% { 
-    background: linear-gradient(135deg, #b4cdcd 0%, #8eb8b8 30%, #558888 70%, #689e9e 100%);
+    background: linear-gradient(135deg, #69C5CC 0%, #8fd1d6 30%, #45a2aa 70%, #68bdc3 100%);
   }
   43.75% { 
-    background: linear-gradient(135deg, #a7c3c3 0%, #81aeae 30%, #4e7f7f 70%, #5d9595 100%);
+    background: linear-gradient(135deg, #a7d9dd 0%, #81ccd2 30%, #4e9fa7 70%, #5db7be 100%);
   }
   50% { 
-    background: linear-gradient(135deg, #8eb8b8 0%, #6aa3a3 30%, #446d6d 70%, #528c8c 100%);
+    background: linear-gradient(135deg, #8fd1d6 0%, #69C5CC 30%, #7ACDD3 70%, #8BD5DA 100%);
   }
   56.25% { 
-    background: linear-gradient(135deg, #7daaaa 0%, #5d9595 30%, #3b6666 70%, #478383 100%);
+    background: linear-gradient(135deg, #7dc8cf 0%, #69C5CC 30%, #7ACDD3 70%, #88CCD3 100%);
   }
   62.5% { 
-    background: linear-gradient(135deg, #6aa3a3 0%, #558888 30%, #335252 70%, #3c7a7a 100%);
+    background: linear-gradient(135deg, #69C5CC 0%, #7ACDD3 30%, #8BD5DA 70%, #9CDDE1 100%);
   }
   68.75% { 
-    background: linear-gradient(135deg, #5c9494 0%, #487777 30%, #2e4b4b 70%, #357171 100%);
+    background: linear-gradient(135deg, #7ACDD3 0%, #69C5CC 30%, #8BD5DA 70%, #95D2D8 100%);
   }
   75% { 
-    background: linear-gradient(135deg, #558888 0%, #446d6d 30%, #223737 70%, #2e6868 100%);
+    background: linear-gradient(135deg, #69C5CC 0%, #7ACDD3 30%, #8BD5DA 70%, #9CDDE1 100%);
   }
   81.25% { 
-    background: linear-gradient(135deg, #4e7b7b 0%, #3d6060 30%, #1f3434 70%, #2a5f5f 100%);
+    background: linear-gradient(135deg, #7ACDD3 0%, #69C5CC 30%, #8BD5DA 70%, #ADE5E8 100%);
   }
   87.5% { 
-    background: linear-gradient(135deg, #446d6d 0%, #335252 30%, #e8eded 70%, #d8e5e5 100%);
+    background: linear-gradient(135deg, #69C5CC 0%, #7ACDD3 30%, #e8f5f7 70%, #d8eff1 100%);
   }
   93.75% { 
-    background: linear-gradient(135deg, #6e8585 0%, #859999 30%, #eef4f4 70%, #e4efef 100%);
+    background: linear-gradient(135deg, #6ec3ca 0%, #85cfd5 30%, #eef7f8 70%, #e4f3f5 100%);
   }
   100% { 
-    background: linear-gradient(135deg, #f0f9f9 0%, #e1f2f2 30%, #b4cdcd 70%, #c3e6e6 100%);
+    background: linear-gradient(135deg, #f0f9fa 0%, #d9eff1 30%, #69C5CC 70%, #b3dfe3 100%);
   }
 }
 
 @keyframes elegantFlow {
   0% { 
-    background: linear-gradient(135deg, #fafbfb 0%, #f5f7f7 25%, #dbe3e3 75%, #e8eded 100%);
+    background: linear-gradient(135deg, #f5fbfc 0%, #e8f5f7 25%, #a9d7dc 75%, #d1eaed 100%);
   }
   5% { 
-    background: linear-gradient(135deg, #f7f9f9 0%, #f1f4f4 25%, #d2dadf 75%, #dfe6e6 100%);
+    background: linear-gradient(135deg, #f3fafb 0%, #e5f3f5 25%, #a2d3d8 75%, #cde8eb 100%);
   }
   10% { 
-    background: linear-gradient(135deg, #f5f7f7 0%, #e8eded 25%, #c1d0d0 75%, #d4e0e0 100%);
+    background: linear-gradient(135deg, #e8f5f7 0%, #d1eaed 25%, #7bbfc6 75%, #b4dce0 100%);
   }
   15% { 
-    background: linear-gradient(135deg, #f2f5f5 0%, #dfe5e5 25%, #b8c8c8 75%, #c9d6d6 100%);
+    background: linear-gradient(135deg, #e2f2f4 0%, #c6e6e9 25%, #78bbc2 75%, #a9d6db 100%);
   }
   20% { 
-    background: linear-gradient(135deg, #e8eded 0%, #dbe3e3 25%, #a7bdbd 75%, #bccbcb 100%);
+    background: linear-gradient(135deg, #d1eaed 0%, #a9d7dc 25%, #5ba6ae 75%, #9ccfd5 100%);
   }
   25% { 
-    background: linear-gradient(135deg, #e3eaea 0%, #d3dbdb 25%, #9eb6b6 75%, #b1c2c2 100%);
+    background: linear-gradient(135deg, #d3ebee 0%, #abd8dd 25%, #6eafb7 75%, #91c9d0 100%);
   }
   30% { 
-    background: linear-gradient(135deg, #dbe3e3 0%, #c1d0d0 25%, #8daaaa 75%, #a4b7b7 100%);
+    background: linear-gradient(135deg, #a9d7dc 0%, #7bbfc6 25%, #478a93 75%, #84c2c9 100%);
   }
   35% { 
-    background: linear-gradient(135deg, #d6dede 0%, #b7c7c7 25%, #84a1a1 75%, #99adad 100%);
+    background: linear-gradient(135deg, #b6dce1 0%, #87c4ca 25%, #54919a 75%, #79bbc2 100%);
   }
   40% { 
-    background: linear-gradient(135deg, #c1d0d0 0%, #a7bdbd 25%, #739797 75%, #8ca3a3 100%);
+    background: linear-gradient(135deg, #7bbfc6 0%, #5ba6ae 25%, #3b7078 75%, #6cb4bb 100%);
   }
   45% { 
-    background: linear-gradient(135deg, #b9c8c8 0%, #9fb5b5 25%, #6a9090 75%, #819999 100%);
+    background: linear-gradient(135deg, #89c5cb 0%, #6fafb7 25%, #4a7d85 75%, #61adb4 100%);
   }
   50% { 
-    background: linear-gradient(135deg, #a7bdbd 0%, #8daaaa 25%, #597a7a 75%, #748f8f 100%);
+    background: linear-gradient(135deg, #95D2D8 0%, #88CCD3 25%, #69C5CC 75%, #7ACDD3 100%);
   }
   55% { 
-    background: linear-gradient(135deg, #9fb5b5 0%, #83a0a0 25%, #537373 75%, #698585 100%);
+    background: linear-gradient(135deg, #88CCD3 0%, #7ACDD3 25%, #69C5CC 75%, #8BD5DA 100%);
   }
   60% { 
-    background: linear-gradient(135deg, #8daaaa 0%, #739797 25%, #3f5d5d 75%, #5c7b7b 100%);
+    background: linear-gradient(135deg, #7ACDD3 0%, #69C5CC 25%, #7ACDD3 75%, #95D2D8 100%);
   }
   65% { 
-    background: linear-gradient(135deg, #85a2a2 0%, #6b8e8e 25%, #3a5656 75%, #537171 100%);
+    background: linear-gradient(135deg, #88CCD3 0%, #69C5CC 25%, #7ACDD3 75%, #A2D8DD 100%);
   }
   70% { 
-    background: linear-gradient(135deg, #739797 0%, #597a7a 25%, #fafbfb 75%, #e8f0f0 100%);
+    background: linear-gradient(135deg, #69C5CC 0%, #7ACDD3 25%, #f5fbfc 75%, #e8f5f7 100%);
   }
   75% { 
-    background: linear-gradient(135deg, #7c9494 0%, #8aa3a3 25%, #f7f8f8 75%, #eef3f3 100%);
+    background: linear-gradient(135deg, #5c9da4 0%, #6aa8af 25%, #f3fafb 75%, #eef6f8 100%);
   }
   80% { 
-    background: linear-gradient(135deg, #8a9f9f 0%, #a7b5b5 25%, #f3f5f5 75%, #f1f4f4 100%);
+    background: linear-gradient(135deg, #6aacb3 0%, #87bcc2 25%, #f0f8f9 75%, #e9f4f6 100%);
   }
   85% { 
-    background: linear-gradient(135deg, #9aabab 0%, #c1c9c9 25%, #f0f2f2 75%, #f4f6f6 100%);
+    background: linear-gradient(135deg, #7ab8bf 0%, #a1ccd1 25%, #edf6f7 75%, #e4f2f4 100%);
   }
   90% { 
-    background: linear-gradient(135deg, #b5c2c2 0%, #d8dede 25%, #eeefef 75%, #f7f8f8 100%);
+    background: linear-gradient(135deg, #95c6cb 0%, #b8dade 25%, #eaf5f6 75%, #dff0f2 100%);
   }
   95% { 
-    background: linear-gradient(135deg, #d5dbdb 0%, #e9eeee 25%, #ecf1f1 75%, #f9fafa 100%);
+    background: linear-gradient(135deg, #b5d7db 0%, #d9e9eb 25%, #e7f3f4 75%, #daeef0 100%);
   }
   100% { 
-    background: linear-gradient(135deg, #fafbfb 0%, #f5f7f7 25%, #dbe3e3 75%, #e8eded 100%);
+    background: linear-gradient(135deg, #f5fbfc 0%, #e8f5f7 25%, #a9d7dc 75%, #d1eaed 100%);
   }
 }
 
-/* Ultra-smooth 32-keyframe animation */
+/* Ultra-smooth 32-keyframe animation - Soft Cyan theme */
 @keyframes silkFlow {
-  0% { background: linear-gradient(135deg, #f0f9f9 0%, #e8f6f6 25%, #e1f2f2 50%, #d9eeee 75%, #c3e6e6 100%); }
+  0% { background: linear-gradient(135deg, #f5ffff 0%, #e8ffff 25%, #e1ffff 50%, #d9ffff 75%, #B2FFFF 100%); }
   3.125% { background: linear-gradient(135deg, #edf8f8 0%, #e5f4f4 25%, #ddf0f0 50%, #d5ecec 75%, #bfe4e4 100%); }
   6.25% { background: linear-gradient(135deg, #eaf7f7 0%, #e2f3f3 25%, #daeeee 50%, #d2eaea 75%, #bbe2e2 100%); }
   9.375% { background: linear-gradient(135deg, #e7f5f5 0%, #dff1f1 25%, #d7eded 50%, #cee8e8 75%, #b7e0e0 100%); }
@@ -537,11 +766,13 @@
 }
 
 .animate-gradient-flow {
-  animation: silkFlow 80s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+  animation: tealSmokeFlow 120s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transition: all 0.5s ease-in-out;
 }
 
 .animate-elegant-flow {
-  animation: elegantFlow 90s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+  animation: elegantFlow 150s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transition: all 0.5s ease-in-out;
 }
 
 /* 인쇄 스타일 */
