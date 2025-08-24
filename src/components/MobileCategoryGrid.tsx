@@ -172,6 +172,7 @@ export default function MobileCategoryGrid() {
       window.addEventListener('scroll', handleScroll, { passive: true });
       return () => window.removeEventListener('scroll', handleScroll);
     }
+    return undefined;
   }, [expandedCategory]);
 
   const toggleCategory = (categoryId: number, event?: React.MouseEvent) => {
