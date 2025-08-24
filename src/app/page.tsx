@@ -208,6 +208,31 @@ export default function HomePage() {
           <MobileCategoryGrid />
         </div>
         
+        {/* 가이드 배너 */}
+        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-6 bg-gradient-to-r from-cyan-600 via-blue-600 to-cyan-700 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-center sm:text-left">
+                <h3 className="text-lg font-display font-medium text-white mb-1">
+                  실로스 홈페이지 이용 방법
+                </h3>
+                <p className="text-sm font-elegant-sans text-cyan-100">
+                  점검용으로 웹페이지 둘러보실 때 보세요!
+                </p>
+              </div>
+              <a
+                href="/guide"
+                className="inline-flex items-center px-6 py-3 bg-white text-cyan-700 rounded-xl font-elegant-sans font-medium hover:bg-cyan-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 relative z-50"
+              >
+                가이드 보기
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
         {/* 실로스 소개 섹션 - 모바일/PC 모두 표시 */}
         <section id="about" className="w-full py-24 bg-gradient-to-br from-teal-smoke-50 via-white to-elegant-100">
           <div className="w-full">
