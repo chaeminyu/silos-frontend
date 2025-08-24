@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
+import StandardConsultationSection from '../../../components/StandardConsultationSection';
 import { Droplets, Clock, ShoppingCart, Check } from 'lucide-react';
 import { useCart } from '../../../contexts/CartContext';
 
@@ -179,10 +180,10 @@ export default function SkinLiftingPage() {
           {/* 탭 네비게이션 */}
           <div className="mb-16">
             <div className="text-center mb-12">
-              <h3 className="text-3xl font-display font-light text-teal-smoke-800 mb-4">
+              <h3 className="text-3xl font-display font-light text-slate-800 mb-4">
                 TREATMENTS
               </h3>
-              <h4 className="text-2xl font-elegant font-light text-elegant-600 mb-6">
+              <h4 className="text-2xl font-elegant font-light text-slate-700 mb-6">
                 피부 리프팅 시술
               </h4>
               <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto"></div>
@@ -197,7 +198,7 @@ export default function SkinLiftingPage() {
                   className={`px-6 py-3 rounded-xl font-elegant-sans font-medium transition-all duration-300 ${
                     activeTab === procedure.id
                       ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
-                      : 'bg-white text-teal-smoke-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
+                      : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
                   }`}
                 >
                   {procedure.title}
@@ -224,11 +225,11 @@ export default function SkinLiftingPage() {
                   <div className="space-y-12">
                     {/* 메인 타이틀 및 설명 */}
                     <div className="text-center">
-                      <h2 className="text-3xl lg:text-4xl font-display font-bold text-teal-smoke-800 mb-8 leading-tight">
+                      <h2 className="text-3xl lg:text-4xl font-display font-bold text-slate-800 mb-8 leading-tight">
                         {activeProcedure.mainTitle}
                       </h2>
                       <div className="w-32 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
-                      <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed max-w-4xl mx-auto">
+                      <p className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed max-w-4xl mx-auto">
                         {activeProcedure.mainDescription}
                       </p>
                     </div>
@@ -237,14 +238,14 @@ export default function SkinLiftingPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                       {/* 왼쪽: 시술 효과 박스 */}
                       <div className="bg-gradient-to-br from-teal-smoke-50 to-elegant-50 rounded-2xl p-8">
-                        <h3 className="text-2xl font-elegant font-bold text-teal-smoke-800 mb-6 text-center">시술 효과</h3>
+                        <h3 className="text-2xl font-elegant font-bold text-slate-800 mb-6 text-center">시술 효과</h3>
                         <div className="space-y-4">
                           {activeProcedure.benefits?.map((benefit, i) => (
                             <div key={i} className="flex items-center space-x-4">
                               <div className="w-8 h-8 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full flex items-center justify-center flex-shrink-0">
                                 <span className="text-white font-bold text-sm">{i + 1}</span>
                               </div>
-                              <p className="text-lg font-elegant-sans font-medium text-teal-smoke-700">{benefit}</p>
+                              <p className="text-lg font-elegant-sans font-medium text-slate-700">{benefit}</p>
                             </div>
                           ))}
                         </div>
@@ -262,10 +263,10 @@ export default function SkinLiftingPage() {
 
                     {/* 실로스만의 차별화 섹션 */}
                     <div className="text-center">
-                      <h3 className="text-2xl font-elegant font-bold text-teal-smoke-800 mb-6">{activeProcedure.differentiator}</h3>
+                      <h3 className="text-2xl font-elegant font-bold text-slate-800 mb-6">{activeProcedure.differentiator}</h3>
                       <div className="space-y-4 max-w-3xl mx-auto">
                         {activeProcedure.differentiatorDescription?.map((desc, i) => (
-                          <p key={i} className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed">
+                          <p key={i} className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed">
                             {desc}
                           </p>
                         ))}
@@ -285,7 +286,7 @@ export default function SkinLiftingPage() {
                       
                       {/* 오른쪽: 추가 정보 */}
                       <div>
-                        <p className="text-lg font-elegant-sans font-medium text-teal-smoke-700 leading-relaxed whitespace-pre-line">
+                        <p className="text-lg font-elegant-sans font-medium text-slate-700 leading-relaxed whitespace-pre-line">
                           {activeProcedure.additionalInfo}
                         </p>
                       </div>
@@ -304,8 +305,8 @@ export default function SkinLiftingPage() {
                       
                       {/* 오른쪽: 연령별 콜라겐 감소 정보 */}
                       <div>
-                        <h3 className="text-xl font-elegant font-bold text-teal-smoke-800 mb-4">{activeProcedure.ageInfo?.title}</h3>
-                        <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed">
+                        <h3 className="text-xl font-elegant font-bold text-slate-800 mb-4">{activeProcedure.ageInfo?.title}</h3>
+                        <p className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed">
                           {activeProcedure.ageInfo?.description}
                         </p>
                       </div>
@@ -345,7 +346,7 @@ export default function SkinLiftingPage() {
                         {activeProcedure.description.map((desc, i) => (
                           <div key={i} className="flex items-start space-x-4">
                             <div className="w-2 h-2 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mt-3 flex-shrink-0"></div>
-                            <p className="text-lg text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                            <p className="text-lg text-slate-700 font-elegant-sans font-light leading-relaxed">
                               {desc}
                             </p>
                           </div>
@@ -355,7 +356,7 @@ export default function SkinLiftingPage() {
                       {/* 특징 배지들 */}
                       <div className="flex flex-wrap gap-4 mb-8">
                         {activeProcedure.features.map((feature, i) => (
-                          <div key={i} className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-teal-smoke-800 border-2 border-teal-smoke-200 shadow-lg">
+                          <div key={i} className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-slate-700 border-2 border-teal-smoke-200 shadow-lg">
                             <Droplets className="w-4 h-4 mr-2" />
                             {feature}
                           </div>
@@ -364,11 +365,11 @@ export default function SkinLiftingPage() {
 
                       {/* 시술시간 및 카테고리 */}
                       <div className="flex items-center space-x-4">
-                        <div className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-elegant-200 to-teal-smoke-200 text-teal-smoke-800 border-2 border-elegant-300 shadow-lg">
+                        <div className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-elegant-200 to-teal-smoke-200 text-slate-700 border-2 border-elegant-300 shadow-lg">
                           <Clock className="w-4 h-4 mr-2" />
                           {activeProcedure.duration}
                         </div>
-                        <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-elegant-sans font-bold bg-gray-200 text-gray-700 border border-gray-300">
+                        <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-elegant-sans font-bold bg-gray-200 text-slate-800 border border-gray-300">
                           {activeProcedure.category}
                         </div>
                       </div>
@@ -377,8 +378,8 @@ export default function SkinLiftingPage() {
                     {/* 이미지 및 장바구니 (1/3) */}
                     <div className="flex flex-col items-center justify-between">
                       <div className="w-full h-64 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl border-2 border-teal-smoke-200/30 flex items-center justify-center mb-8 shadow-lg">
-                        <div className="text-center text-teal-smoke-400">
-                          <Droplets className="w-20 h-20 mx-auto mb-4" />
+                        <div className="text-center text-slate-700">
+                          <Droplets className="w-20 h-20 mx-auto mb-4 text-slate-600" />
                           <p className="font-elegant-sans font-medium">
                             {activeProcedure.title}
                           </p>
@@ -414,27 +415,15 @@ export default function SkinLiftingPage() {
             </div>
           </div>
 
-          {/* 전체 상담 신청 섹션 */}
-          <div className="text-center">
-            <div className="bg-gradient-to-br from-white/80 to-teal-smoke-50/80 backdrop-blur-sm rounded-3xl p-12 shadow-2xl border border-white/50">
-              <h3 className="text-3xl lg:text-4xl font-display font-bold text-teal-smoke-800 mb-6">
-                피부 리프팅 상담 신청
-              </h3>
-              <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
-              <p className="text-xl font-elegant-sans font-medium text-teal-smoke-700 mb-10">
-                나에게 가장 적합한 피부 리프팅을 찾아보세요
-              </p>
-              <a
-                href="/consultation/request"
-                className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-xl font-elegant-sans font-bold text-lg hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 space-x-3"
-              >
-                <ShoppingCart className="w-6 h-6" />
-                <span>전체 상담 신청하기</span>
-              </a>
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* 표준화된 상담 섹션 */}
+      <StandardConsultationSection
+        title="피부 리프팅 상담 신청"
+        description="나에게 가장 적합한 피부 리프팅을 찾아보세요"
+        initialProcedureId="skin-lifting"
+      />
     </PageLayout>
   );
 }

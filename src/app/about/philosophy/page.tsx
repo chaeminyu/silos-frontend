@@ -75,7 +75,7 @@ export default function PhilosophyPage() {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
           <div className="text-center text-white">
-            <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-sm font-elegant-sans font-medium mb-8 border border-white/30">
+            <div className="inline-flex items-center px-6 py-3 glass-effect rounded-full text-sm font-elegant-sans font-medium mb-8 border border-white/30">
               <Award className="w-4 h-4 mr-2" />
               About SILOS Philosophy
             </div>
@@ -96,20 +96,20 @@ export default function PhilosophyPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* 첫 번째 소개 섹션 */}
           <div className="mb-32">
-            <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/50">
+            <div className="glass-effect rounded-3xl p-12 shadow-xl border border-white/50">
               <div className="text-center mb-12">
-                <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-smoke-200 to-elegant-200 rounded-full text-sm font-elegant-sans font-medium mb-8 text-teal-smoke-700">
+                <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-smoke-200 to-elegant-200 rounded-full text-sm font-elegant-sans font-medium mb-8 text-slate-700">
                   <Heart className="w-4 h-4 mr-2" />
                   Our Passion
                 </div>
-                <h2 className="text-4xl lg:text-5xl font-display font-light text-teal-smoke-800 mb-8 tracking-wide">
+                <h2 className="text-4xl lg:text-5xl font-display font-light text-cyan-800 mb-8 tracking-wide">
                   SILOS 실로스, 리프팅에 진심을 담다
                 </h2>
                 <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mx-auto mb-12"></div>
               </div>
               
               <div className="max-w-4xl mx-auto text-center">
-                <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed whitespace-pre-line">
+                <p className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed whitespace-pre-line">
                   수년간 리프팅 한 길을 연구하고,
                   수많은 임상 데이터를 쌓아온 실로스는
                   단순한 시술이 아닌, 얼굴의 흐름과 삶의 변화까지 고민해왔습니다.
@@ -126,18 +126,18 @@ export default function PhilosophyPage() {
           <div className="mb-32">
             <div className="bg-gradient-to-br from-elegant-50 to-teal-smoke-50 rounded-3xl p-12 shadow-xl border border-teal-smoke-200/30">
               <div className="text-center mb-12">
-                <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-elegant-200 to-teal-smoke-200 rounded-full text-sm font-elegant-sans font-medium mb-8 text-teal-smoke-700">
+                <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-elegant-200 to-teal-smoke-200 rounded-full text-sm font-elegant-sans font-medium mb-8 text-slate-700">
                   <Search className="w-4 h-4 mr-2" />
                   Understanding You
                 </div>
-                <h2 className="text-4xl lg:text-5xl font-display font-light text-teal-smoke-800 mb-8 tracking-wide">
+                <h2 className="text-4xl lg:text-5xl font-display font-light text-cyan-800 mb-8 tracking-wide">
                   SILOS 실로스, 얼굴의 흐름을 이해하다
                 </h2>
                 <div className="w-24 h-1 bg-gradient-to-r from-elegant-300 to-teal-smoke-300 rounded-full mx-auto mb-12"></div>
               </div>
               
               <div className="max-w-4xl mx-auto text-center">
-                <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed whitespace-pre-line">
+                <p className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed whitespace-pre-line">
                   세상에 똑같은 피부란 게 있을까요?
                   똑같은 치료를 받아도 효과가 다른 이유.
                   원인이 다르기 때문입니다.
@@ -196,7 +196,7 @@ export default function PhilosophyPage() {
                             <div className={`w-24 h-24 bg-${section.accentColor} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl`}>
                               <IconComponent className="w-12 h-12 text-white" />
                             </div>
-                            <p className="text-teal-smoke-700 font-elegant-sans font-light text-sm">
+                            <p className="text-slate-700 font-elegant-sans font-light text-sm">
                               이미지를 추가해주세요
                             </p>
                             <p className="text-teal-smoke-500 font-elegant-sans font-light text-xs mt-1">
@@ -221,19 +221,19 @@ export default function PhilosophyPage() {
                           <IconComponent className="w-6 h-6 text-white" />
                         </div>
                         <div className={`px-4 py-2 bg-gradient-to-r ${section.color} rounded-full`}>
-                          <span className="text-teal-smoke-700 font-elegant-sans font-medium text-sm">
+                          <span className="text-slate-700 font-elegant-sans font-medium text-sm">
                             0{section.id}
                           </span>
                         </div>
                       </div>
                       
-                      <h2 className="text-3xl lg:text-4xl font-display font-light text-teal-smoke-800 mb-8 leading-tight tracking-wide whitespace-pre-line">
+                      <h2 className="text-3xl lg:text-4xl font-display font-light text-cyan-800 mb-8 leading-tight tracking-wide whitespace-pre-line">
                         {section.title}
                       </h2>
                       
                       <div className="w-16 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mb-8"></div>
                       
-                      <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed">
+                      <p className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed">
                         {section.description}
                       </p>
                     </div>
@@ -257,9 +257,9 @@ export default function PhilosophyPage() {
       {/* 핵심 가치 섹션 */}
       <div className="bg-gradient-to-br from-teal-smoke-100 via-elegant-100 to-teal-smoke-200 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/50">
+          <div className="glass-effect rounded-3xl p-12 shadow-xl border border-white/50">
             <div className="text-center mb-12">
-              <h3 className="text-4xl font-display font-light text-teal-smoke-800 mb-6">
+              <h3 className="text-4xl font-display font-light text-cyan-800 mb-6">
                 SILOS 실로스, 핵심 가치를 말하다
               </h3>
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mx-auto"></div>
@@ -272,8 +272,8 @@ export default function PhilosophyPage() {
                     <Heart className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-elegant font-medium text-teal-smoke-800 mb-3">환자 중심</h4>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                    <h4 className="text-xl font-elegant font-medium text-cyan-800 mb-3">환자 중심</h4>
+                    <p className="text-slate-700 font-elegant-sans font-light leading-relaxed">
                       모든 결정과 행동의 중심에 환자를 두고, 환자의 만족을 최우선으로 합니다.
                     </p>
                   </div>
@@ -284,8 +284,8 @@ export default function PhilosophyPage() {
                     <Award className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-elegant font-medium text-teal-smoke-800 mb-3">전문성</h4>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                    <h4 className="text-xl font-elegant font-medium text-cyan-800 mb-3">전문성</h4>
+                    <p className="text-slate-700 font-elegant-sans font-light leading-relaxed">
                       지속적인 교육과 연구를 통해 최고의 의료 서비스를 제공합니다.
                     </p>
                   </div>
@@ -298,8 +298,8 @@ export default function PhilosophyPage() {
                     <Shield className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-elegant font-medium text-teal-smoke-800 mb-3">신뢰와 정직</h4>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                    <h4 className="text-xl font-elegant font-medium text-cyan-800 mb-3">신뢰와 정직</h4>
+                    <p className="text-slate-700 font-elegant-sans font-light leading-relaxed">
                       투명한 정보 제공과 정직한 상담으로 환자의 신뢰를 얻습니다.
                     </p>
                   </div>
@@ -310,8 +310,8 @@ export default function PhilosophyPage() {
                     <Lightbulb className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-elegant font-medium text-teal-smoke-800 mb-3">혁신</h4>
-                    <p className="text-teal-smoke-700 font-elegant-sans font-light leading-relaxed">
+                    <h4 className="text-xl font-elegant font-medium text-cyan-800 mb-3">혁신</h4>
+                    <p className="text-slate-700 font-elegant-sans font-light leading-relaxed">
                       최신 의료 기술과 트렌드를 반영하여 지속적으로 발전합니다.
                     </p>
                   </div>
@@ -320,7 +320,7 @@ export default function PhilosophyPage() {
             </div>
 
             <div className="text-center pt-8 border-t border-teal-smoke-200/50">
-              <p className="text-lg font-elegant-sans font-light text-teal-smoke-700 leading-relaxed max-w-4xl mx-auto">
+              <p className="text-lg font-elegant-sans font-light text-slate-700 leading-relaxed max-w-4xl mx-auto">
                 실로스의원은 리프팅 선도 병원으로서 환자 개개인의 아름다움을 실현하고, 신뢰받는 메디컬 파트너로서의 역할을 다하고자 합니다.
               </p>
             </div>

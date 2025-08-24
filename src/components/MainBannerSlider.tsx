@@ -18,7 +18,7 @@ const procedures = [
     features: ['무절개', '즉시효과', '맞춤설계'],
     duration: '30분',
     image: '/images/banners/silos-lifting.jpg',
-    route: '/procedures/silos-customizing-lifting/silos-lifting',
+    route: '/procedures/silos-signature/silos-lifting',
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const procedures = [
     features: ['내시경', '최소절개', '자연리프팅'],
     duration: '1시간',
     image: '/images/banners/forehead-lifting.jpg',
-    route: '/procedures/forehead-eyebrow-lifting',
+    route: '/procedures/forehead-lifting/endoscopic-forehead',
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const procedures = [
     features: ['비절개', '10분완성', '바로복귀'],
     duration: '10분',
     image: '/images/banners/under-eye-laser.jpg',
-    route: '/procedures/under-eye-fat-laser/under-eye-fat-laser',
+    route: '/procedures/silos-signature/under-eye-laser',
   },
   {
     id: 4,
@@ -66,7 +66,7 @@ const procedures = [
     features: ['무통증', '주사만으로', '즉시확인'],
     duration: '20분',
     image: '/images/banners/silopat.jpg',
-    route: '/procedures/silopat',
+    route: '/procedures/silos-signature/silofat',
   },
   {
     id: 5,
@@ -82,7 +82,7 @@ const procedures = [
     features: ['상하안검', '전체개선', '자연스러운'],
     duration: '1.5시간',
     image: '/images/banners/eye-lifting.jpg',
-    route: '/procedures/eyelid-sagging-lifting',
+    route: '/procedures/droopy-eye-lifting/upper-lower-bleph',
   },
   {
     id: 6,
@@ -113,7 +113,7 @@ const procedures = [
     image: '/images/banners/sleep-ulthera.jpg',
     route: null, // Special case - has dropdown
     routes: [
-      { name: '울쎄라', path: '/procedures/laser-lifting/ulthera' },
+      { name: '울쎄라', path: '/procedures/custom-lifting/ulthera' },
       { name: '리쥬란', path: '/procedures/skin-lifting/rejuran' }
     ],
   },
@@ -131,7 +131,7 @@ const procedures = [
     features: ['리프팅실', '레이저듀얼', '10분완성'],
     duration: '10분',
     image: '/images/banners/neck-lifting.jpg',
-    route: '/procedures/neck-lifting',
+    route: '/procedures/silos-signature/neck-lifting',
   },
 ];
 
@@ -141,7 +141,7 @@ export default function VisualImpactBanner() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % procedures.length);
-    }, 5000);
+    }, 7000);
     return () => clearInterval(interval);
   }, []);
 
@@ -191,16 +191,16 @@ export default function VisualImpactBanner() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[700px]">
             
             {/* 왼쪽: 텍스트 콘텐츠 */}
-            <div className="text-white space-y-10 transition-all duration-1000 ease-out">
+            <div className="text-cyan-900 space-y-10 transition-all duration-1000 ease-out">
               {/* 배지와 메타 */}
               <div className="flex flex-wrap items-center gap-4 mb-6 animate-fade-in-up">
                 {currentProcedure.badge && BadgeIcon && (
-                  <div className={`inline-flex items-center px-6 py-3 rounded-full text-sm font-elegant-sans font-light text-teal-smoke-800 ${currentProcedure.badgeColor} shadow-lg transform hover:scale-105 transition-all duration-500 border border-white/30`}>
+                  <div className={`inline-flex items-center px-6 py-3 rounded-full text-sm font-elegant-sans font-light text-cyan-900 ${currentProcedure.badgeColor} shadow-lg transform hover:scale-105 transition-all duration-500 border border-white/30`}>
                     <BadgeIcon className="w-4 h-4 mr-2" />
                     {currentProcedure.badge}
                   </div>
                 )}
-                <div className="inline-flex items-center px-5 py-2.5 rounded-full text-sm font-elegant-sans font-light bg-white/20 text-white backdrop-blur-md border border-white/25 transition-all duration-500">
+                <div className="inline-flex items-center px-5 py-2.5 rounded-full text-sm font-elegant-sans font-light bg-white/20 text-cyan-900 backdrop-blur-md border border-white/25 transition-all duration-500">
                   <Clock className="w-4 h-4 mr-2" />
                   {currentProcedure.duration}
                 </div>
@@ -208,15 +208,15 @@ export default function VisualImpactBanner() {
 
               {/* 메인 타이틀 - Box 1 */}
               <div className="space-y-4 animate-fade-in-up" key={currentSlide}>
-                {/* Box 1 */}
-                <div className="bg-white/25 backdrop-blur-lg rounded-xl p-6 border border-white/30 shadow-lg transition-all duration-700 hover:bg-white/30 mb-4 relative">
+                {/* Box 1 - Glass Effect */}
+                <div className="glass-effect rounded-xl p-6 shadow-lg transition-all duration-1000 ease-in-out hover:bg-white/35 mb-4 relative">
                   {currentProcedure.subTitle && (
-                    <p className="text-base font-elegant-sans font-semibold text-teal-smoke-800 mb-2 leading-relaxed">
+                    <p className="text-base font-elegant-sans font-semibold text-cyan-800 mb-2 leading-relaxed">
                       {currentProcedure.subTitle}
                     </p>
                   )}
                   {currentProcedure.mainTitle && (
-                    <h1 className="text-2xl lg:text-3xl font-display font-bold leading-tight tracking-wide drop-shadow-sm mb-2 whitespace-pre-line text-teal-smoke-900">
+                    <h1 className="text-2xl lg:text-3xl font-display font-bold leading-tight tracking-wide drop-shadow-sm mb-2 whitespace-pre-line text-cyan-900">
                       {currentProcedure.mainTitle.includes('young') ? (
                         currentProcedure.mainTitle.split('young').map((part, index) => (
                           <span key={index}>
@@ -232,22 +232,22 @@ export default function VisualImpactBanner() {
                     </h1>
                   )}
                   {currentProcedure.subTitle2 && (
-                    <p className="text-base font-elegant-sans font-medium text-teal-smoke-700 leading-relaxed whitespace-pre-line">
+                    <p className="text-base font-elegant-sans font-medium text-cyan-800 leading-relaxed whitespace-pre-line">
                       {currentProcedure.subTitle2}
                     </p>
                   )}
                 </div>
 
-                {/* Box 2 */}
+                {/* Box 2 - Glass Effect */}
                 {(currentProcedure.mainTitle2 || currentProcedure.subTitle3) && (
-                  <div className="bg-white/25 backdrop-blur-lg rounded-xl p-6 border border-white/30 shadow-lg transition-all duration-700 hover:bg-white/30">
+                  <div className="glass-effect rounded-xl p-6 shadow-lg transition-all duration-1000 ease-in-out hover:bg-white/35">
                     {currentProcedure.subTitle3 && (
-                      <p className="text-base font-elegant-sans font-semibold text-elegant-800 mb-2 leading-relaxed">
+                      <p className="text-base font-elegant-sans font-semibold text-cyan-800 mb-2 leading-relaxed">
                         {currentProcedure.subTitle3}
                       </p>
                     )}
                     {currentProcedure.mainTitle2 && (
-                      <h2 className="text-xl lg:text-2xl font-display font-bold leading-tight tracking-wide mb-2 whitespace-pre-line text-elegant-900 drop-shadow-sm">
+                      <h2 className="text-xl lg:text-2xl font-display font-bold leading-tight tracking-wide mb-2 whitespace-pre-line text-cyan-900 drop-shadow-sm">
                         {currentProcedure.mainTitle2.includes('어려졌어!') ? (
                           currentProcedure.mainTitle2.split('어려졌어!').map((part, index) => (
                             <span key={index}>
@@ -267,7 +267,7 @@ export default function VisualImpactBanner() {
                       </h2>
                     )}
                     {currentProcedure.subTitle4 && (
-                      <p className="text-base font-elegant-sans font-medium text-elegant-700 leading-relaxed whitespace-pre-line">
+                      <p className="text-base font-elegant-sans font-medium text-cyan-800 leading-relaxed whitespace-pre-line">
                         {currentProcedure.subTitle4}
                       </p>
                     )}
@@ -280,7 +280,7 @@ export default function VisualImpactBanner() {
                 {currentProcedure.features.map((feature, index) => (
                   <div
                     key={index}
-                    className="inline-flex items-center px-4 py-2 rounded-full text-sm font-elegant-sans font-light bg-white/20 text-white backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all transform hover:scale-105"
+                    className="inline-flex items-center px-4 py-2 rounded-full text-sm font-elegant-sans font-light bg-white/20 text-cyan-900 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all transform hover:scale-105"
                   >
                     <Zap className="w-3 h-3 mr-2" />
                     {feature}
@@ -292,12 +292,12 @@ export default function VisualImpactBanner() {
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <button 
                   onClick={handleDetailClick}
-                  className="group bg-white/90 text-teal-smoke-800 hover:bg-white px-10 py-4 rounded-xl font-elegant-sans font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center"
+                  className="group bg-white/90 text-cyan-900 hover:bg-white px-10 py-4 rounded-xl font-elegant-sans font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center"
                 >
                   <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
                   자세히 보기
                 </button>
-                <button className="bg-white/20 backdrop-blur-xl text-white hover:bg-white/30 px-10 py-4 rounded-xl font-elegant-sans font-light text-lg transition-all duration-300 border border-white/30 hover:border-white/50 shadow-lg">
+                <button className="bg-white/20 backdrop-blur-xl text-cyan-900 hover:bg-white/30 px-10 py-4 rounded-xl font-elegant-sans font-light text-lg transition-all duration-300 border border-white/30 hover:border-white/50 shadow-lg">
                   상담 신청
                 </button>
               </div>
@@ -319,29 +319,29 @@ export default function VisualImpactBanner() {
                       priority
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent rounded-3xl" />
-                    <div className="absolute bottom-0 left-0 right-0 p-8 text-center text-white">
+                    <div className="absolute bottom-0 left-0 right-0 p-8 text-center text-cyan-900">
                       <h3 className="text-2xl font-elegant font-light mb-2">{currentProcedure.mainTitle}</h3>
-                      <p className="text-white/90 text-sm font-elegant-sans font-light">{currentProcedure.duration}</p>
+                      <p className="text-cyan-800 text-sm font-elegant-sans font-light">{currentProcedure.duration}</p>
                     </div>
                   </div>
                 ) : (
                   <div className="relative w-[600px] h-[450px] bg-white/5 rounded-3xl border border-white/20 shadow-2xl hover:scale-105 transition-all duration-700 overflow-hidden">
-                      <div className="p-8 h-full flex flex-col items-center justify-center text-center text-white transition-all duration-1000" key={`card-${currentSlide}`}>
+                      <div className="p-8 h-full flex flex-col items-center justify-center text-center text-cyan-900 transition-all duration-1000" key={`card-${currentSlide}`}>
                         <div className="w-32 h-32 bg-white/20 rounded-2xl mb-6 flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all duration-700 border border-white/30">
                           <div className="text-3xl font-display font-light transition-all duration-500">{currentSlide + 1}</div>
                         </div>
                         <h3 className="text-lg font-elegant font-light mb-2 transition-all duration-700">{currentProcedure.mainTitle}</h3>
-                        <p className="text-white/70 text-sm font-elegant-sans font-light transition-all duration-500">{currentProcedure.duration}</p>
+                        <p className="text-cyan-800 text-sm font-elegant-sans font-light transition-all duration-500">{currentProcedure.duration}</p>
                       </div>
                   </div>
                 )}
 
                 {/* 플로팅 요소들 */}
-                <div className="absolute -top-6 -right-6 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center animate-bounce shadow-xl">
-                  <Camera className="w-6 h-6 text-white" />
+                <div className="absolute -top-6 -right-6 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center  shadow-xl">
+                  <Camera className="w-6 h-6 text-cyan-900" />
                 </div>
-                <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center animate-bounce delay-500 shadow-xl">
-                  <Stethoscope className="w-6 h-6 text-white" />
+                <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center  delay-500 shadow-xl">
+                  <Stethoscope className="w-6 h-6 text-cyan-900" />
                 </div>
               </div>
 
@@ -361,7 +361,7 @@ export default function VisualImpactBanner() {
           onClick={prevSlide}
           className="w-16 h-16 bg-white/40 hover:bg-white/60 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-white/70 shadow-2xl"
         >
-          <ChevronLeft className="w-8 h-8 text-white" />
+          <ChevronLeft className="w-8 h-8 text-cyan-900" />
         </button>
       </div>
       
@@ -371,7 +371,7 @@ export default function VisualImpactBanner() {
           type="button"
           className="w-16 h-16 bg-white/40 hover:bg-white/60 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-white/70 shadow-2xl cursor-pointer"
         >
-          <ChevronRight className="w-8 h-8 text-white" />
+          <ChevronRight className="w-8 h-8 text-cyan-900" />
         </button>
       </div>
 
@@ -391,7 +391,7 @@ export default function VisualImpactBanner() {
       </div>
 
       {/* 슬라이드 카운터 */}
-      <div className="absolute bottom-8 right-8 bg-white/25 backdrop-blur-xl px-8 py-4 rounded-full text-white font-black text-xl z-20 border border-white/30 shadow-xl">
+      <div className="absolute bottom-8 right-8 bg-white/25 backdrop-blur-xl px-8 py-4 rounded-full text-cyan-900 font-black text-xl z-20 border border-white/30 shadow-xl">
         시술 {currentSlide + 1} / {procedures.length}
       </div>
     </div>

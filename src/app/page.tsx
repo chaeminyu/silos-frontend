@@ -1,275 +1,501 @@
+'use client';
+
 // src/app/page.tsx
 import MainBannerSlider from '../components/MainBannerSlider';
-import QuickConsultationMenu from '../components/QuickConsultationMenu';
-import NavigationMenu from '../components/NavigationMenu';
-import Link from 'next/link';
-import { Suspense } from 'react';
+import MobileCategoryGrid from '../components/MobileCategoryGrid';
+import StandardConsultationSection from '../components/StandardConsultationSection';
+import PageLayout from '../components/PageLayout';
+import { Suspense, useState, useEffect } from 'react';
+import { Sparkles, Clock, ShoppingCart, Check } from 'lucide-react';
 
 export default function HomePage() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-smoke-50 via-white to-teal-smoke-100">
-      {/* 헤더 네비게이션 */}
-      <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/90 backdrop-blur-xl border-b border-teal-smoke-200/50 shadow-sm">
-        <div className="w-full">
-          <div className="w-full px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-20 w-full">
-              {/* 네비게이션 메뉴 - 전체 너비 사용 */}
-              <div className="flex-1 min-w-0">
-                <NavigationMenu />
-              </div>
-              
-              {/* 로그인/장바구니 버튼 */}
-              <div className="hidden lg:flex items-center space-x-3 flex-shrink-0 ml-4">
-                <Link 
-                  href="/consultation/request"
-                  className="relative p-2.5 hover:bg-teal-smoke-50 rounded-lg transition-all duration-300 group block"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-teal-smoke-600 group-hover:text-teal-smoke-800">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                  </svg>
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-teal-smoke-400 text-white text-xs rounded-full flex items-center justify-center font-bold">
-                    0
-                  </span>
-                </Link>
-                <Link 
-                  href="/auth/login"
-                  className="bg-teal-smoke-300 hover:bg-teal-smoke-400 text-teal-smoke-800 px-5 py-2 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300 shadow-lg hover:shadow-xl border border-teal-smoke-400/30 whitespace-nowrap inline-block"
-                >
-                  로그인
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [currentWhySilosIndex, setCurrentWhySilosIndex] = useState(0);
+  const [isWhySilosTransitioning, setIsWhySilosTransitioning] = useState(true);
+  const [activeProcedureTab, setActiveProcedureTab] = useState<string>('silos-lifting');
+  const [addedToCart, setAddedToCart] = useState<string[]>([]);
 
-      {/* 메인 배너 슬라이더 */}
+  const handleAddToCart = (procedureId: string, procedureName: string) => {
+    if (!addedToCart.includes(procedureId)) {
+      setAddedToCart([...addedToCart, procedureId]);
+      console.log(`Added to cart: ${procedureName}`);
+    }
+  };
+  
+  // Gallery data
+  const galleryItems = [
+    { id: 1, gradient: 'from-teal-smoke-100 to-teal-smoke-200' },
+    { id: 2, gradient: 'from-elegant-100 to-elegant-200' },
+    { id: 3, gradient: 'from-teal-smoke-200 to-elegant-200' },
+    { id: 4, gradient: 'from-elegant-200 to-teal-smoke-300' },
+    { id: 5, gradient: 'from-teal-smoke-300 to-elegant-300' },
+    { id: 6, gradient: 'from-elegant-300 to-teal-smoke-200' }
+  ];
+
+  // Why Silos data
+  const whySilosItems = [
+    {
+      id: 1,
+      title: '맞춤형 시술',
+      description: '개인별 얼굴 구조와 특성을 분석하여 최적의 시술 계획을 제안합니다.',
+      iconGradient: 'from-teal-smoke-200 to-teal-smoke-300',
+      iconBg: 'bg-teal-smoke-400',
+      borderColor: 'border-teal-smoke-200/50'
+    },
+    {
+      id: 2,
+      title: '안전한 시술',
+      description: 'FDA 승인 제품과 첨단 장비를 사용하여 안전하고 효과적인 시술을 제공합니다.',
+      iconGradient: 'from-elegant-200 to-elegant-300',
+      iconBg: 'bg-elegant-400',
+      borderColor: 'border-elegant-200/50'
+    },
+    {
+      id: 3,
+      title: '자연스러운 결과',
+      description: '과도하지 않은 자연스러운 변화로 본연의 아름다움을 극대화시킵니다.',
+      iconGradient: 'from-teal-smoke-300 to-elegant-300',
+      iconBg: 'bg-gradient-to-br from-teal-smoke-400 to-elegant-400',
+      borderColor: 'border-teal-smoke-200/50'
+    }
+  ];
+
+  // Representative procedures data
+  const representativeProcedures = [
+    {
+      id: 'silos-lifting',
+      title: '실로프팅(실리프팅)',
+      subtitle: 'SILOS THREAD LIFTING',
+      description: [
+        '실로스만의 특허받은 실리프팅 기법으로',
+        '개인의 얼굴 구조와 노화 패턴을 분석하여',
+        '최적의 실 종류와 삽입 방향을 결정합니다.',
+        '자연스러우면서도 효과적인 리프팅으로',
+        '젊고 세련된 인상을 만들어드립니다.'
+      ],
+      features: ['무절개', '즉시효과', '자연스러움'],
+      duration: '30분',
+      feature: '무절개',
+      gradient: 'from-teal-smoke-100 to-teal-smoke-200'
+    },
+    {
+      id: 'silopat',
+      title: '실로팻(지방추출주사)',
+      subtitle: 'SILOPAT FAT DISSOLVING',
+      description: [
+        '실로스 독자개발 지방분해 주사로',
+        '안전하고 효과적인 부분 지방 감소',
+        '이중턱, 볼살, 팔뚝 등 다양한 부위에 적용',
+        '시술 후 즉시 일상생활 가능하며',
+        '자연스러운 라인 개선 효과를 제공합니다.'
+      ],
+      features: ['무통증', '즉시회복', '부분감소'],
+      duration: '20분',
+      feature: '무통증',
+      gradient: 'from-elegant-100 to-teal-smoke-200'
+    },
+    {
+      id: 'under-eye-laser',
+      title: '반달레이저(눈밑지방레이저)',
+      subtitle: 'UNDER-EYE FAT LASER',
+      description: [
+        '눈밑 지방을 레이저로 안전하게 제거하여',
+        '다크서클과 눈밑 불룩함을 동시에 개선',
+        '비절개 방식으로 흉터 걱정 없이',
+        '자연스러운 눈가 라인을 완성하며',
+        '젊고 밝은 인상을 만들어드립니다.'
+      ],
+      features: ['비절개', '흉터없음', '자연개선'],
+      duration: '10분',
+      feature: '비절개',
+      gradient: 'from-teal-smoke-200 to-elegant-200'
+    },
+    {
+      id: 'neck-lifting',
+      title: '넥리프팅(목리프팅)',
+      subtitle: 'NECK LIFTING',
+      description: [
+        '처진 목주름과 이중턱을 동시에 개선하는',
+        '넥 리프팅으로 목과 턱라인을 선명하게',
+        '실과 레이저를 복합적으로 사용하여',
+        '안전하고 확실한 결과를 제공하며',
+        '우아한 목라인을 완성해드립니다.'
+      ],
+      features: ['복합시술', '목주름개선', '자연결과'],
+      duration: '45분',
+      feature: '자연결과',
+      gradient: 'from-elegant-200 to-teal-smoke-300'
+    }
+  ];
+
+  // Auto-rotation for gallery with circular motion
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentGalleryIndex((prevIndex) => {
+        if (prevIndex >= galleryItems.length) {
+          // Reset to first item without animation
+          setIsTransitioning(false);
+          setTimeout(() => {
+            setCurrentGalleryIndex(1);
+            setIsTransitioning(true);
+          }, 50);
+          return 0;
+        }
+        return prevIndex + 1;
+      });
+    }, 3000); // Rotate every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [galleryItems.length]);
+
+  // Auto-rotation for Why Silos with circular motion
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWhySilosIndex((prevIndex) => {
+        if (prevIndex >= whySilosItems.length) {
+          // Reset to first item without animation
+          setIsWhySilosTransitioning(false);
+          setTimeout(() => {
+            setCurrentWhySilosIndex(1);
+            setIsWhySilosTransitioning(true);
+          }, 50);
+          return 0;
+        }
+        return prevIndex + 1;
+      });
+    }, 4000); // Rotate every 4 seconds (slightly slower than gallery)
+
+    return () => clearInterval(interval);
+  }, [whySilosItems.length]);
+
+  // Handle transition end for seamless loop (Gallery)
+  useEffect(() => {
+    if (currentGalleryIndex === galleryItems.length && isTransitioning) {
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentGalleryIndex(0);
+        setTimeout(() => setIsTransitioning(true), 50);
+      }, 500);
+    }
+  }, [currentGalleryIndex, galleryItems.length, isTransitioning]);
+
+  // Handle transition end for seamless loop (Why Silos)
+  useEffect(() => {
+    if (currentWhySilosIndex === whySilosItems.length && isWhySilosTransitioning) {
+      setTimeout(() => {
+        setIsWhySilosTransitioning(false);
+        setCurrentWhySilosIndex(0);
+        setTimeout(() => setIsWhySilosTransitioning(true), 50);
+      }, 500);
+    }
+  }, [currentWhySilosIndex, whySilosItems.length, isWhySilosTransitioning]);
+
+  return (
+    <PageLayout>
+
+      {/* 메인 컨텐츠 - PC: 배너 슬라이더, 모바일: 카테고리 그리드 */}
       <main className="w-full">
-        <Suspense fallback={<div className="h-screen flex items-center justify-center text-2xl font-elegant-sans font-light text-teal-smoke-600">Loading...</div>}>
-          <MainBannerSlider />
-        </Suspense>
+        {/* PC 버전 - lg 이상에서만 표시 */}
+        <div className="hidden lg:block">
+          <Suspense fallback={<div className="h-screen flex items-center justify-center text-2xl font-elegant-sans font-light text-slate-700">Loading...</div>}>
+            <MainBannerSlider />
+          </Suspense>
+        </div>
         
-        {/* 실로스 소개 섹션 */}
+        {/* 모바일 버전 - lg 미만에서만 표시 */}
+        <div className="lg:hidden relative z-10">
+          <MobileCategoryGrid />
+        </div>
+        
+        {/* 실로스 소개 섹션 - 모바일/PC 모두 표시 */}
         <section id="about" className="w-full py-24 bg-gradient-to-br from-teal-smoke-50 via-white to-elegant-100">
           <div className="w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-20">
-                <h2 className="text-4xl font-display font-light text-teal-smoke-800 mb-6 tracking-wide">왜 실로스인가?</h2>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide">왜 실로스인가?</h2>
                 <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-8"></div>
-                <p className="text-xl font-elegant-sans font-light text-teal-smoke-700 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed">
                   실리프팅의 새로운 기준, 실로스가 제시하는 차별화된 시술 철학
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
+              {/* Desktop Grid */}
+              <div className="hidden md:grid md:grid-cols-3 gap-8 justify-items-center">
                 <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-full max-w-sm border border-teal-smoke-200/50">
                   <div className="w-20 h-20 bg-gradient-to-br from-teal-smoke-200 to-teal-smoke-300 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-lg">
                     <div className="w-10 h-10 bg-teal-smoke-400 rounded-xl opacity-70"></div>
                   </div>
-                  <h3 className="text-xl font-elegant font-light text-teal-smoke-800 mb-6 text-center tracking-wide">맞춤형 시술</h3>
-                  <p className="text-teal-smoke-600 text-center font-elegant-sans font-light leading-relaxed">개인별 얼굴 구조와 특성을 분석하여 최적의 시술 계획을 제안합니다.</p>
+                  <h3 className="text-xl font-elegant font-light text-cyan-800 mb-6 text-center tracking-wide">맞춤형 시술</h3>
+                  <p className="text-slate-700 text-center font-elegant-sans font-light leading-relaxed">개인별 얼굴 구조와 특성을 분석하여 최적의 시술 계획을 제안합니다.</p>
                 </div>
                 
                 <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-full max-w-sm border border-elegant-200/50">
                   <div className="w-20 h-20 bg-gradient-to-br from-elegant-200 to-elegant-300 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-lg">
                     <div className="w-10 h-10 bg-elegant-400 rounded-xl opacity-70"></div>
                   </div>
-                  <h3 className="text-xl font-elegant font-light text-teal-smoke-800 mb-6 text-center tracking-wide">안전한 시술</h3>
-                  <p className="text-teal-smoke-600 text-center font-elegant-sans font-light leading-relaxed">FDA 승인 제품과 첨단 장비를 사용하여 안전하고 효과적인 시술을 제공합니다.</p>
+                  <h3 className="text-xl font-elegant font-light text-cyan-800 mb-6 text-center tracking-wide">안전한 시술</h3>
+                  <p className="text-slate-700 text-center font-elegant-sans font-light leading-relaxed">FDA 승인 제품과 첨단 장비를 사용하여 안전하고 효과적인 시술을 제공합니다.</p>
                 </div>
                 
                 <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-full max-w-sm border border-teal-smoke-200/50">
                   <div className="w-20 h-20 bg-gradient-to-br from-teal-smoke-300 to-elegant-300 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-lg">
                     <div className="w-10 h-10 bg-gradient-to-br from-teal-smoke-400 to-elegant-400 rounded-xl opacity-70"></div>
                   </div>
-                  <h3 className="text-xl font-elegant font-light text-teal-smoke-800 mb-6 text-center tracking-wide">자연스러운 결과</h3>
-                  <p className="text-teal-smoke-600 text-center font-elegant-sans font-light leading-relaxed">과도하지 않은 자연스러운 변화로 본연의 아름다움을 극대화시킵니다.</p>
+                  <h3 className="text-xl font-elegant font-light text-cyan-800 mb-6 text-center tracking-wide">자연스러운 결과</h3>
+                  <p className="text-slate-700 text-center font-elegant-sans font-light leading-relaxed">과도하지 않은 자연스러운 변화로 본연의 아름다움을 극대화시킵니다.</p>
+                </div>
+              </div>
+
+              {/* Mobile Horizontal Swipe with Auto-rotation */}
+              <div className="md:hidden overflow-hidden pb-4">
+                <div 
+                  className={`flex space-x-4 px-4 ${isWhySilosTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
+                  style={{ 
+                    transform: `translateX(-${currentWhySilosIndex * (288 + 16)}px)` // 288px = w-72 + 16px = gap
+                  }}
+                >
+                  {/* Duplicate items for seamless infinite scroll */}
+                  {[...whySilosItems, ...whySilosItems].map((item, index) => (
+                    <div key={`${item.id}-${Math.floor(index / whySilosItems.length)}`} className={`bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-lg flex-shrink-0 w-72 border ${item.borderColor}`}>
+                      <div className={`w-16 h-16 bg-gradient-to-br ${item.iconGradient} rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg`}>
+                        <div className={`w-8 h-8 ${item.iconBg} rounded-xl opacity-70`}></div>
+                      </div>
+                      <h3 className="text-lg font-elegant font-light text-cyan-800 mb-4 text-center tracking-wide">{item.title}</h3>
+                      <p className="text-slate-700 text-center font-elegant-sans font-light leading-relaxed text-sm">{item.description}</p>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Auto-rotation indicators */}
+                <div className="flex justify-center mt-4 space-x-2">
+                  {whySilosItems.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setIsWhySilosTransitioning(true);
+                        setCurrentWhySilosIndex(index);
+                      }}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        index === (currentWhySilosIndex % whySilosItems.length)
+                          ? 'bg-teal-smoke-500 w-8' 
+                          : 'bg-teal-smoke-200'
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 시술 안내 섹션 */}
+        {/* 시술 안내 섹션 - 탭 기반 */}
         <section id="procedures" className="w-full py-24 bg-gradient-to-br from-white via-teal-smoke-50 to-elegant-50">
           <div className="w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-20">
-                <h2 className="text-4xl font-display font-light text-teal-smoke-800 mb-6 tracking-wide">대표 시술</h2>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide">대표 시술</h2>
                 <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-8"></div>
-                <p className="text-xl font-elegant-sans font-light text-teal-smoke-700 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed">
                   실로스만의 특화된 시술로 더 젊고 아름다운 모습을 만나보세요
                 </p>
               </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
-                {[
-                  { name: '실로스 실리프팅', time: '30분', feature: '무절개', gradient: 'from-teal-smoke-100 to-teal-smoke-200' },
-                  { name: '이마 눈썹 리프팅', time: '1시간', feature: '내시경', gradient: 'from-elegant-100 to-teal-smoke-200' },
-                  { name: '눈밑 지방레이저', time: '10분', feature: '비절개', gradient: 'from-teal-smoke-200 to-elegant-200' },
-                  { name: '실로팻', time: '20분', feature: '무통증', gradient: 'from-elegant-200 to-teal-smoke-300' }
-                ].map((procedure, index) => (
-                  <div key={index} className={`bg-gradient-to-br ${procedure.gradient} rounded-3xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-full max-w-xs backdrop-blur-sm border border-white/50`}>
-                    <div className="text-center">
-                      <div className="w-24 h-24 bg-white/70 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg border border-teal-smoke-200/30">
-                        <span className="text-2xl font-display font-light text-teal-smoke-700">{index + 1}</span>
-                      </div>
-                      <h3 className="text-lg font-elegant font-light text-teal-smoke-800 mb-4 tracking-wide leading-tight">{procedure.name}</h3>
-                      <div className="flex justify-center space-x-2 text-sm">
-                        <span className="bg-white/60 backdrop-blur-sm text-teal-smoke-600 px-4 py-2 rounded-full font-elegant-sans font-light border border-teal-smoke-200/30">{procedure.time}</span>
-                        <span className="bg-white/60 backdrop-blur-sm text-teal-smoke-600 px-4 py-2 rounded-full font-elegant-sans font-light border border-teal-smoke-200/30">{procedure.feature}</span>
+
+              {/* 탭 버튼들 */}
+              <div className="flex flex-wrap justify-center gap-2 mb-12 max-w-6xl mx-auto">
+                {representativeProcedures.map((procedure) => (
+                  <button
+                    key={procedure.id}
+                    onClick={() => setActiveProcedureTab(procedure.id)}
+                    className={`px-4 py-3 rounded-xl font-elegant-sans font-medium transition-all duration-300 text-sm ${
+                      activeProcedureTab === procedure.id
+                        ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
+                        : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
+                    }`}
+                  >
+                    {procedure.title}
+                  </button>
+                ))}
+              </div>
+
+              {/* 선택된 시술 상세 정보 */}
+              {(() => {
+                const activeProcedure = representativeProcedures.find(proc => proc.id === activeProcedureTab) || representativeProcedures[0];
+                return (
+                  <div className="bg-white rounded-3xl shadow-2xl border border-teal-smoke-200/30 overflow-hidden">
+                    {/* 헤더 */}
+                    <div className="bg-gradient-to-r from-teal-smoke-500 to-elegant-500 py-12 px-8 text-center">
+                      <h3 className="text-4xl font-display font-light text-white mb-4 tracking-wide">
+                        {activeProcedure.title}
+                      </h3>
+                      <p className="text-xl font-elegant-sans font-light text-white/90">
+                        {activeProcedure.subtitle}
+                      </p>
+                    </div>
+
+                    {/* 콘텐츠 */}
+                    <div className="p-12">
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        {/* 설명 (2/3) */}
+                        <div className="lg:col-span-2">
+                          <div className="space-y-6 mb-10">
+                            {activeProcedure.description.map((desc, i) => (
+                              <div key={i} className="flex items-start space-x-4">
+                                <div className="w-2 h-2 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mt-3 flex-shrink-0"></div>
+                                <p className="text-lg text-slate-700 font-elegant-sans font-light leading-relaxed">
+                                  {desc}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* 특징 배지들 */}
+                          <div className="flex flex-wrap gap-4 mb-8">
+                            {activeProcedure.features.map((feature, i) => (
+                              <div key={i} className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-cyan-800 border-2 border-teal-smoke-200 shadow-lg">
+                                <Sparkles className="w-4 h-4 mr-2" />
+                                {feature}
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* 시술시간 */}
+                          <div className="flex items-center space-x-4">
+                            <div className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-bold bg-gradient-to-r from-elegant-200 to-teal-smoke-200 text-cyan-800 border-2 border-elegant-300 shadow-lg">
+                              <Clock className="w-4 h-4 mr-2" />
+                              {activeProcedure.duration}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 이미지 및 상담 신청 (1/3) */}
+                        <div className="flex flex-col items-center justify-between">
+                          <div className={`w-full h-64 bg-gradient-to-br ${activeProcedure.gradient} rounded-2xl border-2 border-teal-smoke-200/30 flex items-center justify-center mb-8 shadow-lg backdrop-blur-sm`}>
+                            <div className="text-center text-slate-700">
+                              <Sparkles className="w-20 h-20 mx-auto mb-4" />
+                              <p className="font-elegant-sans font-medium">
+                                {activeProcedure.title}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* 상담 신청 버튼 */}
+                          <button
+                            onClick={() => handleAddToCart(activeProcedure.id, activeProcedure.title)}
+                            className={`w-full py-4 px-6 rounded-xl font-elegant-sans font-bold text-base transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+                              addedToCart.includes(activeProcedure.id)
+                                ? 'bg-gradient-to-r from-green-200 to-green-300 text-green-800 cursor-default border-2 border-green-400'
+                                : 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white hover:from-teal-smoke-500 hover:to-elegant-500 border-2 border-transparent'
+                            }`}
+                            disabled={addedToCart.includes(activeProcedure.id)}
+                          >
+                            {addedToCart.includes(activeProcedure.id) ? (
+                              <>
+                                <Check className="w-5 h-5" />
+                                <span>상담 리스트에 담김</span>
+                              </>
+                            ) : (
+                              <>
+                                <ShoppingCart className="w-5 h-5" />
+                                <span>상담 신청하기</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })()}
             </div>
           </div>
         </section>
 
-        {/* 갤러리 섹션 */}
+        {/* 갤러리 섹션 - 모바일/PC 모두 표시 */}
         <section id="gallery" className="w-full py-24 bg-gradient-to-br from-elegant-50 via-teal-smoke-100 to-white">
           <div className="w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-20">
-                <h2 className="text-4xl font-display font-light text-teal-smoke-800 mb-6 tracking-wide">Before & After</h2>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide">Before & After</h2>
                 <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-8"></div>
-                <p className="text-xl font-elegant-sans font-light text-teal-smoke-700 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed">
                   실로스에서 새로운 아름다움을 찾은 고객들의 변화를 확인하세요
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-                {[
-                  { id: 1, gradient: 'from-teal-smoke-100 to-teal-smoke-200' },
-                  { id: 2, gradient: 'from-elegant-100 to-elegant-200' },
-                  { id: 3, gradient: 'from-teal-smoke-200 to-elegant-200' },
-                  { id: 4, gradient: 'from-elegant-200 to-teal-smoke-300' },
-                  { id: 5, gradient: 'from-teal-smoke-300 to-elegant-300' },
-                  { id: 6, gradient: 'from-elegant-300 to-teal-smoke-200' }
-                ].map((item) => (
+              {/* Desktop Grid */}
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+                {galleryItems.map((item) => (
                   <div key={item.id} className="bg-white/60 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-full max-w-sm border border-teal-smoke-200/30">
                     <div className={`aspect-square bg-gradient-to-br ${item.gradient} flex items-center justify-center relative overflow-hidden`}>
                       <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
-                      <span className="text-4xl font-display font-light text-teal-smoke-700 z-10 tracking-wider">B&A</span>
+                      <span className="text-4xl font-display font-light text-slate-700 z-10 tracking-wider">B&A</span>
                       <div className="absolute top-4 right-4 w-8 h-8 bg-white/30 rounded-full"></div>
                       <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/20 rounded-full"></div>
                     </div>
                     <div className="p-8 text-center">
-                      <h3 className="text-lg font-elegant font-light text-teal-smoke-800 mb-3 tracking-wide">시술 사례 {item.id}</h3>
-                      <p className="text-teal-smoke-600 text-sm font-elegant-sans font-light leading-relaxed">실로스 실리프팅으로 자연스러운 변화</p>
+                      <h3 className="text-lg font-elegant font-light text-slate-900 mb-3 tracking-wide">시술 사례 {item.id}</h3>
+                      <p className="text-slate-700 text-sm font-elegant-sans font-light leading-relaxed">실로스 실리프팅으로 자연스러운 변화</p>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* 온라인 상담 섹션 */}
-        <section id="contact" className="w-full py-24 bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500">
-          <div className="w-full">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center text-white">
-                <h2 className="text-4xl font-display font-light mb-6 tracking-wide">온라인 상담 예약</h2>
-                <div className="w-20 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
-                <p className="text-xl font-elegant-sans font-light mb-16 text-white/90 max-w-3xl mx-auto leading-relaxed">
-                  전문의와의 1:1 맞춤 상담으로 당신만의 아름다움을 계획하세요
-                </p>
-                
-                <div className="max-w-2xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl p-10 border border-white/20 shadow-2xl">
-                  <form className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <input
-                        type="text"
-                        placeholder="이름"
-                        className="w-full px-5 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 text-white placeholder-white/70 font-elegant-sans font-light transition-all"
-                      />
-                      <input
-                        type="tel"
-                        placeholder="연락처"
-                        className="w-full px-5 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 text-white placeholder-white/70 font-elegant-sans font-light transition-all"
-                      />
+              {/* Mobile Horizontal Swipe with Auto-rotation */}
+              <div className="md:hidden overflow-hidden pb-4">
+                <div 
+                  className={`flex space-x-4 px-4 ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
+                  style={{ 
+                    transform: `translateX(-${currentGalleryIndex * (288 + 16)}px)` // 288px = w-72 + 16px = gap
+                  }}
+                >
+                  {/* Duplicate items for seamless infinite scroll */}
+                  {[...galleryItems, ...galleryItems].map((item, index) => (
+                    <div key={`${item.id}-${Math.floor(index / galleryItems.length)}`} className="bg-white/60 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg flex-shrink-0 w-72 border border-teal-smoke-200/30">
+                      <div className={`aspect-square bg-gradient-to-br ${item.gradient} flex items-center justify-center relative overflow-hidden`}>
+                        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+                        <span className="text-3xl font-display font-light text-slate-700 z-10 tracking-wider">B&A</span>
+                        <div className="absolute top-3 right-3 w-6 h-6 bg-white/30 rounded-full"></div>
+                        <div className="absolute bottom-3 left-3 w-8 h-8 bg-white/20 rounded-full"></div>
+                      </div>
+                      <div className="p-6 text-center">
+                        <h3 className="text-base font-elegant font-light text-slate-900 mb-2 tracking-wide">시술 사례 {item.id}</h3>
+                        <p className="text-slate-700 text-sm font-elegant-sans font-light leading-relaxed">실로스 실리프팅으로 자연스러운 변화</p>
+                      </div>
                     </div>
-                    <select className="w-full px-5 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 text-white font-elegant-sans font-light transition-all">
-                      <option className="text-teal-smoke-800 bg-white">관심 시술을 선택해주세요</option>
-                      <option className="text-teal-smoke-800 bg-white">실로스 실리프팅</option>
-                      <option className="text-teal-smoke-800 bg-white">이마 눈썹 리프팅</option>
-                      <option className="text-teal-smoke-800 bg-white">눈밑 지방레이저</option>
-                      <option className="text-teal-smoke-800 bg-white">실로팻</option>
-                    </select>
-                    <textarea
-                      placeholder="상담 내용을 적어주세요"
-                      rows={4}
-                      className="w-full px-5 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 text-white placeholder-white/70 font-elegant-sans font-light transition-all resize-none"
-                    ></textarea>
+                  ))}
+                </div>
+                
+                {/* Auto-rotation indicators */}
+                <div className="flex justify-center mt-4 space-x-2">
+                  {galleryItems.map((_, index) => (
                     <button
-                      type="submit"
-                      className="w-full bg-white/90 hover:bg-white text-teal-smoke-800 py-4 rounded-xl font-elegant-sans font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                    >
-                      상담 신청하기
-                    </button>
-                  </form>
+                      key={index}
+                      onClick={() => {
+                        setIsTransitioning(true);
+                        setCurrentGalleryIndex(index);
+                      }}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        index === (currentGalleryIndex % galleryItems.length)
+                          ? 'bg-teal-smoke-500 w-8' 
+                          : 'bg-teal-smoke-200'
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+      {/* 온라인 상담 섹션 - StandardConsultationSection 컴포넌트 사용 */}
+      <StandardConsultationSection
+        title="온라인 상담 예약"
+        description="전문의와의 1:1 맞춤 상담으로 당신만의 아름다움을 계획하세요"
+        initialProcedureId="silos-lifting"
+      />
       </main>
 
-      {/* 푸터 */}
-      <footer className="w-full bg-gradient-to-br from-teal-smoke-800 via-elegant-800 to-teal-smoke-900 text-white py-16">
-        <div className="w-full">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
-              <div className="md:col-span-1 flex flex-col items-center md:items-start">
-                <h3 className="text-3xl font-display font-light text-teal-smoke-200 mb-4 tracking-wide">실로스</h3>
-                <p className="text-teal-smoke-300 font-elegant-sans font-light">실리프팅은 실로스</p>
-              </div>
-              
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-teal-smoke-200 tracking-wide">시술 안내</h4>
-                <ul className="space-y-3 text-teal-smoke-400">
-                  <li><a href="#" className="hover:text-teal-smoke-200 transition-colors font-elegant-sans font-light">실로스 실리프팅</a></li>
-                  <li><a href="#" className="hover:text-teal-smoke-200 transition-colors font-elegant-sans font-light">이마 눈썹 리프팅</a></li>
-                  <li><a href="#" className="hover:text-teal-smoke-200 transition-colors font-elegant-sans font-light">눈밑 지방레이저</a></li>
-                  <li><a href="#" className="hover:text-teal-smoke-200 transition-colors font-elegant-sans font-light">실로팻</a></li>
-                </ul>
-              </div>
-              
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-teal-smoke-200 tracking-wide">병원 정보</h4>
-                <ul className="space-y-3 text-teal-smoke-400 font-elegant-sans font-light">
-                  <li>서울시 강남구 논현로 123</li>
-                  <li>TEL: 02-1234-5678</li>
-                  <li>진료시간: 평일 09:00-18:00</li>
-                  <li>토요일 09:00-14:00</li>
-                </ul>
-              </div>
-              
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-teal-smoke-200 tracking-wide">빠른 상담</h4>
-                <button className="bg-teal-smoke-300 hover:bg-teal-smoke-200 text-teal-smoke-800 px-8 py-3 rounded-full font-elegant-sans font-medium transition-all duration-300 mb-6 shadow-lg hover:shadow-xl">
-                  카카오톡 상담
-                </button>
-                <div className="text-teal-smoke-400 text-sm font-elegant-sans font-light leading-relaxed">
-                  평일 09:00-18:00<br />
-                  토요일 09:00-14:00
-                </div>
-              </div>
-            </div>
-            
-            <div className="border-t border-teal-smoke-700/50 mt-12 pt-8 text-center">
-              <p className="text-teal-smoke-400 font-elegant-sans font-light">&copy; 2024 실로스 성형외과. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* 플로팅 퀵 상담 메뉴 */}
-      <QuickConsultationMenu />
-    </div>
+    </PageLayout>
   );
 }
