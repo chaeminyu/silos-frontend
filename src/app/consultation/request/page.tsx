@@ -7,12 +7,12 @@ import CustomAlert from '../../../components/CustomAlert';
 import { ShoppingCart, X, Calendar, Clock, MessageSquare, CheckCircle } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 
-// Mock cart data
-const mockCartItems = [
-  { id: '1', name: '실로스 실리프팅', category: '리프팅' },
-  { id: '2', name: '실로팻 - 복부', category: '지방추출' },
-  { id: '3', name: '울쎄라', category: '레이저' }
-];
+// Mock cart data (commented out - using real cart context instead)
+// const mockCartItems = [
+//   { id: '1', name: '실로스 실리프팅', category: '리프팅' },
+//   { id: '2', name: '실로팻 - 복부', category: '지방추출' },
+//   { id: '3', name: '울쎄라', category: '레이저' }
+// ];
 
 interface ConsultationData {
   personalInfo: {
