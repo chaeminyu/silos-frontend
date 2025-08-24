@@ -35,15 +35,15 @@ const mobileCategories = [
     id: 3,
     title: '커스텀 리프팅',
     items: [
-      { name: '울쎄라', href: '/procedures/custom-lifting/ulthera' },
-      { name: '덴서티', href: '/procedures/custom-lifting/density' },
-      { name: '올타이트', href: '/procedures/custom-lifting/oltight' },
-      { name: '온다', href: '/procedures/custom-lifting/onda' },
-      { name: '버츄RF', href: '/procedures/custom-lifting/virtue-rf' },
-      { name: '브이로어드밴스', href: '/procedures/custom-lifting/vro-advance' },
-      { name: '슈링크유니버스', href: '/procedures/custom-lifting/shrink-universe' },
-      { name: '엔코어3D', href: '/procedures/custom-lifting/encore3d' },
-      { name: '리바이브', href: '/procedures/custom-lifting/revive' }
+      { name: '울쎄라', href: '/procedures/custom-lifting?procedure=ulthera' },
+      { name: '덴서티', href: '/procedures/custom-lifting?procedure=density' },
+      { name: '올타이트', href: '/procedures/custom-lifting?procedure=oltight' },
+      { name: '온다', href: '/procedures/custom-lifting?procedure=onda' },
+      { name: '버츄RF', href: '/procedures/custom-lifting?procedure=virtue-rf' },
+      { name: '브이로어드밴스', href: '/procedures/custom-lifting?procedure=vro-advance' },
+      { name: '슈링크유니버스', href: '/procedures/custom-lifting?procedure=shrink-universe' },
+      { name: '엔코어3D', href: '/procedures/custom-lifting?procedure=encore3d' },
+      { name: '리바이브', href: '/procedures/custom-lifting?procedure=revive' }
     ]
   },
   {
@@ -160,6 +160,22 @@ export default function MobileCategoryGrid() {
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
 
+  // Fix overlay interference with 3rd column buttons on mobile
+  useEffect(() => {
+    const fixOverlayIssue = () => {
+      const overlays = document.querySelectorAll('[class*="fixed"][class*="right-0"][class*="z-40"]');
+      overlays.forEach((overlay) => {
+        (overlay as HTMLElement).style.zIndex = '1';
+      });
+    };
+    
+    // Fix on mount and after a short delay for dynamic content
+    fixOverlayIssue();
+    const timeout = setTimeout(fixOverlayIssue, 1000);
+    
+    return () => clearTimeout(timeout);
+  }, []);
+
   // Close dropdown on scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -227,7 +243,7 @@ export default function MobileCategoryGrid() {
                     hover:shadow-xl hover:scale-[1.02] hover:bg-white/90
                     backdrop-blur-md
                     relative overflow-hidden
-                    group
+                    group z-50
                   `}
                 >
                   {/* 배경 그라데이션 효과 */}
@@ -297,7 +313,7 @@ export default function MobileCategoryGrid() {
                     hover:shadow-xl hover:scale-[1.02] hover:bg-white/90
                     backdrop-blur-md
                     relative overflow-hidden
-                    group
+                    group z-50
                   `}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-teal-smoke-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
@@ -362,7 +378,7 @@ export default function MobileCategoryGrid() {
                     hover:shadow-xl hover:scale-[1.02] hover:bg-white/90
                     backdrop-blur-md
                     relative overflow-hidden
-                    group
+                    group z-50
                   `}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-teal-smoke-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
@@ -427,7 +443,7 @@ export default function MobileCategoryGrid() {
                     hover:shadow-xl hover:scale-[1.02] hover:bg-white/90
                     backdrop-blur-md
                     relative overflow-hidden
-                    group
+                    group z-50
                   `}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-teal-smoke-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
@@ -492,7 +508,7 @@ export default function MobileCategoryGrid() {
                     hover:shadow-xl hover:scale-[1.02] hover:bg-white/90
                     backdrop-blur-md
                     relative overflow-hidden
-                    group
+                    group z-50
                   `}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-teal-smoke-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
