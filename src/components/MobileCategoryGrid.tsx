@@ -4,36 +4,53 @@ import { useState, useEffect } from 'react';
 import { ChevronDown, Star } from 'lucide-react';
 import Link from 'next/link';
 
+// 카테고리 타입 정의
+interface CategoryItem {
+  name: string;
+  href: string;
+}
+
+interface Category {
+  id: number;
+  title: string;
+  subtitle?: string;
+  isImportant?: boolean;
+  mainLink?: string;
+  items: CategoryItem[];
+}
+
 // 15개 카테고리 데이터 구조 - 새로운 계층 구조 URL 적용
-const mobileCategories = [
+const mobileCategories: Category[] = [
   {
     id: 1,
     title: '실로스 시그니처',
     isImportant: true,
     items: [
-      { name: '실로프팅(실리프팅)', href: '/procedures/silos-signature/silos-lifting' },
-      { name: '실로팻(지방추출주사)', href: '/procedures/silos-signature/silofat' },
-      { name: '반달레이저(눈밑지방레이저)', href: '/procedures/silos-signature/under-eye-laser' },
-      { name: '넥리프팅(목리프팅)', href: '/procedures/silos-signature/neck-lifting' }
+      { name: '실로프팅(실리프팅)', href: '/procedures/silos-lifting' },
+      { name: '실로팻(지방추출주사)', href: '/silofat' },
+      { name: '반달레이저(눈밑지방레이저)', href: '/procedures/under-eye-laser' },
+      { name: '넥리프팅(목리프팅)', href: '/procedures/neck-lifting-new' }
     ]
   },
   {
     id: 2,
     title: '실로프팅',
     subtitle: '(SILOS 실리프팅)',
+    mainLink: '/procedures/silos-lifting',
     items: [
-      { name: '커스텀 실로프팅', href: '/procedures/silos-lifting/custom-thread' },
-      { name: '상안면부(이마)', href: '/procedures/silos-lifting/upper-face' },
-      { name: '중안면부(팔자/애플존)', href: '/procedures/silos-lifting/mid-face' },
-      { name: '하안면부', href: '/procedures/silos-lifting/lower-face' },
-      { name: '눈밑/눈가/입가', href: '/procedures/silos-lifting/eye-area' },
-      { name: '코프팅(코실리프팅)', href: '/procedures/silos-lifting/nose-lifting' },
+      { name: '커스텀 실로프팅', href: '/procedures/silos-lifting?procedure=thread-lifting' },
+      { name: '상안면부(이마)', href: '/procedures/silos-lifting?procedure=forehead-lifting' },
+      { name: '중안면부(팔자/애플존)', href: '/procedures/silos-lifting?procedure=nasolabial-lifting' },
+      { name: '하안면부', href: '/procedures/silos-lifting?procedure=jawline-lifting' },
+      { name: '눈밑/눈가/입가', href: '/procedures/silos-lifting?procedure=jowl-lifting' },
+      { name: '코프팅(코실리프팅)', href: '/procedures/silos-lifting?procedure=nose-lifting' },
       { name: '실로케어(애프터케어)', href: '/procedures/silos-lifting/aftercare' }
     ]
   },
   {
     id: 3,
     title: '커스텀 리프팅',
+    mainLink: '/procedures/custom-lifting',
     items: [
       { name: '울쎄라', href: '/procedures/custom-lifting?procedure=ulthera' },
       { name: '덴서티', href: '/procedures/custom-lifting?procedure=density' },
@@ -49,6 +66,7 @@ const mobileCategories = [
   {
     id: 4,
     title: '안면리프팅',
+    mainLink: '/procedures/face-lifting',
     items: [
       { name: 'SMAS안면거상', href: '/procedures/face-lifting/smas-lift' },
       { name: 'SMAS안면거상+목거상', href: '/procedures/face-lifting/smas-neck-lift' }
@@ -57,6 +75,7 @@ const mobileCategories = [
   {
     id: 5,
     title: '미니리프팅',
+    mainLink: '/procedures/mini-lifting',
     items: [
       { name: '실로퀵미니거상', href: '/procedures/mini-lifting/siloquick-mini' },
       { name: '미니거상', href: '/procedures/mini-lifting/mini-lift' }
@@ -65,6 +84,7 @@ const mobileCategories = [
   {
     id: 6,
     title: '이마리프팅',
+    mainLink: '/procedures/forehead-lifting',
     items: [
       { name: '내시경 이마거상', href: '/procedures/forehead-lifting/endoscopic-forehead' }
     ]
@@ -72,6 +92,7 @@ const mobileCategories = [
   {
     id: 7,
     title: '처진눈리프팅',
+    mainLink: '/procedures/droopy-eye-lifting',
     items: [
       { name: '상/하안검', href: '/procedures/droopy-eye-lifting/upper-lower-bleph' },
       { name: '버츄RF(눈꺼풀리프팅)', href: '/procedures/droopy-eye-lifting/virtue-rf-eye' }
@@ -80,6 +101,7 @@ const mobileCategories = [
   {
     id: 8,
     title: '넥(Neck)리프팅',
+    mainLink: '/procedures/neck-lifting-new',
     items: [
       { name: '커스텀 넥리프팅', href: '/procedures/neck-lifting-new/custom-neck' },
       { name: '목주름(가로밴드/세로주름)', href: '/procedures/neck-lifting-new/neck-wrinkles' }
@@ -88,6 +110,7 @@ const mobileCategories = [
   {
     id: 9,
     title: '쁘띠리프팅',
+    mainLink: '/procedures/petit-lifting',
     items: [
       { name: '고난도필러', href: '/procedures/petit-lifting/advanced-filler' },
       { name: '특수부위필러', href: '/procedures/petit-lifting/special-area-filler' },
@@ -99,6 +122,7 @@ const mobileCategories = [
   {
     id: 10,
     title: '스킨리프팅',
+    mainLink: '/procedures/skin-lifting',
     items: [
       { name: '스킨보톡스', href: '/procedures/skin-lifting/skin-botox' },
       { name: '물광주사', href: '/procedures/skin-lifting/skin-booster' },
@@ -113,6 +137,7 @@ const mobileCategories = [
   {
     id: 11,
     title: '복부리프팅',
+    mainLink: '/procedures/body-lifting',
     items: [
       { name: '복벽성형(처진뱃살)', href: '/procedures/body-lifting/abdomen-plastic' },
       { name: '실로컷주사(지방분해주사)', href: '/procedures/body-lifting/silocut' },
@@ -122,6 +147,7 @@ const mobileCategories = [
   {
     id: 12,
     title: '옴므리프팅',
+    mainLink: '/procedures/homme-lifting',
     items: [
       { name: '옴므피부케어', href: '/procedures/homme-lifting/homme-skin-care' },
       { name: '옴므리프팅케어', href: '/procedures/homme-lifting/homme-lifting-care' },
@@ -131,6 +157,7 @@ const mobileCategories = [
   {
     id: 13,
     title: '피부올인원',
+    mainLink: '/procedures/skin-all-in-one',
     items: [
       { name: '색소(기미/흑자/점)', href: '/procedures/skin-all-in-one/pigmentation' },
       { name: '모공/흉터', href: '/procedures/skin-all-in-one/pores-scars' },
@@ -142,6 +169,7 @@ const mobileCategories = [
     id: 14,
     title: '액취증',
     subtitle: '피지낭종',
+    mainLink: '/procedures/hyperhidrosis-cyst',
     items: [
       { name: '액취증', href: '/procedures/hyperhidrosis-cyst/hyperhidrosis' },
       { name: '피지낭종', href: '/procedures/hyperhidrosis-cyst/sebaceous-cyst' }
@@ -150,6 +178,7 @@ const mobileCategories = [
   {
     id: 15,
     title: '줄기세포',
+    mainLink: '/procedures/stem-cell',
     items: [
       { name: '줄기세포 상담문의', href: '/procedures/stem-cell/stem-cell-consult' }
     ]
@@ -572,10 +601,22 @@ export default function MobileCategoryGrid() {
             {/* 헤더 */}
             <div className="relative mb-3 pb-2 border-b border-gradient-to-r from-transparent via-teal-smoke-300/50 to-transparent">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-cyan-800 flex items-center">
-                  <div className="w-2 h-2 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full mr-2"></div>
-                  {category.title}
-                </span>
+                {category.mainLink ? (
+                  <Link
+                    href={category.mainLink}
+                    className="text-xs font-bold text-cyan-800 flex items-center hover:text-cyan-600 transition-colors duration-200"
+                    onClick={() => setExpandedCategory(null)}
+                  >
+                    <div className="w-2 h-2 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full mr-2"></div>
+                    {category.title}
+                    <ChevronDown className="w-3 h-3 ml-1 rotate-[-90deg] opacity-60" />
+                  </Link>
+                ) : (
+                  <span className="text-xs font-bold text-cyan-800 flex items-center">
+                    <div className="w-2 h-2 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full mr-2"></div>
+                    {category.title}
+                  </span>
+                )}
                 <div className="text-[10px] text-slate-500 bg-teal-smoke-100/60 px-2 py-0.5 rounded-full">
                   {category.items.length}개
                 </div>

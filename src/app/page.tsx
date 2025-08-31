@@ -208,8 +208,8 @@ export default function HomePage() {
           <MobileCategoryGrid />
         </div>
         
-        {/* 가이드 배너 */}
-        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-6 bg-gradient-to-r from-cyan-600 via-blue-600 to-cyan-700 z-50">
+        {/* 가이드 배너 - 현재 숨김 처리됨 (프로젝트에는 유지) */}
+        {/* <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-6 bg-gradient-to-r from-cyan-600 via-blue-600 to-cyan-700 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-center sm:text-left">
@@ -231,7 +231,7 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
         
         {/* 실로스 소개 섹션 - 모바일/PC 모두 표시 */}
         <section id="about" className="w-full py-24 bg-gradient-to-br from-teal-smoke-50 via-white to-elegant-100">

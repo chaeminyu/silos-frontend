@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
 import StandardConsultationSection from '../../../components/StandardConsultationSection';
 import { Zap, Clock, Shield, Star, ShoppingCart, Check } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
 
 const customLiftingProcedures = [
   {
@@ -138,8 +139,8 @@ const customLiftingProcedures = [
 
 export default function CustomLiftingPage() {
   const searchParams = useSearchParams();
+  const { addToCart, removeFromCart, isInCart } = useCart();
   const [activeTab, setActiveTab] = useState<string>('ulthera');
-  const [addedToCart, setAddedToCart] = useState<string[]>([]);
   const [selectedBodyPart, setSelectedBodyPart] = useState<string>('01');
 
   // Handle URL parameter for direct tab access
@@ -170,20 +171,30 @@ export default function CustomLiftingPage() {
     return () => clearTimeout(timeout);
   }, []);
 
-  const handleAddToCart = (partId: string, partName: string, event: React.MouseEvent) => {
+  const handleToggleCart = (partId: string, partName: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    if (!addedToCart.includes(partId)) {
-      setAddedToCart([...addedToCart, partId]);
+    if (isInCart(partId)) {
+      removeFromCart(partId);
+      console.log(`Removed from cart: 커스텀 리프팅 - ${partName}`);
+    } else {
+      addToCart({
+        id: partId,
+        name: partName,
+        category: '커스텀 리프팅'
+      });
       console.log(`Added to cart: 커스텀 리프팅 - ${partName}`);
     }
   };
 
   const bodyParts = [
-    { id: '01', name: '이마주름', image: '/images/procedures/custom-lifting/areas/forehead.png' },
-    { id: '02', name: '눈가라인', image: '/images/procedures/custom-lifting/areas/eye-area.png' },
-    { id: '03', name: '심부볼', image: '/images/procedures/custom-lifting/areas/deep-cheek.png' },
-    { id: '04', name: '팔자주름', image: '/images/procedures/custom-lifting/areas/nasolabial.png' },
-    { id: '05', name: '이중턱/목주름', image: '/images/procedures/custom-lifting/areas/neck-double-chin.png' }
+    { id: '01', name: '얼굴 전체', image: '/images/procedures/custom-lifting/areas/full-face.png' },
+    { id: '02', name: '이마주름', image: '/images/procedures/custom-lifting/areas/forehead.png' },
+    { id: '03', name: '눈밑눈가', image: '/images/procedures/custom-lifting/areas/eye-area.png' },
+    { id: '04', name: '심부볼', image: '/images/procedures/custom-lifting/areas/deep-cheek.png' },
+    { id: '05', name: '팔자주름', image: '/images/procedures/custom-lifting/areas/nasolabial.png' },
+    { id: '06', name: '턱라인', image: '/images/procedures/custom-lifting/areas/jawline.png' },
+    { id: '07', name: '이중턱', image: '/images/procedures/custom-lifting/areas/double-chin.png' },
+    { id: '08', name: '목주름', image: '/images/procedures/custom-lifting/areas/neck-wrinkles.png' }
   ];
 
   return (
@@ -410,19 +421,25 @@ export default function CustomLiftingPage() {
                             <div className="mt-4 lg:mt-6 text-center">
                               <button
                                 onClick={() => {
-                                  if (!addedToCart.includes(activeProcedure.id)) {
-                                    setAddedToCart([...addedToCart, activeProcedure.id]);
+                                  if (isInCart(activeProcedure.id)) {
+                                    removeFromCart(activeProcedure.id);
+                                    console.log(`Removed from cart: 커스텀 리프팅 - ${activeProcedure.title}`);
+                                  } else {
+                                    addToCart({
+                                      id: activeProcedure.id,
+                                      name: activeProcedure.title,
+                                      category: '커스텀 리프팅'
+                                    });
                                     console.log(`Added to cart: 커스텀 리프팅 - ${activeProcedure.title}`);
                                   }
                                 }}
                                 className={`px-4 lg:px-6 py-2.5 lg:py-3 rounded-xl font-elegant-sans font-bold text-xs lg:text-sm transition-all duration-300 flex items-center justify-center space-x-1.5 lg:space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105 w-full ${
-                                  addedToCart.includes(activeProcedure.id)
-                                    ? 'bg-gradient-to-r from-green-200 to-green-300 text-green-800 cursor-default border-2 border-green-400'
+                                  isInCart(activeProcedure.id)
+                                    ? 'bg-gradient-to-r from-green-200 to-green-300 text-green-800 cursor-pointer hover:from-green-300 hover:to-green-400 border-2 border-green-400'
                                     : 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white hover:from-teal-smoke-500 hover:to-elegant-500 border-2 border-transparent'
                                 }`}
-                                disabled={addedToCart.includes(activeProcedure.id)}
                               >
-                                {addedToCart.includes(activeProcedure.id) ? (
+                                {isInCart(activeProcedure.id) ? (
                                   <>
                                     <Check className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                                     <span>상담 리스트에 담김</span>
@@ -447,7 +464,7 @@ export default function CustomLiftingPage() {
 
           {/* Body Parts Section */}
           <div className="py-24 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-3xl">
-            <div className="text-center mb-16">
+            <div className="text-center mb-16" id="part-section-title">
               <h2 className="text-4xl lg:text-5xl font-display font-light text-teal-smoke-800 mb-4">
                 PART
               </h2>
@@ -457,7 +474,37 @@ export default function CustomLiftingPage() {
               <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 rounded-full mx-auto"></div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-8">
+            {/* 모바일: 이미지를 상단에 sticky로 고정 */}
+            <div className="lg:hidden mb-8 px-4" id="mobile-image-container">
+              <div className="sticky top-20 z-10">
+                <div className="relative aspect-square glass-effect-strong rounded-3xl shadow-xl overflow-hidden max-w-sm mx-auto">
+                  {(() => {
+                    const selectedPart = bodyParts.find(part => part.id === selectedBodyPart);
+                    return selectedPart ? (
+                      <>
+                        <img 
+                          src={selectedPart.image} 
+                          alt={selectedPart.name}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                          <p className="text-white text-lg font-display font-medium">
+                            {selectedPart.name}
+                          </p>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex items-center justify-center h-full bg-gradient-to-br from-teal-smoke-100 to-elegant-100">
+                        <span className="text-slate-600 font-elegant-sans">시술 부위를 선택해주세요</span>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            {/* 데스크탑: 기존 그리드 레이아웃 */}
+            <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-8">
               <div className="order-2 lg:order-1">
                 <div className="relative h-[500px] glass-effect-strong rounded-3xl shadow-xl overflow-hidden">
                   {(() => {
@@ -504,15 +551,14 @@ export default function CustomLiftingPage() {
                         </p>
                       </div>
                       <button
-                        onClick={(e) => handleAddToCart(part.id, part.name, e)}
+                        onClick={(e) => handleToggleCart(part.id, part.name, e)}
                         className={`px-4 py-2 rounded-lg font-elegant-sans text-sm transition-all duration-300 flex items-center space-x-2 ${
-                          addedToCart.includes(part.id)
-                            ? 'bg-green-100 text-green-700 cursor-default'
+                          isInCart(part.id)
+                            ? 'bg-green-100 text-green-700 cursor-pointer hover:bg-green-200'
                             : 'bg-teal-smoke-300 text-white hover:bg-teal-smoke-400 hover:shadow-lg'
                         }`}
-                        disabled={addedToCart.includes(part.id)}
                       >
-                        {addedToCart.includes(part.id) ? (
+                        {isInCart(part.id) ? (
                           <>
                             <Check className="w-4 h-4" />
                             <span>담김</span>
@@ -528,6 +574,77 @@ export default function CustomLiftingPage() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* 모바일: 선택 옵션들 */}
+            <div className="lg:hidden px-4 space-y-3 pb-8">
+              {bodyParts.map((part) => (
+                <div
+                  key={part.id}
+                  onClick={(e) => {
+                    // 버튼 클릭인 경우 이벤트 처리하지 않음
+                    if ((e.target as HTMLElement).closest('button')) {
+                      return;
+                    }
+                    setSelectedBodyPart(part.id);
+                    // 모바일에서 선택 시 이미지의 시작점으로 스크롤
+                    setTimeout(() => {
+                      const imageContainer = document.getElementById('mobile-image-container');
+                      if (imageContainer) {
+                        const imageTop = imageContainer.offsetTop - 20; // 이미지 시작점에서 20px 위
+                        window.scrollTo({ top: imageTop, behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }}
+                  className={`group cursor-pointer rounded-xl p-4 shadow-md transition-all duration-300 border-2 ${
+                    selectedBodyPart === part.id 
+                      ? 'bg-gradient-to-r from-teal-smoke-100 to-elegant-100 border-teal-smoke-400' 
+                      : 'bg-white border-gray-200 hover:border-teal-smoke-300'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3 flex-1">
+                      <span className={`text-lg font-display font-light ${
+                        selectedBodyPart === part.id ? 'text-teal-smoke-700' : 'text-slate-600'
+                      }`}>
+                        CASE {part.id}
+                      </span>
+                      <p className={`text-base font-elegant font-medium transition-colors ${
+                        selectedBodyPart === part.id 
+                          ? 'text-teal-smoke-800' 
+                          : 'text-slate-700'
+                      }`}>
+                        {part.name}
+                      </p>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleToggleCart(part.id, part.name, e);
+                      }}
+                      onTouchStart={(e) => e.stopPropagation()}
+                      className={`px-3 py-1.5 rounded-lg font-elegant-sans text-xs transition-all duration-300 flex items-center space-x-1 ${
+                        isInCart(part.id)
+                          ? 'bg-green-100 text-green-700 cursor-pointer hover:bg-green-200'
+                          : 'bg-teal-smoke-300 text-white hover:bg-teal-smoke-400'
+                      } relative z-10`}
+                    >
+                      {isInCart(part.id) ? (
+                        <>
+                          <Check className="w-3 h-3" />
+                          <span>담김</span>
+                        </>
+                      ) : (
+                        <>
+                          <ShoppingCart className="w-3 h-3" />
+                          <span>담기</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
           
