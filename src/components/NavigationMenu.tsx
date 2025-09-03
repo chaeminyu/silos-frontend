@@ -199,7 +199,7 @@ const navigationData = [
   {
     id: 'community',
     title: '커뮤니티',
-    href: '/community',
+    // href 제거하여 드롭다운만 활성화
     submenu: [
       { title: 'Before & After', href: '/community/before-after', subtitle: '실제 시술 사례' },
       { title: '온라인 상담 신청', href: '/consultation/request' },
@@ -225,8 +225,33 @@ export default function NavigationMenu() {
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     
+    // Calculate dropdown height estimate based on menu type
+    let estimatedHeight = 400; // Default height
+    const menuItem = navigationData.find(item => item.id === menuId);
+    if (menuItem?.submenu) {
+      if (menuId === 'procedures') {
+        estimatedHeight = 600; // Larger for procedures grid
+      } else {
+        estimatedHeight = menuItem.submenu.length * 60 + 100; // Estimate based on items
+      }
+    }
+    
+    // Check if dropdown would overflow viewport
+    const viewportHeight = window.innerHeight;
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    
+    let top: number;
+    if (spaceBelow >= estimatedHeight || spaceBelow > spaceAbove) {
+      // Show below if there's enough space or more space below than above
+      top = rect.bottom + 4;
+    } else {
+      // Show above if there's more space above
+      top = Math.max(8, rect.top - estimatedHeight - 4);
+    }
+    
     setDropdownPosition({
-      top: rect.bottom + 4,
+      top,
       left: rect.left
     });
     
@@ -387,7 +412,7 @@ export default function NavigationMenu() {
       {activeDropdown && !isMobile && (
         <div 
           key={activeDropdown}
-          className="fixed bg-white shadow-2xl border-t border-teal-smoke-200 opacity-0 animate-smooth-dropdown"
+          className="fixed bg-white shadow-2xl border border-teal-smoke-200 rounded-xl opacity-0 animate-smooth-dropdown"
           data-dropdown-portal
           style={{
             top: dropdownPosition.top,
@@ -395,9 +420,9 @@ export default function NavigationMenu() {
             right: activeDropdown === 'procedures' ? 0 : 'auto',
             animation: 'ultraSmoothDropdown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
             width: activeDropdown === 'procedures' ? '100vw' : 'auto',
-            minWidth: activeDropdown === 'procedures' ? '100vw' : '300px',
-            maxWidth: activeDropdown === 'procedures' ? '100vw' : '400px',
-            maxHeight: '80vh',
+            minWidth: activeDropdown === 'procedures' ? '100vw' : '280px',
+            maxWidth: activeDropdown === 'procedures' ? '100vw' : '350px',
+            maxHeight: 'calc(100vh - 120px)',
             overflowY: 'auto',
             zIndex: 99999
           }}
@@ -419,15 +444,15 @@ export default function NavigationMenu() {
             
             // 일반 메뉴들의 기본 레이아웃
             return (
-              <div className="space-y-1">
-                <h4 className="font-elegant font-medium text-cyan-700 mb-4 text-lg tracking-wide border-b border-teal-smoke-200/30 pb-2">
+              <div className="p-4 space-y-1">
+                <h4 className="font-elegant font-medium text-cyan-700 mb-3 text-base tracking-wide border-b border-teal-smoke-200/30 pb-2">
                   {menuItem.title}
                 </h4>
                 {menuItem.submenu.map((subItem, index) => (
                   <Link
                     key={index}
                     href={subItem.href}
-                    className="flex items-start px-4 py-3 rounded-xl text-cyan-600 hover:text-cyan-700 hover:bg-teal-smoke-50/80 transition-all duration-200 group"
+                    className="flex items-start px-3 py-2.5 rounded-lg text-cyan-600 hover:text-cyan-700 hover:bg-teal-smoke-50/80 transition-all duration-200 group"
                     onMouseEnter={() => setIsMouseOverDropdown(true)}
                   >
                     <div className="flex-1">
