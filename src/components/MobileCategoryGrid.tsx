@@ -167,8 +167,7 @@ const mobileCategories: Category[] = [
   },
   {
     id: 14,
-    title: '액취증',
-    subtitle: '피지낭종',
+    title: '액취증\n피지낭종',
     mainLink: '/procedures/hyperhidrosis-cyst',
     items: [
       { name: '액취증', href: '/procedures/hyperhidrosis-cyst/hyperhidrosis' },
@@ -185,7 +184,11 @@ const mobileCategories: Category[] = [
   }
 ];
 
-export default function MobileCategoryGrid() {
+interface MobileCategoryGridProps {
+  onCategoryClick?: () => void;
+}
+
+export default function MobileCategoryGrid({ onCategoryClick }: MobileCategoryGridProps = {}) {
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
 
@@ -293,7 +296,11 @@ export default function MobileCategoryGrid() {
                     ${category.isImportant ? 'text-cyan-800' : 'text-slate-700'}
                     group-hover:text-cyan-900 transition-colors duration-300
                   `}>
-                    {category.title}
+                    {category.title.split('\n').map((line, index) => (
+                      <span key={index} className={index > 0 ? 'block' : ''}>
+                        {line}
+                      </span>
+                    ))}
                   </span>
                   
                   {/* 서브타이틀 */}
@@ -360,7 +367,11 @@ export default function MobileCategoryGrid() {
                     ${category.isImportant ? 'text-cyan-800' : 'text-slate-700'}
                     group-hover:text-cyan-900 transition-colors duration-300
                   `}>
-                    {category.title}
+                    {category.title.split('\n').map((line, index) => (
+                      <span key={index} className={index > 0 ? 'block' : ''}>
+                        {line}
+                      </span>
+                    ))}
                   </span>
                   
                   {category.subtitle && (
@@ -425,7 +436,11 @@ export default function MobileCategoryGrid() {
                     ${category.isImportant ? 'text-cyan-800' : 'text-slate-700'}
                     group-hover:text-cyan-900 transition-colors duration-300
                   `}>
-                    {category.title}
+                    {category.title.split('\n').map((line, index) => (
+                      <span key={index} className={index > 0 ? 'block' : ''}>
+                        {line}
+                      </span>
+                    ))}
                   </span>
                   
                   {category.subtitle && (
@@ -490,7 +505,11 @@ export default function MobileCategoryGrid() {
                     ${category.isImportant ? 'text-cyan-800' : 'text-slate-700'}
                     group-hover:text-cyan-900 transition-colors duration-300
                   `}>
-                    {category.title}
+                    {category.title.split('\n').map((line, index) => (
+                      <span key={index} className={index > 0 ? 'block' : ''}>
+                        {line}
+                      </span>
+                    ))}
                   </span>
                   
                   {category.subtitle && (
@@ -555,7 +574,11 @@ export default function MobileCategoryGrid() {
                     ${category.isImportant ? 'text-cyan-800' : 'text-slate-700'}
                     group-hover:text-cyan-900 transition-colors duration-300
                   `}>
-                    {category.title}
+                    {category.title.split('\n').map((line, index) => (
+                      <span key={index} className={index > 0 ? 'block' : ''}>
+                        {line}
+                      </span>
+                    ))}
                   </span>
                   
                   {category.subtitle && (
@@ -605,16 +628,27 @@ export default function MobileCategoryGrid() {
                   <Link
                     href={category.mainLink}
                     className="text-xs font-bold text-cyan-800 flex items-center hover:text-cyan-600 transition-colors duration-200"
-                    onClick={() => setExpandedCategory(null)}
+                    onClick={() => {
+                      setExpandedCategory(null);
+                      if (onCategoryClick) onCategoryClick();
+                    }}
                   >
                     <div className="w-2 h-2 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full mr-2"></div>
-                    {category.title}
+                    {category.title.split('\n').map((line, index) => (
+                      <span key={index} className={index > 0 ? 'block' : ''}>
+                        {line}
+                      </span>
+                    ))}
                     <ChevronDown className="w-3 h-3 ml-1 rotate-[-90deg] opacity-60" />
                   </Link>
                 ) : (
                   <span className="text-xs font-bold text-cyan-800 flex items-center">
                     <div className="w-2 h-2 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full mr-2"></div>
-                    {category.title}
+                    {category.title.split('\n').map((line, index) => (
+                      <span key={index} className={index > 0 ? 'block' : ''}>
+                        {line}
+                      </span>
+                    ))}
                   </span>
                 )}
                 <div className="text-[10px] text-slate-500 bg-teal-smoke-100/60 px-2 py-0.5 rounded-full">
@@ -630,7 +664,10 @@ export default function MobileCategoryGrid() {
                   key={index}
                   href={item.href}
                   className="group block px-3 py-2.5 text-[11px] font-medium text-slate-700 hover:bg-gradient-to-r hover:from-teal-smoke-100/80 hover:via-white/50 hover:to-elegant-100/80 hover:text-cyan-800 rounded-lg transition-all duration-300 relative overflow-hidden border border-transparent hover:border-teal-smoke-200/50"
-                  onClick={() => setExpandedCategory(null)}
+                  onClick={() => {
+                    setExpandedCategory(null);
+                    if (onCategoryClick) onCategoryClick();
+                  }}
                 >
                   <div className="flex items-center">
                     <div className="w-1.5 h-1.5 bg-gradient-to-br from-teal-smoke-300 to-cyan-500 rounded-full mr-2 opacity-60 group-hover:opacity-100 transition-opacity"></div>

@@ -281,7 +281,7 @@ export default function ProcedureSelectionModal({
 
   if (isMobile) {
     return (
-      <div className="fixed inset-0 z-50 overflow-hidden">
+      <div className="fixed inset-0 z-[100000] overflow-hidden">
         {/* 배경 오버레이 */}
         <div 
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -290,7 +290,7 @@ export default function ProcedureSelectionModal({
         
         {/* 모바일 모달 컨테이너 */}
         <div className="relative w-full h-full flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md h-[85vh] flex flex-col overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md h-[85vh] flex flex-col overflow-hidden relative z-[100001]">
             
             {/* 헤더 with Progress */}
             <div className="p-4 border-b border-slate-200 bg-slate-50">
@@ -533,7 +533,7 @@ export default function ProcedureSelectionModal({
 
   // Desktop Layout (기존 레이아웃 유지)
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div className="fixed inset-0 z-[100000] overflow-hidden">
       {/* 배경 오버레이 */}
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -542,7 +542,7 @@ export default function ProcedureSelectionModal({
       
       {/* 데스크톱 모달 컨테이너 */}
       <div className="relative w-full h-full flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[80vh] flex overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[80vh] flex overflow-hidden relative z-[100001]">
           
           {/* 왼쪽 사이드바 - 시술 카테고리 */}
           <div className="w-1/3 bg-slate-50 border-r border-slate-200 overflow-y-auto">

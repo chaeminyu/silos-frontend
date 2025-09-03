@@ -5,6 +5,7 @@ import { ChevronDown, ChevronRight, Home } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
+import MobileCategoryGrid from './MobileCategoryGrid';
 
 const navigationData = [
   {
@@ -34,7 +35,7 @@ const navigationData = [
   {
     id: 'procedures',
     title: '시술안내',
-    href: '/procedures',
+    // href: '/procedures', // 드롭다운만 사용하도록 비활성화
     submenu: [
       // Column 1 - 실로스 시그니처 & 실로프팅 카테고리
       // 실로스 시그니처 카테고리
@@ -191,10 +192,16 @@ const navigationData = [
     ]
   },
   {
-    id: 'consultation',
-    title: '상담문의',
-    href: '/consultation',
+    id: 'events',
+    title: '이벤트',
+    href: '/events'
+  },
+  {
+    id: 'community',
+    title: '커뮤니티',
+    href: '/community',
     submenu: [
+      { title: 'Before & After', href: '/community/before-after', subtitle: '실제 시술 사례' },
       { title: '온라인 상담 신청', href: '/consultation/request' },
       { title: '상담 내역 조회', href: '/consultation/list' },
       { title: '전화상담 예약', href: '/consultation/phone' },
@@ -334,22 +341,40 @@ export default function NavigationMenu() {
               onMouseEnter={(e) => item.submenu && handleMouseEnter(item.id, e)}
             >
               {/* 메인 메뉴 아이템 */}
-              <Link
-                href={item.href}
-                className="flex items-center px-2.5 py-2.5 rounded-lg text-[15px] font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-cyan-700 hover:text-cyan-800 whitespace-nowrap"
-              >
-                <span className="flex flex-col">
-                  <span className="whitespace-nowrap">{item.title}</span>
-                  {(item as any).subtitle && (
-                    <span className="text-[12px] text-cyan-500 leading-tight whitespace-nowrap">
-                      {(item as any).subtitle}
-                    </span>
+              {item.href ? (
+                <Link
+                  href={item.href}
+                  className="flex items-center px-2.5 py-2.5 rounded-lg text-[15px] font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-cyan-700 hover:text-cyan-800 whitespace-nowrap"
+                >
+                  <span className="flex flex-col">
+                    <span className="whitespace-nowrap">{item.title}</span>
+                    {(item as any).subtitle && (
+                      <span className="text-[12px] text-cyan-500 leading-tight whitespace-nowrap">
+                        {(item as any).subtitle}
+                      </span>
+                    )}
+                  </span>
+                  {item.submenu && (
+                    <ChevronDown className="w-3 h-3 ml-1 transition-transform duration-200 group-hover:rotate-180 flex-shrink-0" />
                   )}
-                </span>
-                {item.submenu && (
-                  <ChevronDown className="w-3 h-3 ml-1 transition-transform duration-200 group-hover:rotate-180 flex-shrink-0" />
-                )}
-              </Link>
+                </Link>
+              ) : (
+                <button
+                  className="flex items-center px-2.5 py-2.5 rounded-lg text-[15px] font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-cyan-700 hover:text-cyan-800 whitespace-nowrap cursor-pointer"
+                >
+                  <span className="flex flex-col">
+                    <span className="whitespace-nowrap">{item.title}</span>
+                    {(item as any).subtitle && (
+                      <span className="text-[12px] text-cyan-500 leading-tight whitespace-nowrap">
+                        {(item as any).subtitle}
+                      </span>
+                    )}
+                  </span>
+                  {item.submenu && (
+                    <ChevronDown className="w-3 h-3 ml-1 transition-transform duration-200 group-hover:rotate-180 flex-shrink-0" />
+                  )}
+                </button>
+              )}
 
             </div>
           ))}
@@ -362,14 +387,16 @@ export default function NavigationMenu() {
       {activeDropdown && !isMobile && (
         <div 
           key={activeDropdown}
-          className="fixed bg-white rounded-2xl shadow-2xl border border-teal-smoke-200 p-6 opacity-0 animate-smooth-dropdown"
+          className="fixed bg-white shadow-2xl border-t border-teal-smoke-200 opacity-0 animate-smooth-dropdown"
           data-dropdown-portal
           style={{
             top: dropdownPosition.top,
-            left: dropdownPosition.left,
+            left: activeDropdown === 'procedures' ? 0 : dropdownPosition.left,
+            right: activeDropdown === 'procedures' ? 0 : 'auto',
             animation: 'ultraSmoothDropdown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
-            minWidth: activeDropdown === 'procedures' ? '1000px' : '300px',
-            maxWidth: activeDropdown === 'procedures' ? '1100px' : '400px',
+            width: activeDropdown === 'procedures' ? '100vw' : 'auto',
+            minWidth: activeDropdown === 'procedures' ? '100vw' : '300px',
+            maxWidth: activeDropdown === 'procedures' ? '100vw' : '400px',
             maxHeight: '80vh',
             overflowY: 'auto',
             zIndex: 99999
@@ -381,139 +408,11 @@ export default function NavigationMenu() {
             const menuItem = navigationData.find(item => item.id === activeDropdown);
             if (!menuItem?.submenu) return null;
             
-            // 시술안내 메뉴의 특별한 레이아웃
+            // 시술안내 메뉴의 특별한 레이아웃 - 3x5 그리드 스타일
             if (activeDropdown === 'procedures') {
-              // Group items into columns
-              const itemsWithSubmenus = menuItem.submenu.filter(item => (item as any).items);
-              const standaloneItems = menuItem.submenu.filter(item => !(item as any).items);
-              
-              // Distribute items with submenus across first two columns
-              const column1 = itemsWithSubmenus.slice(0, Math.ceil(itemsWithSubmenus.length / 2));
-              const column2 = itemsWithSubmenus.slice(Math.ceil(itemsWithSubmenus.length / 2));
-              const column3 = standaloneItems; // All standalone items in third column
-
               return (
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between mb-6 pb-3 border-b border-teal-smoke-200/30">
-                    <h4 className="font-elegant font-medium text-cyan-700 text-lg tracking-wide">
-                      {menuItem.title}
-                    </h4>
-                    <Link
-                      href="/procedures"
-                      className="px-4 py-2 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-lg font-elegant-sans font-medium text-sm hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300 shadow-md hover:shadow-lg"
-                    >
-                      전체 시술
-                    </Link>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    {/* Column 1 */}
-                    <div className="space-y-2">
-                      {column1.map((category, catIndex) => (
-                        <div key={catIndex} className="space-y-2">
-                          {/* 카테고리 헤더 - only categories with items */}
-                          <Link
-                            href={category.href}
-                            className="block px-4 py-3 rounded-xl bg-gradient-to-r from-teal-smoke-200 to-elegant-200 hover:from-teal-smoke-300 hover:to-elegant-300 transition-all duration-200 group border border-teal-smoke-300"
-                          >
-                            <div className="font-elegant font-bold text-cyan-600 text-base leading-tight group-hover:text-cyan-700">
-                              {category.title}
-                            </div>
-                          </Link>
-                          
-                          {/* 카테고리 하위 항목들 */}
-                          <div className="pl-2 space-y-1">
-                            {(category as any).items.map((item: any, itemIndex: number) => (
-                              <Link
-                                key={itemIndex}
-                                href={item.href}
-                                className="flex items-start px-3 py-2 rounded-lg text-cyan-600 hover:text-cyan-700 hover:bg-teal-smoke-100 transition-all duration-200 group"
-                              >
-                                <div className="flex-1">
-                                  <div className="font-elegant-sans font-medium text-sm leading-tight group-hover:text-cyan-700">
-                                    {item.title}
-                                  </div>
-                                  {item.subtitle && (
-                                    <div className="text-xs text-cyan-500 leading-relaxed mt-0.5">
-                                      {item.subtitle}
-                                    </div>
-                                  )}
-                                </div>
-                                <ChevronRight className="w-3 h-3 text-cyan-500 mt-1 ml-2 group-hover:translate-x-0.5 transition-transform opacity-0 group-hover:opacity-100" />
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Column 2 */}
-                    <div className="space-y-2">
-                      {column2.map((category, catIndex) => (
-                        <div key={catIndex} className="space-y-2">
-                          {/* 카테고리 헤더 - only categories with items */}
-                          <Link
-                            href={category.href}
-                            className="block px-4 py-3 rounded-xl bg-gradient-to-r from-teal-smoke-200 to-elegant-200 hover:from-teal-smoke-300 hover:to-elegant-300 transition-all duration-200 group border border-teal-smoke-300"
-                          >
-                            <div className="font-elegant font-bold text-cyan-600 text-base leading-tight group-hover:text-cyan-700">
-                              {category.title}
-                            </div>
-                          </Link>
-                          
-                          {/* 카테고리 하위 항목들 */}
-                          <div className="pl-2 space-y-1">
-                            {(category as any).items.map((item: any, itemIndex: number) => (
-                              <Link
-                                key={itemIndex}
-                                href={item.href}
-                                className="flex items-start px-3 py-2 rounded-lg text-cyan-600 hover:text-cyan-700 hover:bg-teal-smoke-100 transition-all duration-200 group"
-                              >
-                                <div className="flex-1">
-                                  <div className="font-elegant-sans font-medium text-sm leading-tight group-hover:text-cyan-700">
-                                    {item.title}
-                                  </div>
-                                  {item.subtitle && (
-                                    <div className="text-xs text-cyan-500 leading-relaxed mt-0.5">
-                                      {item.subtitle}
-                                    </div>
-                                  )}
-                                </div>
-                                <ChevronRight className="w-3 h-3 text-cyan-500 mt-1 ml-2 group-hover:translate-x-0.5 transition-transform opacity-0 group-hover:opacity-100" />
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Column 3 - Standalone categories */}
-                    <div className="space-y-2">
-                      {column3.map((category, catIndex) => (
-                        <div key={catIndex} className="space-y-2">
-                          {/* 독립형 카테고리 (하위 항목 없음) */}
-                          <Link
-                            href={category.href}
-                            className="block px-4 py-4 rounded-xl bg-gradient-to-r from-teal-smoke-200 to-elegant-200 hover:from-teal-smoke-300 hover:to-elegant-300 transition-all duration-200 group border border-teal-smoke-300 relative overflow-hidden"
-                          >
-                            <div className="flex items-center justify-between">
-                              <div>
-                                <div className="font-elegant font-bold text-cyan-600 text-base leading-tight group-hover:text-cyan-700 mb-1">
-                                  {category.title}
-                                </div>
-                                {category.subtitle && (
-                                  <div className="text-xs text-cyan-500 mt-1">
-                                    {category.subtitle}
-                                  </div>
-                                )}
-                              </div>
-                              <ChevronRight className="w-5 h-5 text-cyan-600 group-hover:translate-x-1 transition-transform" />
-                            </div>
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                <div className="w-full px-4 py-6">
+                  <MobileCategoryGrid onCategoryClick={() => setActiveDropdown(null)} />
                 </div>
               );
             }
@@ -553,26 +452,24 @@ export default function NavigationMenu() {
       {/* Mobile Menu */}
       <div className="lg:hidden w-full">
         <div className="flex items-center w-full">
-          {/* Logo/Home - 실로스 */}
-          <div className="flex-shrink-0 mr-4">
+          {/* Logo/Home - 로고만 표시 */}
+          <div className="flex-shrink-0 mr-2">
             <Link
               href="/"
-              className="flex items-center px-2 py-2 rounded-lg text-base font-display font-medium text-cyan-700 hover:text-cyan-800 transition-all duration-300 hover:bg-teal-smoke-50"
+              className="flex items-center p-1.5 rounded-lg text-base font-display font-medium text-cyan-700 hover:text-cyan-800 transition-all duration-300 hover:bg-teal-smoke-50"
             >
               <Image 
                 src="/images/logo/silos-icon.png" 
-                alt="Silos Icon" 
+                alt="Silos" 
                 width={18} 
                 height={18} 
-                className="mr-2"
               />
-              <span className="tracking-wide">실로스</span>
             </Link>
           </div>
           
           {/* Mobile Navigation Items */}
           <div className="flex-1 min-w-0 overflow-x-auto">
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-0.5">
               {navigationData.slice(1).map((item) => (
                 <div key={item.id} className="relative flex-shrink-0">
                   {item.submenu ? (
@@ -587,7 +484,7 @@ export default function NavigationMenu() {
                         });
                         setActiveDropdown(activeDropdown === item.id ? null : item.id);
                       }}
-                      className="flex items-center px-3 py-2 rounded-lg text-sm font-elegant-sans font-medium text-cyan-700 hover:text-cyan-800 hover:bg-teal-smoke-50 transition-all duration-300 whitespace-nowrap"
+                      className="flex items-center px-2.5 py-2 rounded-lg text-[13px] font-elegant-sans font-medium text-cyan-700 hover:text-cyan-800 hover:bg-teal-smoke-50 transition-all duration-300 whitespace-nowrap"
                     >
                       <span>{item.title}</span>
                       <ChevronDown className="w-3 h-3 ml-1" />
@@ -595,7 +492,7 @@ export default function NavigationMenu() {
                   ) : (
                     <Link
                       href={item.href}
-                      className="flex items-center px-3 py-2 rounded-lg text-sm font-elegant-sans font-medium text-cyan-700 hover:text-cyan-800 hover:bg-teal-smoke-50 transition-all duration-300 whitespace-nowrap"
+                      className="flex items-center px-2.5 py-2 rounded-lg text-[13px] font-elegant-sans font-medium text-cyan-700 hover:text-cyan-800 hover:bg-teal-smoke-50 transition-all duration-300 whitespace-nowrap"
                     >
                       {item.title}
                     </Link>
@@ -606,12 +503,12 @@ export default function NavigationMenu() {
           </div>
           
           {/* Mobile Shopping Cart Icon */}
-          <div className="flex-shrink-0 ml-2">
+          <div className="flex-shrink-0 ml-1">
             <Link 
               href="/consultation/request"
-              className="relative p-2 hover:bg-teal-smoke-50 rounded-lg transition-all duration-300 group flex items-center justify-center"
+              className="relative p-1.5 hover:bg-teal-smoke-50 rounded-lg transition-all duration-300 group flex items-center justify-center"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-600 group-hover:text-slate-800">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-600 group-hover:text-slate-800">
                 <circle cx="9" cy="21" r="1"></circle>
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
@@ -633,84 +530,25 @@ export default function NavigationMenu() {
         return (
           <div 
             data-dropdown
-            className="fixed bg-white rounded-xl shadow-2xl border border-teal-smoke-200 p-4"
+            className={`fixed bg-white shadow-2xl ${activeDropdown === 'procedures' ? 'border-t' : 'rounded-xl border'} border-teal-smoke-200`}
             style={{
               top: mobileDropdownPosition.top,
-              left: mobileDropdownPosition.left,
-              width: activeDropdown === 'procedures' ? '320px' : '288px',
+              left: activeDropdown === 'procedures' ? 0 : mobileDropdownPosition.left,
+              right: activeDropdown === 'procedures' ? 0 : 'auto',
+              width: activeDropdown === 'procedures' ? '100vw' : '288px',
               maxHeight: '70vh',
               overflowY: 'auto',
               zIndex: 99999
             }}
           >
-            {/* 시술안내 특별 레이아웃 - 1컬럼 */}
+            {/* 시술안내 특별 레이아웃 - 3x5 Grid */}
             {activeDropdown === 'procedures' ? (
-              <div className="space-y-1">
-                <div className="flex items-center justify-between mb-4 pb-2 border-b border-teal-smoke-200/30">
-                  <h4 className="font-elegant font-medium text-cyan-700 text-base tracking-wide">
-                    {menuItem.title}
-                  </h4>
-                  <Link
-                    href="/procedures"
-                    className="px-3 py-1.5 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-lg font-elegant-sans font-medium text-xs hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300 shadow-md hover:shadow-lg"
-                    onClick={() => setActiveDropdown(null)}
-                  >
-                    전체 시술
-                  </Link>
-                </div>
-                
-                {/* Single Column Layout for Mobile */}
-                <div className="space-y-3">
-                  {menuItem.submenu.map((category, catIndex) => (
-                    <div key={catIndex} className="space-y-2">
-                      {/* 카테고리 헤더 */}
-                      <Link
-                        href={category.href}
-                        className="block px-3 py-2.5 rounded-lg bg-gradient-to-r from-teal-smoke-200 to-elegant-200 hover:from-teal-smoke-300 hover:to-elegant-300 transition-all duration-200 group border border-teal-smoke-300"
-                        onClick={() => setActiveDropdown(null)}
-                      >
-                        <div className="font-elegant font-bold text-cyan-600 text-sm leading-tight group-hover:text-cyan-700">
-                          {category.title}
-                        </div>
-                        {category.subtitle && (
-                          <div className="text-xs text-cyan-500 mt-0.5">
-                            {category.subtitle}
-                          </div>
-                        )}
-                      </Link>
-                      
-                      {/* 카테고리 하위 항목들 (있는 경우만) */}
-                      {(category as any).items && (
-                        <div className="pl-2 space-y-1">
-                          {(category as any).items.map((subItem: any, itemIndex: number) => (
-                            <Link
-                              key={itemIndex}
-                              href={subItem.href}
-                              className="flex items-start px-2 py-1.5 rounded-lg text-cyan-600 hover:text-cyan-700 hover:bg-teal-smoke-100 transition-all duration-200 group"
-                              onClick={() => setActiveDropdown(null)}
-                            >
-                              <div className="flex-1">
-                                <div className="font-elegant-sans font-medium text-xs leading-tight group-hover:text-cyan-700">
-                                  {subItem.title}
-                                </div>
-                                {subItem.subtitle && (
-                                  <div className="text-[10px] text-cyan-500 leading-relaxed mt-0.5">
-                                    {subItem.subtitle}
-                                  </div>
-                                )}
-                              </div>
-                              <ChevronRight className="w-2.5 h-2.5 text-cyan-500 mt-1 ml-1 group-hover:translate-x-0.5 transition-transform opacity-0 group-hover:opacity-100" />
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+              <div className="w-full">
+                <MobileCategoryGrid onCategoryClick={() => setActiveDropdown(null)} />
               </div>
             ) : (
               /* 일반 메뉴들의 기본 레이아웃 */
-              <div className="space-y-1">
+              <div className="p-4 space-y-1">
                 <h4 className="font-elegant font-medium text-cyan-700 mb-3 text-base tracking-wide border-b border-teal-smoke-200/30 pb-2">
                   {menuItem.title}
                 </h4>
