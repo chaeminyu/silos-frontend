@@ -94,11 +94,11 @@ export default function ConsultationListPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-display font-light text-teal-smoke-800 mb-4">
+            <h1 className="text-4xl font-display font-light text-slate-800 mb-4">
               상담 문의
             </h1>
             <div className="w-24 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-6"></div>
-            <p className="text-lg font-elegant-sans font-light text-teal-smoke-600">
+            <p className="text-lg font-elegant-sans font-light text-slate-700">
               {isAdmin ? '모든 상담 신청 내역을 확인하실 수 있습니다' : '상담 신청 현황을 확인하실 수 있습니다'}
             </p>
           </div>
@@ -111,7 +111,7 @@ export default function ConsultationListPage() {
                 className={`px-6 py-2 rounded-lg font-elegant-sans text-sm transition-all ${
                   filterStatus === 'all'
                     ? 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white'
-                    : 'text-teal-smoke-600 hover:text-teal-smoke-800'
+                    : 'text-slate-600 hover:text-slate-800'
                 }`}
               >
                 전체
@@ -121,7 +121,7 @@ export default function ConsultationListPage() {
                 className={`px-6 py-2 rounded-lg font-elegant-sans text-sm transition-all ${
                   filterStatus === 'pending'
                     ? 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white'
-                    : 'text-teal-smoke-600 hover:text-teal-smoke-800'
+                    : 'text-slate-600 hover:text-slate-800'
                 }`}
               >
                 대기중
@@ -131,7 +131,7 @@ export default function ConsultationListPage() {
                 className={`px-6 py-2 rounded-lg font-elegant-sans text-sm transition-all ${
                   filterStatus === 'confirmed'
                     ? 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white'
-                    : 'text-teal-smoke-600 hover:text-teal-smoke-800'
+                    : 'text-slate-600 hover:text-slate-800'
                 }`}
               >
                 접수 완료
@@ -145,25 +145,25 @@ export default function ConsultationListPage() {
               <table className="w-full">
                 <thead className="bg-gradient-to-r from-teal-smoke-50 to-elegant-50 border-b border-teal-smoke-200">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-teal-smoke-700 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-slate-700 uppercase tracking-wider">
                       번호
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-teal-smoke-700 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-slate-700 uppercase tracking-wider">
                       작성자
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-teal-smoke-700 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-slate-700 uppercase tracking-wider">
                       시술 내역
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-teal-smoke-700 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-slate-700 uppercase tracking-wider">
                       희망 날짜
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-teal-smoke-700 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-slate-700 uppercase tracking-wider">
                       상태
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-teal-smoke-700 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-slate-700 uppercase tracking-wider">
                       공개
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-teal-smoke-700 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-elegant font-medium text-slate-700 uppercase tracking-wider">
                       조회
                     </th>
                   </tr>
@@ -175,13 +175,13 @@ export default function ConsultationListPage() {
                       onClick={() => setSelectedConsultation(consultation)}
                       className="hover:bg-teal-smoke-50/50 cursor-pointer transition-colors"
                     >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-teal-smoke-700 font-elegant-sans">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700 font-elegant-sans">
                         {filteredConsultations.length - index}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <User className="w-4 h-4 text-teal-smoke-400 mr-2" />
-                          <span className="text-sm text-teal-smoke-700 font-elegant-sans">
+                          <span className="text-sm text-slate-700 font-elegant-sans">
                             {consultation.userName}
                           </span>
                           {consultation.userId === currentUserId && (
@@ -190,13 +190,13 @@ export default function ConsultationListPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm text-teal-smoke-700 font-elegant-sans">
+                        <div className="text-sm text-slate-700 font-elegant-sans">
                           {consultation.procedures.slice(0, 2).join(', ')}
                           {consultation.procedures.length > 2 && ` 외 ${consultation.procedures.length - 2}개`}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center text-sm text-teal-smoke-600 font-elegant-sans">
+                        <div className="flex items-center text-sm text-slate-600 font-elegant-sans">
                           <Calendar className="w-4 h-4 mr-1" />
                           {consultation.preferredDate}
                         </div>
@@ -211,7 +211,7 @@ export default function ConsultationListPage() {
                           <EyeOff className="w-4 h-4 text-teal-smoke-300" />
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-teal-smoke-600 font-elegant-sans">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600 font-elegant-sans">
                         {consultation.views}
                       </td>
                     </tr>
@@ -226,10 +226,10 @@ export default function ConsultationListPage() {
             <div className="mt-8 bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h2 className="text-2xl font-display font-light text-teal-smoke-800 mb-2">
+                  <h2 className="text-2xl font-display font-light text-slate-800 mb-2">
                     상담 상세 내용
                   </h2>
-                  <div className="flex items-center space-x-4 text-sm text-teal-smoke-600 font-elegant-sans">
+                  <div className="flex items-center space-x-4 text-sm text-slate-600 font-elegant-sans">
                     <span className="flex items-center">
                       <User className="w-4 h-4 mr-1" />
                       {selectedConsultation.userName}
@@ -249,10 +249,10 @@ export default function ConsultationListPage() {
 
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-elegant font-medium text-teal-smoke-700 mb-2">
+                  <h3 className="text-sm font-elegant font-medium text-slate-700 mb-2">
                     희망 상담 일정
                   </h3>
-                  <div className="flex items-center space-x-4 text-teal-smoke-600 font-elegant-sans">
+                  <div className="flex items-center space-x-4 text-slate-600 font-elegant-sans">
                     <span className="flex items-center">
                       <Calendar className="w-4 h-4 mr-1" />
                       {selectedConsultation.preferredDate}
@@ -265,14 +265,14 @@ export default function ConsultationListPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-elegant font-medium text-teal-smoke-700 mb-2">
+                  <h3 className="text-sm font-elegant font-medium text-slate-700 mb-2">
                     상담 희망 시술
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {selectedConsultation.procedures.map((procedure, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-teal-smoke-700 rounded-lg text-sm font-elegant-sans"
+                        className="px-3 py-1 bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-slate-700 rounded-lg text-sm font-elegant-sans"
                       >
                         {procedure}
                       </span>
@@ -281,22 +281,22 @@ export default function ConsultationListPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-elegant font-medium text-teal-smoke-700 mb-2">
+                  <h3 className="text-sm font-elegant font-medium text-slate-700 mb-2">
                     <MessageSquare className="inline w-4 h-4 mr-1" />
                     상담 내용
                   </h3>
-                  <p className="text-teal-smoke-600 font-elegant-sans bg-teal-smoke-50 rounded-xl p-4">
+                  <p className="text-slate-600 font-elegant-sans bg-teal-smoke-50 rounded-xl p-4">
                     {selectedConsultation.message}
                   </p>
                 </div>
 
                 {selectedConsultation.adminResponse && (
                   <div>
-                    <h3 className="text-sm font-elegant font-medium text-teal-smoke-700 mb-2">
+                    <h3 className="text-sm font-elegant font-medium text-slate-700 mb-2">
                       <CheckCircle className="inline w-4 h-4 mr-1 text-green-600" />
                       병원 답변
                     </h3>
-                    <p className="text-teal-smoke-600 font-elegant-sans bg-green-50 rounded-xl p-4">
+                    <p className="text-slate-600 font-elegant-sans bg-green-50 rounded-xl p-4">
                       {selectedConsultation.adminResponse}
                     </p>
                   </div>
@@ -305,7 +305,7 @@ export default function ConsultationListPage() {
 
               <button
                 onClick={() => setSelectedConsultation(null)}
-                className="mt-6 px-6 py-2 bg-teal-smoke-200 text-teal-smoke-700 rounded-xl font-elegant-sans hover:bg-teal-smoke-300 transition-colors"
+                className="mt-6 px-6 py-2 bg-teal-smoke-200 text-slate-700 rounded-xl font-elegant-sans hover:bg-teal-smoke-300 transition-colors"
               >
                 닫기
               </button>

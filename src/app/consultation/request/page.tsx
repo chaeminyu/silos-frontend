@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
 import CustomAlert from '../../../components/CustomAlert';
+import ProcedureSelectionModal from '../../../components/ProcedureSelectionModal';
 import { ShoppingCart, X, Calendar, Clock, MessageSquare, CheckCircle } from 'lucide-react';
-import { useCart } from '@/contexts/CartContext';
+import { useCart } from '../../../contexts/CartContext';
 
 // Mock cart data (commented out - using real cart context instead)
 // const mockCartItems = [
@@ -27,6 +28,7 @@ interface ConsultationData {
 export default function ConsultationRequestPage() {
   const router = useRouter();
   const { cart, userInfo, removeFromCart, updateUserInfo } = useCart();
+  const [showProcedureModal, setShowProcedureModal] = useState(false);
   const [formData, setFormData] = useState({
     preferredDate: '',
     preferredTime: '',
@@ -202,7 +204,7 @@ export default function ConsultationRequestPage() {
                       선택한 시술이 없습니다.
                     </p>
                     <button
-                      onClick={() => router.push('/procedures')}
+                      onClick={() => setShowProcedureModal(true)}
                       className="mt-4 px-6 py-2 bg-teal-smoke-300 text-white rounded-xl font-elegant-sans hover:bg-teal-smoke-400 transition-colors relative z-10"
                     >
                       시술 둘러보기
@@ -455,6 +457,16 @@ export default function ConsultationRequestPage() {
         title={alertState.title}
         message={alertState.message}
         autoClose={false}
+      />
+      
+      {/* Procedure Selection Modal */}
+      <ProcedureSelectionModal 
+        isOpen={showProcedureModal}
+        onClose={() => setShowProcedureModal(false)}
+        onProceduresSelected={(procedures) => {
+          console.log('Selected procedures:', procedures);
+          setShowProcedureModal(false);
+        }}
       />
     </PageLayout>
   );
