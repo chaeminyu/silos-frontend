@@ -19,7 +19,6 @@ export default function HomePage() {
   const [addedToCart, setAddedToCart] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [showEventPopup, setShowEventPopup] = useState(false);
-  const [hasOngoingEvents, setHasOngoingEvents] = useState(false);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -47,7 +46,6 @@ export default function HomePage() {
         const ongoingEvents = await eventService.getOngoingEvents();
         
         if (ongoingEvents.length > 0) {
-          setHasOngoingEvents(true);
           // Show popup after a short delay for better UX
           setTimeout(() => {
             setShowEventPopup(true);
@@ -588,7 +586,10 @@ export default function HomePage() {
                           className="w-full h-full object-cover"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
-                            e.currentTarget.nextElementSibling.style.display = 'flex';
+                            const nextSibling = e.currentTarget.nextElementSibling as HTMLElement;
+                            if (nextSibling) {
+                              nextSibling.style.display = 'flex';
+                            }
                           }}
                         />
                         {/* 썸네일 로딩 실패 시 대체 콘텐츠 */}

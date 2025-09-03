@@ -78,4 +78,5 @@ class ConsultationService {
   }
 }
 
-export default new ConsultationService();
+const consultationService = new ConsultationService();
+export default consultationService;
