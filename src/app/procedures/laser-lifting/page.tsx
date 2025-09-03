@@ -93,7 +93,7 @@ const laserProcedures = [
   }
 ];
 
-export default function LaserLiftingPage() {
+function LaserLiftingPage() {
   const searchParams = useSearchParams();
   const [expandedProcedure, setExpandedProcedure] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState<string[]>([]);
@@ -443,3 +443,5 @@ export default function LaserLiftingPage() {
     </PageLayout>
   );
 }
+
+export default LaserLiftingPage;
