@@ -27,7 +27,7 @@ interface ConsultationData {
 
 export default function ConsultationRequestPage() {
   const router = useRouter();
-  const { cart, userInfo, removeFromCart, updateUserInfo } = useCart();
+  const { cart, userInfo, addToCart, removeFromCart, updateUserInfo } = useCart();
   const [showProcedureModal, setShowProcedureModal] = useState(false);
   const [formData, setFormData] = useState({
     preferredDate: '',
@@ -215,7 +215,7 @@ export default function ConsultationRequestPage() {
                     {cart.map((item) => (
                       <div
                         key={item.id}
-                        className="flex items-center justify-between p-4 bg-gradient-to-r from-teal-smoke-50 to-elegant-50 rounded-xl"
+                        className="flex items-center justify-between p-4 bg-gradient-to-r from-teal-smoke-50 to-elegant-50 rounded-xl relative z-10"
                       >
                         <div>
                           <h3 className="font-elegant font-medium text-slate-800">
@@ -226,10 +226,17 @@ export default function ConsultationRequestPage() {
                           </p>
                         </div>
                         <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="p-2 hover:bg-white/50 rounded-lg transition-colors"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('Removing item:', item.id); // 디버깅용
+                            removeFromCart(item.id);
+                          }}
+                          className="min-w-[44px] min-h-[44px] p-2 sm:p-3 hover:bg-white/50 active:bg-white/70 rounded-lg transition-colors relative z-20 touch-manipulation flex items-center justify-center"
+                          type="button"
+                          aria-label={`${item.name} 삭제`}
                         >
-                          <X className="w-5 h-5 text-slate-500" />
+                          <X className="w-5 h-5 sm:w-5 sm:h-5 text-slate-500 pointer-events-none" />
                         </button>
                       </div>
                     ))}
@@ -463,8 +470,24 @@ export default function ConsultationRequestPage() {
       <ProcedureSelectionModal 
         isOpen={showProcedureModal}
         onClose={() => setShowProcedureModal(false)}
-        onProceduresSelected={(procedures) => {
-          console.log('Selected procedures:', procedures);
+        onProceduresSelected={(procedureNames) => {
+          console.log('Selected procedures:', procedureNames);
+          
+          // 선택된 시술들을 카트에 추가
+          procedureNames.forEach((procedureName, index) => {
+            const procedureItem = {
+              id: `procedure-${Date.now()}-${index}`, // 고유 ID 생성
+              name: procedureName,
+              category: '선택한 시술' // 기본 카테고리
+            };
+            
+            // 중복 확인 후 카트에 추가
+            const isDuplicate = cart.some(item => item.name === procedureName);
+            if (!isDuplicate) {
+              addToCart(procedureItem); // useCart 훅의 addToCart 함수 직접 사용
+            }
+          });
+          
           setShowProcedureModal(false);
         }}
       />

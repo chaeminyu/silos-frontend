@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { ChevronDown, Clock, Syringe, Calendar, ShoppingCart, Check } from 'lucide-react';
-import PageLayout from '../../components/PageLayout';
-import StandardConsultationSection from '../../components/StandardConsultationSection';
+import PageLayout from '../../../components/PageLayout';
+import StandardConsultationSection from '../../../components/StandardConsultationSection';
 
 export default function SiloFatPage() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);

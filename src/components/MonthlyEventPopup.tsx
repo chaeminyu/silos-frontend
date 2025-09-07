@@ -39,6 +39,10 @@ const ongoingEvents: Event[] = [
 export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: MonthlyEventPopupProps) {
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Touch/swipe state
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -70,6 +74,32 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
 
   const handlePrev = () => {
     setCurrentEventIndex((prev) => (prev - 1 + ongoingEvents.length) % ongoingEvents.length);
+  };
+
+  // 스와이프 핸들러들
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0); // 이전 터치 종료 지점 초기화
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50; // 50px 이상 왼쪽으로 스와이프
+    const isRightSwipe = distance < -50; // 50px 이상 오른쪽으로 스와이프
+    
+    if (ongoingEvents.length > 1) {
+      if (isLeftSwipe) {
+        handleNext(); // 왼쪽 스와이프 → 다음 이벤트
+      } else if (isRightSwipe) {
+        handlePrev(); // 오른쪽 스와이프 → 이전 이벤트
+      }
+    }
   };
 
   if (isMobile) {
@@ -105,9 +135,14 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
           {/* 이벤트 콘텐츠 */}
           <div className="p-6">
             <div className="relative">
-              {/* 이벤트 카드 */}
-              <Link href={`/events/${currentEvent.id}`} onClick={onClose}>
-                <div className="bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl overflow-hidden shadow-lg">
+              {/* 이벤트 카드 - 스와이프 가능 */}
+              <div 
+                className="bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl overflow-hidden shadow-lg cursor-pointer select-none"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
+                <Link href={`/events/${currentEvent.id}`} onClick={onClose}>
                   {/* 포스터 영역 */}
                   <div className="aspect-[3/2] bg-gradient-to-br from-teal-smoke-200 to-elegant-200 flex items-center justify-center">
                     <div className="text-center text-slate-600">
@@ -127,8 +162,8 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
                       {currentEvent.period}
                     </p>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
               
               {/* 네비게이션 버튼 (여러 이벤트가 있을 때만) */}
               {ongoingEvents.length > 1 && (
@@ -149,20 +184,26 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
               )}
             </div>
             
-            {/* 인디케이터 */}
+            {/* 인디케이터 및 스와이프 힌트 */}
             {ongoingEvents.length > 1 && (
-              <div className="flex justify-center mt-4 space-x-2">
-                {ongoingEvents.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentEventIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === currentEventIndex
-                        ? 'bg-teal-smoke-500 w-6'
-                        : 'bg-gray-300'
-                    }`}
-                  />
-                ))}
+              <div className="mt-4">
+                <div className="flex justify-center space-x-2 mb-2">
+                  {ongoingEvents.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentEventIndex(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        index === currentEventIndex
+                          ? 'bg-teal-smoke-500 w-6'
+                          : 'bg-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+                {/* 스와이프 힌트 */}
+                <p className="text-xs text-gray-400 text-center font-elegant-sans">
+                  좌우로 스와이프하여 다른 이벤트 보기
+                </p>
               </div>
             )}
             

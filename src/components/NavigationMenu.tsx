@@ -503,9 +503,27 @@ export default function NavigationMenu() {
                       onClick={(e) => {
                         const target = e.currentTarget;
                         const rect = target.getBoundingClientRect();
+                        const dropdownWidth = 280; // 드롭다운 너비
+                        const viewportWidth = window.innerWidth;
+                        const padding = 8; // 화면 가장자리 여백
+                        
+                        // 드롭다운이 화면 오른쪽을 벗어나지 않도록 위치 계산
+                        let left = rect.left;
+                        
+                        // 드롭다운이 화면 오른쪽을 벗어나는 경우
+                        if (left + dropdownWidth > viewportWidth - padding) {
+                          // 오른쪽 정렬
+                          left = viewportWidth - dropdownWidth - padding;
+                        }
+                        
+                        // 드롭다운이 왼쪽 화면을 벗어나는 경우
+                        if (left < padding) {
+                          left = padding;
+                        }
+                        
                         setMobileDropdownPosition({
                           top: rect.bottom + 8,
-                          left: Math.max(8, rect.left - 120)
+                          left: left
                         });
                         setActiveDropdown(activeDropdown === item.id ? null : item.id);
                       }}
@@ -560,7 +578,8 @@ export default function NavigationMenu() {
               top: mobileDropdownPosition.top,
               left: activeDropdown === 'procedures' ? 0 : mobileDropdownPosition.left,
               right: activeDropdown === 'procedures' ? 0 : 'auto',
-              width: activeDropdown === 'procedures' ? '100vw' : '288px',
+              width: activeDropdown === 'procedures' ? '100vw' : '280px',
+              maxWidth: activeDropdown === 'procedures' ? '100vw' : 'calc(100vw - 16px)',
               maxHeight: '70vh',
               overflowY: 'auto',
               zIndex: 99999
