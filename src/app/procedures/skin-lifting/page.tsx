@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import PageLayout from '../../../components/PageLayout';
 import StandardConsultationSection from '../../../components/StandardConsultationSection';
-import { Droplets, Clock, ShoppingCart, Check, Sparkles, Target, Shield, Star, Zap, Gem, Layers, AlertCircle } from 'lucide-react';
+import { Droplets, Clock, ShoppingCart, Check, Sparkles, Target, Shield, Star, Zap, Gem, Layers, AlertCircle, ArrowDown } from 'lucide-react';
 import { useCart } from '../../../contexts/CartContext';
 
 const skinLiftingProcedures = [
@@ -555,26 +555,130 @@ const skinLiftingProcedures = [
     id: 'radiesse',
     title: '레디어스',
     subtitle: 'RADIESSE',
+    tagline: '생체적합성이 높은 성분으로 스킨&콜라겐부스터를 동시에',
+    subtitle2: '무너진 피부 구조를 바로 잡는 피부 속 코어의 힘, 레디어스',
     description: [
-      'CaHA 성분으로 즉각적인 볼륨 효과',
-      '콜라겐과 엘라스틴 생성 촉진',
-      '깊은 주름과 팔자주름에 효과적',
-      '자연스러우면서도 확실한 결과'
+      '스킨, 코어부터 가득 채우다.',
+      '레디어스는 우리 체내에 존재하는 미네랄 성분 CaHA를 주입하여 피부결, 피부톤, 주름 등 피부 속부터 채워 안에서 시작되는 변화로 보다 더 자연스럽게 피부를 개선시켜 줍니다.'
     ],
     features: ['즉각효과', 'CaHA성분', '깊은주름'],
+    radiesseCore: {
+      title: '레디어스 핵심 효과',
+      subtitle: '피부 속부터 근본적으로 개선하는 스킨부스터입니다.',
+      effects: [
+        {
+          number: '1',
+          title: '볼륨 & 리프팅',
+          subtitle: 'Volume & Lifting',
+          description: '주입 후 피부 속에서 볼륨을 형성해 얼굴의 전체 볼륨과 자연스러운 리프팅을 선사합니다.'
+        },
+        {
+          number: '2',
+          title: '콜라겐 촉진',
+          subtitle: 'Collagen',
+          description: '레디어스의 CaHA 미세 입자가 피부 속에 들어가며 콜라겐 생성을 촉진시켜줍니다.'
+        },
+        {
+          number: '3',
+          title: '피부결 및 모공 개선',
+          subtitle: 'Skin & Pore',
+          description: '콜라겐이 증가하면서 피부가 건강해지고 모공이 수축돼 매끄러워지는데 도움됩니다.'
+        }
+      ]
+    },
+    treatmentAreas: [
+      '미간', '이마', '눈가/눈밑', '볼', '턱선', '팔자주름', '목', '손등'
+    ],
+    radiesseFeatures: {
+      title: '무너진 피부 코어엔? 레디어스!',
+      description: '레디어스는 5가지 재생 성분 생성을 통해 무너진 피부 코어를 탄탄하게 채워줍니다.',
+      regenerativeComponents: [
+        '콜라겐 타입 1 & 3',
+        '엘라스틴',
+        '프로테오글리칸',
+        '신혈관'
+      ],
+      collagenBoost: {
+        title: '콜라겐 & 엘라스틴 생성 촉진',
+        description: '필러 시술과는 다르게 피부 속 콜라겐 및 엘라스틴 생성을 촉진시킴으로써 주름 및 피부 탄력 개선과 자연스러운 볼륨감 형성에도 효과적입니다.'
+      }
+    },
+    clinicExpertise: {
+      title: '처음부터 SILOS의 꼼꼼한 시술 테크닉',
+      description: '간단해보이는 시술이더라도 의료진의 실력에 따라 결과는 천차만별이기에 처음부터 SILOS에서는 개개인의 특성에 맞는 맞춤 시술을 진행하고 있습니다.'
+    },
+    safetyInfo: {
+      title: '통증과 부작용이 걱정되신다면?',
+      description: '염증 반응을 줄여 부작용의 위험을 낮췄으며, 전세계 80여개 국가에서 승인 및 사용되고 있음은 물론 FDA, CE, 식약처 인증을 통해 안정성을 입증 받았습니다.'
+    },
+    targetAudience: [
+      '안정성과 부작용을 걱정하시는 분',
+      '잔주름이 많아 생기있는 피부를 원하시는 분',
+      '자연스럽게 오래가는 볼륨감을 원하시는 분',
+      '자연스러운 피부톤과 결 개선 원하시는 분',
+      '탄력 잃고 처진 피부가 고민이신 분',
+      '무너진 피부 구조 개선하고 싶으신 분'
+    ],
+    promotionalText: {
+      title: '볼륨부터 탄력까지 한번에',
+      subtitle: '레디어스로 피부 리셋을 경험하세요.'
+    },
     icon: Target
   },
   {
     id: 'collagen-fill',
     title: '콜라채움',
     subtitle: 'COLLAGEN FILL',
+    tagline: '피부 속 시간을 되돌리다',
+    subtitle2: 'SILOS만의 노화방지 "콜라(겐)채움주사"',
     description: [
-      '리포좀 기술을 활용한 혁신적인 스킨부스터',
-      '피부 깊숙이 영양분을 전달하여 근본적 개선',
-      '모공, 탄력, 보습을 동시에 해결',
-      '민감한 피부도 안전하게 시술 가능'
+      '콜라겐이 부족한 부위에 직접 콜라겐을 주입해 피부 속부터 차오르는 볼륨감과 탄력을 기대할 수 있는 시술로, 피부 치유 능력을 활성화하여 건강한 피부로 만들어줍니다.'
     ],
     features: ['리포좀기술', '깊은침투', '종합개선'],
+    collagenComponents: {
+      title: '콜라채움',
+      subtitle: '세 가지 핵심 성분이 하나로',
+      components: [
+        '자가형 줄기 세포',
+        '콜라겐',
+        '히알루론산'
+      ]
+    },
+    treatmentEffects: {
+      title: '시술 효과',
+      effects: [
+        {
+          number: '1',
+          title: '볼륨 회복',
+          description: '자연스러운 볼륨'
+        },
+        {
+          number: '2',
+          title: '피부 탄력/주름 개선',
+          description: ''
+        },
+        {
+          number: '3',
+          title: '피부 노화개선',
+          description: ''
+        }
+      ]
+    },
+    collagenReduction: {
+      title: '연령대별 피부 속 콜라겐 감소',
+      marketingPhrase: '콜라겐이 줄어들면 피부는 주름이 지고 쉽게 탄력을 잃어버리게 됩니다. 지금이 바로 콜라채움이 필요한 시기입니다!',
+      chartPlaceholder: true,
+      imagePlaceholder: true
+    },
+    silosDifference: {
+      title: 'SILOS 차별점',
+      subtitle: '속부터 채우는 콜라겐 근본적인 피부 노화 개선',
+      description: '본인의 콜라겐으로 볼륨을 재생성하는 원리로 노화 진행 전의 피부로 돌아가는 것을 추구하는 시술',
+      highlight: {
+        title: '효과는 올리고 부작용은 줄이고',
+        description: 'SILOS만의 차별화된 시술 방식과 테크닉으로 최상의 결과를 만들어 냅니다.'
+      }
+    },
     icon: Layers
   }
 ];
@@ -582,7 +686,7 @@ const skinLiftingProcedures = [
 export default function SkinLiftingPage() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('skin-botox');
-  const { addToCart, isInCart } = useCart();
+  const { addToCart, removeFromCart, isInCart } = useCart();
   
   // Handle URL parameter for direct access
   useEffect(() => {
@@ -592,12 +696,16 @@ export default function SkinLiftingPage() {
     }
   }, [searchParams]);
 
-  const handleAddToCart = (procedure: typeof skinLiftingProcedures[0]) => {
-    addToCart({
-      id: procedure.id,
-      name: procedure.title,
-      category: '피부리프팅'
-    });
+  const handleToggleCart = (procedure: typeof skinLiftingProcedures[0]) => {
+    if (isInCart(procedure.id)) {
+      removeFromCart(procedure.id);
+    } else {
+      addToCart({
+        id: procedure.id,
+        name: procedure.title,
+        category: '피부리프팅'
+      });
+    }
   };
 
   const activeProcedure = skinLiftingProcedures.find(proc => proc.id === activeTab) || skinLiftingProcedures[0];
@@ -605,24 +713,111 @@ export default function SkinLiftingPage() {
   return (
     <PageLayout>
       {/* 히어로 섹션 */}
-      <div className="relative pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-smoke-400 via-elegant-400 to-teal-smoke-500"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/10"></div>
+      <div className="relative h-[70vh] lg:h-[80vh] overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src="/images/procedures/skin-lifting/skin-lifting-header.png" 
+            alt="피부 리프팅 헤더" 
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Gradient Overlays for Text Readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10"></div>
+        </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-          <div className="text-center text-white">
-            <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-sm font-elegant-sans font-medium mb-8 border border-white/30">
-              <Droplets className="w-4 h-4 mr-2" />
-              SILOS SKIN LIFTING
+        <div className="relative h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              {/* Left side - Text Content */}
+              <div className="text-left text-white lg:pr-8">
+                <div className="inline-flex items-center px-6 py-3 bg-white/15 backdrop-blur-md rounded-full text-sm font-elegant-sans font-medium mb-6 border border-white/20 shadow-lg">
+                  <Droplets className="w-4 h-4 mr-2" />
+                  SILOS SKIN LIFTING
+                </div>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-light mb-6 tracking-wide leading-tight drop-shadow-lg">
+                  피부 리프팅
+                </h1>
+                <div className="w-24 h-1 bg-white/80 rounded-full mb-8 shadow-sm"></div>
+                <div className="space-y-4 mb-8">
+                  <p className="text-2xl sm:text-3xl font-display font-light text-white/95 leading-tight drop-shadow-md">
+                    시간을 되돌리는 마법
+                  </p>
+                  <p className="text-lg sm:text-xl font-elegant-sans font-light text-white/90 leading-relaxed drop-shadow-sm max-w-lg">
+                    당신의 아름다움을 깨워내는<br />
+                    프리미엄 안티에이징 솔루션
+                  </p>
+                </div>
+                
+                {/* CTA Button */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button 
+                    onClick={() => handleToggleCart(activeProcedure)}
+                    className={`px-8 py-4 font-elegant-sans font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 ${
+                      isInCart(activeProcedure.id)
+                        ? 'bg-green-500/90 hover:bg-green-500 text-white'
+                        : 'bg-white/90 hover:bg-white text-slate-800'
+                    }`}
+                  >
+                    {isInCart(activeProcedure.id) ? (
+                      <>
+                        <Check className="w-5 h-5" />
+                        <span>상담 신청됨</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingCart className="w-5 h-5" />
+                        <span>무료 상담 받기</span>
+                      </>
+                    )}
+                  </button>
+                  <button 
+                    onClick={() => {
+                      const treatmentsSection = document.getElementById('treatments-section');
+                      if (treatmentsSection) {
+                        treatmentsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    className="px-8 py-4 border-2 border-white/60 hover:border-white text-white hover:bg-white/10 font-elegant-sans font-medium rounded-full transition-all duration-300 backdrop-blur-sm flex items-center justify-center space-x-2"
+                  >
+                    <ArrowDown className="w-5 h-5" />
+                    <span>시술 정보 보기</span>
+                  </button>
+                </div>
+              </div>
+              
+              {/* Right side - Reserved for lady image showcase */}
+              <div className="hidden lg:block">
+                <div className="relative">
+                  <div className="absolute -inset-4 bg-white/5 rounded-3xl backdrop-blur-sm"></div>
+                  <div className="relative bg-gradient-to-br from-white/10 to-white/5 p-6 rounded-2xl backdrop-blur-sm border border-white/10">
+                    <div className="text-center text-white">
+                      <h3 className="text-xl font-display font-light mb-4">
+                        전문의가 직접 진행하는
+                      </h3>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="bg-white/10 rounded-lg p-3">
+                          <div className="font-bold mb-1">개인맞춤</div>
+                          <div className="text-white/80">1:1 맞춤 설계</div>
+                        </div>
+                        <div className="bg-white/10 rounded-lg p-3">
+                          <div className="font-bold mb-1">안전시술</div>
+                          <div className="text-white/80">FDA 인증 제품</div>
+                        </div>
+                        <div className="bg-white/10 rounded-lg p-3">
+                          <div className="font-bold mb-1">자연결과</div>
+                          <div className="text-white/80">부작용 최소화</div>
+                        </div>
+                        <div className="bg-white/10 rounded-lg p-3">
+                          <div className="font-bold mb-1">지속효과</div>
+                          <div className="text-white/80">최대 2년 유지</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h1 className="text-4xl lg:text-5xl font-display font-light mb-6 tracking-wide leading-tight">
-              피부 리프팅
-            </h1>
-            <div className="w-24 h-0.5 bg-white/60 rounded-full mx-auto mb-8"></div>
-            <p className="text-xl font-elegant-sans font-light max-w-3xl mx-auto leading-relaxed text-white/90">
-              근본부터 다른 피부 개선<br />
-              건강하고 젊은 피부로의 변화를 경험하세요
-            </p>
           </div>
         </div>
       </div>
@@ -632,7 +827,7 @@ export default function SkinLiftingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
           
           {/* 탭 네비게이션 */}
-          <div className="mb-16">
+          <div id="treatments-section" className="mb-16">
             <div className="text-center mb-12">
               <h3 className="text-3xl font-display font-light text-slate-800 mb-4">
                 TREATMENTS
@@ -762,7 +957,7 @@ export default function SkinLiftingPage() {
                   )}
 
                   {/* 리쥬란힐러 효과 섹션 */}
-                  {activeProcedure.effectsTitle && (
+                  {activeProcedure.effectsTitle && activeProcedure.effects && typeof activeProcedure.effects[0] === 'object' && (
                     <div className="bg-gradient-to-br from-emerald-50 to-teal-smoke-50 rounded-2xl p-8">
                       <h3 className="text-2xl font-display font-bold text-slate-800 mb-4 text-center">
                         {activeProcedure.effectsTitle}
@@ -771,7 +966,7 @@ export default function SkinLiftingPage() {
                         {activeProcedure.effectsDescription}
                       </p>
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {activeProcedure.effects.map((effect, i) => (
+                        {(activeProcedure.effects as { title: string; description: string }[]).map((effect, i) => (
                           <div key={i} className="bg-white/80 rounded-xl p-6 shadow-sm">
                             <h4 className="text-lg font-display font-bold text-teal-smoke-700 mb-3">
                               {effect.title}
@@ -1064,6 +1259,255 @@ export default function SkinLiftingPage() {
                   )}
 
 
+                  {/* 레디어스 subtitle2 */}
+                  {activeProcedure.subtitle2 && (
+                    <div className="text-center mb-8">
+                      <h3 className="text-2xl font-display font-bold text-slate-800 mb-4">
+                        {activeProcedure.subtitle2}
+                      </h3>
+                      <div className="w-24 h-1 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto"></div>
+                    </div>
+                  )}
+
+                  {/* 레디어스 핵심 효과 섹션 */}
+                  {activeProcedure.radiesseCore && (
+                    <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-800 mb-3 sm:mb-4 text-center">
+                        {activeProcedure.radiesseCore.title}
+                      </h3>
+                      <p className="text-sm sm:text-base lg:text-lg text-slate-600 font-elegant-sans text-center mb-4 sm:mb-6 lg:mb-8 leading-relaxed">
+                        {activeProcedure.radiesseCore.subtitle}
+                      </p>
+                      <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:gap-6">
+                        {activeProcedure.radiesseCore.effects.map((effect, i) => (
+                          <div key={i} className="bg-white/80 rounded-lg sm:rounded-xl p-2 sm:p-4 lg:p-6 shadow-sm text-center">
+                            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 lg:mb-4">
+                              <span className="text-white font-bold text-xs sm:text-sm lg:text-lg">{effect.number}</span>
+                            </div>
+                            <h4 className="text-xs sm:text-sm lg:text-lg font-display font-bold text-teal-700 mb-1">
+                              {effect.title}
+                            </h4>
+                            <p className="text-[10px] sm:text-xs lg:text-sm text-teal-600 font-elegant-sans mb-1 sm:mb-2 lg:mb-3">
+                              {effect.subtitle}
+                            </p>
+                            <p className="text-[10px] sm:text-xs lg:text-base text-slate-700 font-elegant-sans leading-relaxed">
+                              {effect.description}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 레디어스 특징 섹션 */}
+                  {activeProcedure.radiesseFeatures && (
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-slate-800 mb-3 sm:mb-4 text-center">
+                        {activeProcedure.radiesseFeatures.title}
+                      </h3>
+                      <p className="text-sm sm:text-sm lg:text-base text-slate-600 font-elegant-sans text-center mb-4 sm:mb-6 lg:mb-8 leading-relaxed">
+                        {activeProcedure.radiesseFeatures.description}
+                      </p>
+                      
+                      {/* 5가지 재생 성분 */}
+                      <div className="mb-6 sm:mb-8">
+                        <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mb-4 sm:mb-6">
+                          {activeProcedure.radiesseFeatures.regenerativeComponents.map((component, i) => (
+                            <div key={i} className="inline-flex items-center px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 rounded-full text-[10px] sm:text-xs lg:text-sm font-elegant-sans font-bold bg-gradient-to-r from-blue-100 to-indigo-100 text-slate-700 border sm:border-2 border-blue-200 shadow-lg">
+                              <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 mr-1 sm:mr-1.5 lg:mr-2" />
+                              {component}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 콜라겐 부스트 정보 */}
+                      {activeProcedure.radiesseFeatures.collagenBoost && (
+                        <div className="bg-white/80 rounded-xl p-6 shadow-sm">
+                          <h4 className="text-xl font-display font-bold text-indigo-800 mb-3 text-center flex items-center justify-center">
+                            <Zap className="w-5 h-5 mr-2" />
+                            {activeProcedure.radiesseFeatures.collagenBoost.title}
+                          </h4>
+                          <p className="text-base text-slate-700 font-elegant-sans leading-relaxed">
+                            {activeProcedure.radiesseFeatures.collagenBoost.description}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* 클리닉 전문성 섹션 */}
+                  {activeProcedure.clinicExpertise && (
+                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-slate-800 mb-3 sm:mb-4 text-center flex items-center justify-center">
+                        <Star className="w-5 h-5 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mr-2 sm:mr-2.5 lg:mr-3" />
+                        {activeProcedure.clinicExpertise.title}
+                      </h3>
+                      <p className="text-sm sm:text-base lg:text-lg text-slate-700 font-elegant-sans text-center leading-relaxed">
+                        {activeProcedure.clinicExpertise.description}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* 안전성 정보 섹션 */}
+                  {activeProcedure.safetyInfo && (
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-slate-800 mb-3 sm:mb-4 text-center flex items-center justify-center">
+                        <Shield className="w-5 h-5 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mr-2 sm:mr-2.5 lg:mr-3" />
+                        {activeProcedure.safetyInfo.title}
+                      </h3>
+                      <p className="text-sm sm:text-base lg:text-lg text-slate-700 font-elegant-sans text-center leading-relaxed">
+                        {activeProcedure.safetyInfo.description}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* 프로모션 텍스트 섹션 */}
+                  {activeProcedure.promotionalText && (
+                    <div className="bg-gradient-to-r from-teal-smoke-500 to-elegant-500 rounded-2xl p-4 sm:p-6 lg:p-8 text-center">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-white mb-2 sm:mb-3">
+                        {activeProcedure.promotionalText.title}
+                      </h3>
+                      <p className="text-sm sm:text-lg lg:text-xl font-elegant-sans font-light text-white/90">
+                        {activeProcedure.promotionalText.subtitle}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* 콜라채움 성분 다이어그램 섹션 */}
+                  {activeProcedure.collagenComponents && (
+                    <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-800 mb-2 sm:mb-3 text-center">
+                        {activeProcedure.collagenComponents.title}
+                      </h3>
+                      <p className="text-sm sm:text-base lg:text-lg text-slate-600 font-elegant-sans text-center mb-6 sm:mb-8">
+                        {activeProcedure.collagenComponents.subtitle}
+                      </p>
+                      
+                      {/* Venn Diagram */}
+                      <div className="flex justify-center mb-6 sm:mb-8">
+                        <div className="w-full max-w-md lg:max-w-lg">
+                          <img 
+                            src="/images/procedures/skin-lifting/collagen/venn-diagram.jpg" 
+                            alt="콜라채움 3가지 성분 다이어그램" 
+                            className="w-full h-auto rounded-lg shadow-lg"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 콜라채움 시술 효과 섹션 */}
+                  {activeProcedure.treatmentEffects && typeof activeProcedure.treatmentEffects === 'object' && 'effects' in activeProcedure.treatmentEffects && (
+                    <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-800 mb-6 sm:mb-8 text-center">
+                        {activeProcedure.treatmentEffects.title}
+                      </h3>
+                      <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:gap-6">
+                        {activeProcedure.treatmentEffects.effects.map((effect, i) => (
+                          <div key={i} className="bg-white/80 rounded-lg sm:rounded-xl p-3 sm:p-4 lg:p-6 shadow-sm text-center">
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 lg:mb-4">
+                              <span className="text-white font-bold text-sm sm:text-base lg:text-lg">{effect.number}</span>
+                            </div>
+                            <h4 className="text-xs sm:text-sm lg:text-lg font-display font-bold text-slate-800 mb-1">
+                              {effect.title}
+                            </h4>
+                            {effect.description && (
+                              <p className="text-[10px] sm:text-xs lg:text-sm text-slate-600 font-elegant-sans">
+                                {effect.description}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 콜라겐 감소 차트 섹션 */}
+                  {activeProcedure.collagenReduction && (
+                    <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-800 mb-6 sm:mb-8 text-center">
+                        {activeProcedure.collagenReduction.title}
+                      </h3>
+                      
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
+                        {/* Collagen Reduction Chart */}
+                        <div className="bg-white/60 rounded-xl p-4 sm:p-6 shadow-sm">
+                          <div className="h-48 sm:h-64 lg:h-72 rounded-lg overflow-hidden">
+                            <img 
+                              src="/images/procedures/skin-lifting/collagen-fill/collagen-reduction-chart.png" 
+                              alt="연령대별 콜라겐 감소 차트" 
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        </div>
+                        
+                        {/* Collagen Image */}
+                        <div className="bg-white/60 rounded-xl p-4 sm:p-6 shadow-sm">
+                          <div className="h-48 sm:h-64 lg:h-72 rounded-lg overflow-hidden">
+                            <img 
+                              src="/images/procedures/skin-lifting/collagen-fill/collagen-image.png" 
+                              alt="콜라겐 이미지" 
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Marketing Phrase */}
+                      <div className="relative bg-white rounded-xl p-6 sm:p-8 text-center shadow-lg border-l-4 border-teal-smoke-500">
+                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                          <div className="bg-teal-smoke-500 text-white px-4 py-1 rounded-full text-xs sm:text-sm font-bold">
+                            중요
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-center mb-3">
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-red-100 to-orange-100 rounded-full flex items-center justify-center mr-3">
+                            <span className="text-red-500 text-lg sm:text-xl">⚠️</span>
+                          </div>
+                          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+                        </div>
+                        <p className="text-slate-800 font-elegant-sans font-bold text-sm sm:text-base lg:text-lg leading-relaxed">
+                          {activeProcedure.collagenReduction.marketingPhrase}
+                        </p>
+                        <div className="mt-4 flex justify-center">
+                          <div className="bg-gradient-to-r from-teal-smoke-100 to-elegant-100 px-4 py-2 rounded-full">
+                            <span className="text-teal-smoke-700 font-bold text-xs sm:text-sm">하나뿐인 피부, 지금 관리하세요!</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SILOS 차별점 섹션 */}
+                  {activeProcedure.silosDifference && (
+                    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-slate-800 mb-4 sm:mb-6 text-center">
+                        {activeProcedure.silosDifference.title}
+                      </h3>
+                      
+                      <div className="bg-white/60 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
+                        <h4 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-indigo-800 mb-3 text-center">
+                          {activeProcedure.silosDifference.subtitle}
+                        </h4>
+                        <p className="text-sm sm:text-base lg:text-lg text-slate-700 font-elegant-sans text-center leading-relaxed">
+                          {activeProcedure.silosDifference.description}
+                        </p>
+                      </div>
+                      
+                      {activeProcedure.silosDifference.highlight && (
+                        <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl p-4 sm:p-6 text-center">
+                          <h4 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-white mb-2 sm:mb-3">
+                            {activeProcedure.silosDifference.highlight.title}
+                          </h4>
+                          <p className="text-sm sm:text-base lg:text-lg text-white/90 font-elegant-sans">
+                            {activeProcedure.silosDifference.highlight.description}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {/* 스컬트라 특징 섹션 */}
                   {activeProcedure.sculpturaCharacteristics && (
                     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8">
@@ -1222,18 +1666,18 @@ export default function SkinLiftingPage() {
 
                   {/* 추천 대상 섹션 - 강조된 스타일 */}
                   {activeProcedure.targetAudience && (
-                    <div className="bg-gradient-to-br from-orange-50 via-yellow-50 to-orange-100 rounded-2xl p-8 border-2 border-orange-200 shadow-lg">
-                      <h3 className="text-2xl font-display font-bold text-orange-800 mb-6 text-center flex items-center justify-center">
-                        <Target className="w-6 h-6 mr-3" />
+                    <div className="bg-gradient-to-br from-orange-50 via-yellow-50 to-orange-100 rounded-2xl p-4 sm:p-6 lg:p-8 border sm:border-2 border-orange-200 shadow-lg">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-orange-800 mb-4 sm:mb-6 text-center flex items-center justify-center">
+                        <Target className="w-5 h-5 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mr-2 sm:mr-2.5 lg:mr-3" />
                         추천 대상
                       </h3>
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
                         {activeProcedure.targetAudience.map((audience, i) => (
-                          <div key={i} className="flex items-start space-x-3 bg-white/60 rounded-lg p-4">
-                            <div className="w-6 h-6 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
-                              <span className="text-white font-bold text-sm">{i + 1}</span>
+                          <div key={i} className="flex items-start space-x-2 sm:space-x-3 bg-white/60 rounded-lg p-2 sm:p-3 lg:p-4">
+                            <div className="w-5 h-5 sm:w-5 sm:h-5 lg:w-6 lg:h-6 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
+                              <span className="text-white font-bold text-[10px] sm:text-xs lg:text-sm">{i + 1}</span>
                             </div>
-                            <p className="text-base text-slate-800 font-elegant-sans font-medium leading-relaxed">
+                            <p className="text-xs sm:text-sm lg:text-base text-slate-800 font-elegant-sans font-medium leading-relaxed">
                               {audience}
                             </p>
                           </div>
@@ -1308,15 +1752,15 @@ export default function SkinLiftingPage() {
 
                   {/* 시술 부위 섹션 */}
                   {activeProcedure.treatmentAreas && (
-                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8">
-                      <h3 className="text-2xl font-display font-bold text-slate-800 mb-6 text-center">시술 부위</h3>
-                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+                      <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-800 mb-4 sm:mb-6 text-center">시술 부위</h3>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
                         {activeProcedure.treatmentAreas.map((area, i) => (
-                          <div key={i} className="bg-white/80 rounded-lg p-4 text-center">
-                            <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full flex items-center justify-center mx-auto mb-2">
-                              <span className="text-white font-bold text-sm">{String(i + 1).padStart(2, '0')}</span>
+                          <div key={i} className="bg-white/80 rounded-lg p-2 sm:p-3 lg:p-4 text-center">
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full flex items-center justify-center mx-auto mb-1 sm:mb-2">
+                              <span className="text-white font-bold text-[10px] sm:text-xs lg:text-sm">{String(i + 1).padStart(2, '0')}</span>
                             </div>
-                            <p className="text-base font-elegant-sans font-medium text-slate-800">{area}</p>
+                            <p className="text-xs sm:text-sm lg:text-base font-elegant-sans font-medium text-slate-800">{area}</p>
                           </div>
                         ))}
                       </div>
@@ -1368,7 +1812,7 @@ export default function SkinLiftingPage() {
                   )}
 
                   {/* 시술 효과 섹션 */}
-                  {activeProcedure.treatmentEffects && (
+                  {activeProcedure.treatmentEffects && Array.isArray(activeProcedure.treatmentEffects) && (
                     <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8">
                       <h3 className="text-2xl font-display font-bold text-slate-800 mb-6 text-center">시술 효과</h3>
                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -1429,13 +1873,12 @@ export default function SkinLiftingPage() {
                   {/* 장바구니 버튼 */}
                   <div className="text-center">
                     <button
-                      onClick={() => handleAddToCart(activeProcedure)}
+                      onClick={() => handleToggleCart(activeProcedure)}
                       className={`py-4 px-8 rounded-xl font-elegant-sans font-bold text-base transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 mx-auto ${
                         isInCart(activeProcedure.id)
-                          ? 'bg-gradient-to-r from-green-200 to-green-300 text-green-800 cursor-default border-2 border-green-400'
+                          ? 'bg-gradient-to-r from-green-200 to-green-300 text-green-800 hover:from-green-300 hover:to-green-400 border-2 border-green-400'
                           : 'bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white hover:from-teal-smoke-500 hover:to-elegant-500 border-2 border-transparent'
                       }`}
-                      disabled={isInCart(activeProcedure.id)}
                     >
                       {isInCart(activeProcedure.id) ? (
                         <>

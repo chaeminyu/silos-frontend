@@ -1,44 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PageLayout from '../../components/PageLayout';
 import { Calendar, Heart } from 'lucide-react';
 
-interface Event {
-  id: string;
-  title: string;
-  period: string;
-  posterUrl: string;
-  status: 'ongoing' | 'upcoming' | 'ended';
-}
+// Event 인터페이스는 eventService에서 import하여 일관성 유지
+import { Event, eventService } from '@/services/eventService';
 
 const sampleEvents: Event[] = [
   {
-    id: '1',
+    id: 1, // Promotion API 호환 (number 타입)
     title: '실로스 실리프팅 솔루션',
-    period: '2025-08-01 ~ 2025-09-30',
+    periodStart: '2025-08-01',
+    periodEnd: '2025-09-30',
     posterUrl: '/images/events/silos-lifting-event.jpg',
     status: 'ongoing'
   },
   {
-    id: '2',
+    id: 2,
     title: '실로스 레이저 리프팅',
-    period: '2025-08-01 ~ 2025-09-30',
+    periodStart: '2025-08-01',
+    periodEnd: '2025-09-30',
     posterUrl: '/images/events/laser-lifting-event.jpg',
     status: 'ongoing'
   },
   {
-    id: '3',
+    id: 3,
     title: '가을 특별 이벤트',
-    period: '2025-09-15 ~ 2025-10-31',
+    periodStart: '2025-09-15',
+    periodEnd: '2025-10-31',
     posterUrl: '/images/events/autumn-event.jpg',
     status: 'upcoming'
   },
   {
-    id: '4',
+    id: 4,
     title: '여름 스페셜 프로모션',
-    period: '2025-06-01 ~ 2025-07-31',
+    periodStart: '2025-06-01',
+    periodEnd: '2025-07-31',
     posterUrl: '/images/events/summer-event.jpg',
     status: 'ended'
   }
@@ -52,8 +51,25 @@ const tabs = [
 
 export default function EventsPage() {
   const [activeTab, setActiveTab] = useState<'ongoing' | 'upcoming' | 'ended'>('ongoing');
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredEvents = sampleEvents.filter(event => event.status === activeTab);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setLoading(true);
+      try {
+        const fetchedEvents = await eventService.getEvents(activeTab);
+        setEvents(fetchedEvents);
+      } catch (error) {
+        console.error('Failed to fetch events:', error);
+        setEvents([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, [activeTab]);
 
   return (
     <PageLayout>
@@ -112,9 +128,14 @@ export default function EventsPage() {
           </div>
 
           {/* 이벤트 그리드 */}
-          {filteredEvents.length > 0 ? (
+          {loading ? (
+            <div className="text-center py-20">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-smoke-500"></div>
+              <p className="mt-4 text-gray-600">이벤트를 불러오는 중...</p>
+            </div>
+          ) : events.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 lg:gap-8">
-              {filteredEvents.map((event) => (
+              {events.map((event) => (
                 <Link
                   key={event.id}
                   href={`/events/${event.id}`}
@@ -141,7 +162,7 @@ export default function EventsPage() {
                     <div className="flex items-center space-x-1 md:space-x-2 text-slate-600 mb-2 md:mb-3">
                       <Calendar className="w-3 h-3 md:w-4 md:h-4" />
                       <span className="font-elegant-sans font-light text-xs md:text-sm leading-tight">
-                        {event.period}
+                        {`${event.periodStart} ~ ${event.periodEnd}`}
                       </span>
                     </div>
                     

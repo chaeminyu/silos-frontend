@@ -84,8 +84,8 @@ echo "🔧 환경변수 파일 생성 중..."
 cat > .env.local << EOF
 # 데이터베이스 설정
 DATABASE_URL="mysql://root:chaemin@localhost:3306/silos_cdb"
-API_BASE_URL="http://localhost:8080/"
-NEXT_PUBLIC_API_URL="http://localhost:8080/"
+API_BASE_URL="http://localhost:8080/api"
+NEXT_PUBLIC_API_URL="http://localhost:8080/api"
 
 # 사이트 정보
 NEXT_PUBLIC_SITE_NAME="실로스 성형외과"

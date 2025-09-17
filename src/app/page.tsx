@@ -9,6 +9,7 @@ import PageLayout from '../components/PageLayout';
 import { Suspense, useState, useEffect } from 'react';
 import { Sparkles, Clock, ShoppingCart, Check } from 'lucide-react';
 import { eventService } from '../services/eventService';
+import { youtubeService, YouTubeVideo } from '../services/youtubeService';
 
 export default function HomePage() {
   const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
@@ -19,6 +20,9 @@ export default function HomePage() {
   const [addedToCart, setAddedToCart] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [showEventPopup, setShowEventPopup] = useState(false);
+  const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
+  const [popularVideos, setPopularVideos] = useState<YouTubeVideo[]>([]);
+  const [isLoadingVideos, setIsLoadingVideos] = useState(true);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -57,6 +61,29 @@ export default function HomePage() {
     };
 
     checkEventPopup();
+  }, []);
+
+  // YouTube 동영상 데이터 가져오기
+  useEffect(() => {
+    const fetchYouTubeVideos = async () => {
+      setIsLoadingVideos(true);
+      try {
+        // 최신 동영상 (날짜순)
+        const latestVideos = await youtubeService.getLatestVideos(6);
+        setYoutubeVideos(latestVideos);
+
+        // 인기 동영상 (별도로 가져오거나 최신 동영상 중에서 선별)
+        // YouTube API에서 viewCount 정렬이 잘 안되므로 최신 영상 중에서 사용
+        const popularVids = latestVideos.slice(2, 6); // 최신 3~6번째 영상을 인기 영상으로 사용
+        setPopularVideos(popularVids);
+      } catch (error) {
+        console.error('YouTube 동영상 로딩 중 오류:', error);
+      } finally {
+        setIsLoadingVideos(false);
+      }
+    };
+
+    fetchYouTubeVideos();
   }, []);
 
   const handleAddToCart = (procedureId: string, procedureName: string) => {
@@ -249,16 +276,17 @@ export default function HomePage() {
 
       {/* 메인 컨텐츠 - PC: 배너 슬라이더, 모바일: 카테고리 그리드 */}
       <main className="w-full">
-        {/* PC 버전 - lg 이상에서만 표시 */}
+        {/* ROTATING PROCEDURE CARDS - 주석처리됨 (향후 사용 가능) */}
+        {/* 
         <div className="hidden lg:block">
           <Suspense fallback={<div className="h-screen flex items-center justify-center text-2xl font-elegant-sans font-light text-slate-700">Loading...</div>}>
             <MainBannerSlider />
           </Suspense>
         </div>
+        */}
         
-        {/* 모바일 비디오 섹션 - 모바일에서만 표시 */}
-        {isMobile && (
-          <section className="relative h-screen w-full overflow-hidden">
+        {/* 비디오 섹션 - PC/모바일 모두 표시 */}
+        <section className="relative h-screen w-full overflow-hidden">
             <video
               autoPlay
               loop
@@ -266,7 +294,7 @@ export default function HomePage() {
               playsInline
               className="absolute inset-0 w-full h-full object-cover"
             >
-              <source src="/videos/mobile-hero.mp4" type="video/mp4" />
+              <source src="/videos/silos-main-4k.mp4" type="video/mp4" />
             </video>
             {/* Fallback gradient if video doesn't load */}
             <div className="absolute inset-0 bg-gradient-to-br from-teal-smoke-500 to-elegant-500" style={{zIndex: -1}}></div>
@@ -290,7 +318,6 @@ export default function HomePage() {
               </div>
             </div>
           </section>
-        )}
         
         {/* 가이드 배너 - 현재 숨김 처리됨 (프로젝트에는 유지) */}
         {/* <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-6 bg-gradient-to-r from-cyan-600 via-blue-600 to-cyan-700 z-50">
@@ -568,7 +595,7 @@ export default function HomePage() {
               </div>
 
               <div className="space-y-12">
-                {/* 메인 동영상 */}
+                {/* 메인 동영상 - 기존 대표 영상 유지 */}
                 <div className="text-center">
                   <h3 className="text-xl font-elegant font-medium text-cyan-800 mb-6">SILOS 전문의가 알려드립니다!</h3>
                   <div className="relative max-w-4xl mx-auto">
@@ -600,7 +627,7 @@ export default function HomePage() {
                                 <path d="M8 5v14l11-7z"/>
                               </svg>
                             </div>
-                            <p className="text-white font-elegant-sans">영상 보기</p>
+                            <p className="text-white font-elegant-sans">실로스 대표 영상</p>
                           </div>
                         </div>
                         {/* 재생 버튼 오버레이 */}
@@ -624,14 +651,61 @@ export default function HomePage() {
                     <div>
                       <h3 className="text-xl font-elegant font-medium text-cyan-800 mb-6">인기 동영상</h3>
                       <div className="grid grid-cols-2 gap-4">
-                        <a 
-                          href="https://www.youtube.com/watch?v=POPULAR_VIDEO_1" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block group"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
-                            <div className="w-full h-full bg-gradient-to-br from-teal-smoke-200 to-elegant-200 flex items-center justify-center relative">
+                        {isLoadingVideos ? (
+                          <>
+                            <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg animate-pulse">
+                              <div className="w-full h-full bg-slate-300"></div>
+                            </div>
+                            <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg animate-pulse">
+                              <div className="w-full h-full bg-slate-300"></div>
+                            </div>
+                          </>
+                        ) : popularVideos.length >= 2 ? (
+                          popularVideos.slice(0, 2).map((video, index) => (
+                            <a 
+                              key={video.id.videoId}
+                              href={youtubeService.getVideoUrl(video.id.videoId)} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="block group"
+                            >
+                              <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                                <img 
+                                  src={youtubeService.getThumbnailUrl(video)}
+                                  alt={video.snippet.title}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                    const nextSibling = e.currentTarget.nextElementSibling as HTMLElement;
+                                    if (nextSibling) {
+                                      nextSibling.style.display = 'flex';
+                                    }
+                                  }}
+                                />
+                                <div className="w-full h-full bg-gradient-to-br from-teal-smoke-200 to-elegant-200 hidden items-center justify-center relative">
+                                  <div className="text-center text-slate-700">
+                                    <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                                      <svg className="w-6 h-6 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                      </svg>
+                                    </div>
+                                    <p className="text-sm font-elegant-sans">{video.snippet.title.slice(0, 20)}...</p>
+                                  </div>
+                                </div>
+                                {/* 재생 버튼 오버레이 */}
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors opacity-0 group-hover:opacity-100">
+                                  <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg className="w-6 h-6 text-red-600 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                  </div>
+                                </div>
+                              </div>
+                            </a>
+                          ))
+                        ) : (
+                          <>
+                            <div className="aspect-video bg-gradient-to-br from-teal-smoke-200 to-elegant-200 rounded-xl overflow-hidden shadow-lg flex items-center justify-center">
                               <div className="text-center text-slate-700">
                                 <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-2">
                                   <svg className="w-6 h-6 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
@@ -641,16 +715,7 @@ export default function HomePage() {
                                 <p className="text-sm font-elegant-sans">인기 영상 1</p>
                               </div>
                             </div>
-                          </div>
-                        </a>
-                        <a 
-                          href="https://www.youtube.com/watch?v=POPULAR_VIDEO_2" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block group"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
-                            <div className="w-full h-full bg-gradient-to-br from-elegant-200 to-teal-smoke-200 flex items-center justify-center relative">
+                            <div className="aspect-video bg-gradient-to-br from-elegant-200 to-teal-smoke-200 rounded-xl overflow-hidden shadow-lg flex items-center justify-center">
                               <div className="text-center text-slate-700">
                                 <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-2">
                                   <svg className="w-6 h-6 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
@@ -660,8 +725,8 @@ export default function HomePage() {
                                 <p className="text-sm font-elegant-sans">인기 영상 2</p>
                               </div>
                             </div>
-                          </div>
-                        </a>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -669,14 +734,61 @@ export default function HomePage() {
                     <div>
                       <h3 className="text-xl font-elegant font-medium text-cyan-800 mb-6">최근 동영상</h3>
                       <div className="grid grid-cols-2 gap-4">
-                        <a 
-                          href="https://www.youtube.com/watch?v=RECENT_VIDEO_1" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block group"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
-                            <div className="w-full h-full bg-gradient-to-br from-teal-smoke-300 to-elegant-300 flex items-center justify-center relative">
+                        {isLoadingVideos ? (
+                          <>
+                            <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg animate-pulse">
+                              <div className="w-full h-full bg-slate-300"></div>
+                            </div>
+                            <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg animate-pulse">
+                              <div className="w-full h-full bg-slate-300"></div>
+                            </div>
+                          </>
+                        ) : youtubeVideos.length >= 3 ? (
+                          youtubeVideos.slice(1, 3).map((video, index) => (
+                            <a 
+                              key={video.id.videoId}
+                              href={youtubeService.getVideoUrl(video.id.videoId)} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="block group"
+                            >
+                              <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                                <img 
+                                  src={youtubeService.getThumbnailUrl(video)}
+                                  alt={video.snippet.title}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                    const nextSibling = e.currentTarget.nextElementSibling as HTMLElement;
+                                    if (nextSibling) {
+                                      nextSibling.style.display = 'flex';
+                                    }
+                                  }}
+                                />
+                                <div className={`w-full h-full bg-gradient-to-br ${index === 0 ? 'from-teal-smoke-300 to-elegant-300' : 'from-elegant-300 to-teal-smoke-300'} hidden items-center justify-center relative`}>
+                                  <div className="text-center text-slate-700">
+                                    <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                                      <svg className="w-6 h-6 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                      </svg>
+                                    </div>
+                                    <p className="text-sm font-elegant-sans">{video.snippet.title.slice(0, 20)}...</p>
+                                  </div>
+                                </div>
+                                {/* 재생 버튼 오버레이 */}
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors opacity-0 group-hover:opacity-100">
+                                  <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg className="w-6 h-6 text-red-600 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                  </div>
+                                </div>
+                              </div>
+                            </a>
+                          ))
+                        ) : (
+                          <>
+                            <div className="aspect-video bg-gradient-to-br from-teal-smoke-300 to-elegant-300 rounded-xl overflow-hidden shadow-lg flex items-center justify-center">
                               <div className="text-center text-slate-700">
                                 <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-2">
                                   <svg className="w-6 h-6 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
@@ -686,16 +798,7 @@ export default function HomePage() {
                                 <p className="text-sm font-elegant-sans">최신 영상 1</p>
                               </div>
                             </div>
-                          </div>
-                        </a>
-                        <a 
-                          href="https://www.youtube.com/watch?v=RECENT_VIDEO_2" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block group"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
-                            <div className="w-full h-full bg-gradient-to-br from-elegant-300 to-teal-smoke-300 flex items-center justify-center relative">
+                            <div className="aspect-video bg-gradient-to-br from-elegant-300 to-teal-smoke-300 rounded-xl overflow-hidden shadow-lg flex items-center justify-center">
                               <div className="text-center text-slate-700">
                                 <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-2">
                                   <svg className="w-6 h-6 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
@@ -705,8 +808,8 @@ export default function HomePage() {
                                 <p className="text-sm font-elegant-sans">최신 영상 2</p>
                               </div>
                             </div>
-                          </div>
-                        </a>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -721,13 +824,37 @@ export default function HomePage() {
                       {/* 인기 영상 1 */}
                       <div>
                         <p className="text-xs text-slate-600 mb-2 text-center font-medium">🔥 HOT</p>
-                        <a 
-                          href="https://www.youtube.com/watch?v=POPULAR_VIDEO_1" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block group"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                        {popularVideos[0] ? (
+                          <a 
+                            href={youtubeService.getVideoUrl(popularVideos[0].id.videoId)} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="block group"
+                          >
+                            <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                              <img 
+                                src={youtubeService.getThumbnailUrl(popularVideos[0])} 
+                                alt={popularVideos[0].snippet.title}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                }}
+                              />
+                              <div className="w-full h-full bg-gradient-to-br from-teal-smoke-200 to-elegant-200 items-center justify-center relative hidden">
+                                <div className="text-center text-slate-700">
+                                  <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-1">
+                                    <svg className="w-4 h-4 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                  </div>
+                                  <p className="text-xs font-elegant-sans font-medium">BEST</p>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        ) : (
+                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg">
                             <div className="w-full h-full bg-gradient-to-br from-teal-smoke-200 to-elegant-200 flex items-center justify-center relative">
                               <div className="text-center text-slate-700">
                                 <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-1">
@@ -735,23 +862,47 @@ export default function HomePage() {
                                     <path d="M8 5v14l11-7z"/>
                                   </svg>
                                 </div>
-                                <p className="text-xs font-elegant-sans font-medium">BEST</p>
+                                <p className="text-xs font-elegant-sans font-medium">로딩중...</p>
                               </div>
                             </div>
                           </div>
-                        </a>
+                        )}
                       </div>
 
                       {/* 인기 영상 2 */}
                       <div>
                         <p className="text-xs text-slate-600 mb-2 text-center font-medium">🔥 HOT</p>
-                        <a 
-                          href="https://www.youtube.com/watch?v=POPULAR_VIDEO_2" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block group"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                        {popularVideos[1] ? (
+                          <a 
+                            href={youtubeService.getVideoUrl(popularVideos[1].id.videoId)} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="block group"
+                          >
+                            <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                              <img 
+                                src={youtubeService.getThumbnailUrl(popularVideos[1])} 
+                                alt={popularVideos[1].snippet.title}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                }}
+                              />
+                              <div className="w-full h-full bg-gradient-to-br from-elegant-200 to-teal-smoke-200 items-center justify-center relative hidden">
+                                <div className="text-center text-slate-700">
+                                  <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-1">
+                                    <svg className="w-4 h-4 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                  </div>
+                                  <p className="text-xs font-elegant-sans font-medium">BEST</p>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        ) : (
+                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg">
                             <div className="w-full h-full bg-gradient-to-br from-elegant-200 to-teal-smoke-200 flex items-center justify-center relative">
                               <div className="text-center text-slate-700">
                                 <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-1">
@@ -759,23 +910,47 @@ export default function HomePage() {
                                     <path d="M8 5v14l11-7z"/>
                                   </svg>
                                 </div>
-                                <p className="text-xs font-elegant-sans font-medium">BEST</p>
+                                <p className="text-xs font-elegant-sans font-medium">로딩중...</p>
                               </div>
                             </div>
                           </div>
-                        </a>
+                        )}
                       </div>
 
                       {/* 최신 영상 1 */}
                       <div>
                         <p className="text-xs text-slate-600 mb-2 text-center font-medium">✨ NEW</p>
-                        <a 
-                          href="https://www.youtube.com/watch?v=RECENT_VIDEO_1" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block group"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                        {youtubeVideos[1] ? (
+                          <a 
+                            href={youtubeService.getVideoUrl(youtubeVideos[1].id.videoId)} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="block group"
+                          >
+                            <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                              <img 
+                                src={youtubeService.getThumbnailUrl(youtubeVideos[1])} 
+                                alt={youtubeVideos[1].snippet.title}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                }}
+                              />
+                              <div className="w-full h-full bg-gradient-to-br from-teal-smoke-300 to-elegant-300 items-center justify-center relative hidden">
+                                <div className="text-center text-slate-700">
+                                  <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-1">
+                                    <svg className="w-4 h-4 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                  </div>
+                                  <p className="text-xs font-elegant-sans font-medium">NEW</p>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        ) : (
+                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg">
                             <div className="w-full h-full bg-gradient-to-br from-teal-smoke-300 to-elegant-300 flex items-center justify-center relative">
                               <div className="text-center text-slate-700">
                                 <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-1">
@@ -783,23 +958,47 @@ export default function HomePage() {
                                     <path d="M8 5v14l11-7z"/>
                                   </svg>
                                 </div>
-                                <p className="text-xs font-elegant-sans font-medium">NEW</p>
+                                <p className="text-xs font-elegant-sans font-medium">로딩중...</p>
                               </div>
                             </div>
                           </div>
-                        </a>
+                        )}
                       </div>
 
                       {/* 최신 영상 2 */}
                       <div>
                         <p className="text-xs text-slate-600 mb-2 text-center font-medium">✨ NEW</p>
-                        <a 
-                          href="https://www.youtube.com/watch?v=RECENT_VIDEO_2" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block group"
-                        >
-                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                        {youtubeVideos[2] ? (
+                          <a 
+                            href={youtubeService.getVideoUrl(youtubeVideos[2].id.videoId)} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="block group"
+                          >
+                            <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                              <img 
+                                src={youtubeService.getThumbnailUrl(youtubeVideos[2])} 
+                                alt={youtubeVideos[2].snippet.title}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                }}
+                              />
+                              <div className="w-full h-full bg-gradient-to-br from-elegant-300 to-teal-smoke-300 items-center justify-center relative hidden">
+                                <div className="text-center text-slate-700">
+                                  <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-1">
+                                    <svg className="w-4 h-4 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                  </div>
+                                  <p className="text-xs font-elegant-sans font-medium">NEW</p>
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        ) : (
+                          <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl overflow-hidden shadow-lg">
                             <div className="w-full h-full bg-gradient-to-br from-elegant-300 to-teal-smoke-300 flex items-center justify-center relative">
                               <div className="text-center text-slate-700">
                                 <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-1">
@@ -807,11 +1006,11 @@ export default function HomePage() {
                                     <path d="M8 5v14l11-7z"/>
                                   </svg>
                                 </div>
-                                <p className="text-xs font-elegant-sans font-medium">NEW</p>
+                                <p className="text-xs font-elegant-sans font-medium">로딩중...</p>
                               </div>
                             </div>
                           </div>
-                        </a>
+                        )}
                       </div>
                     </div>
                   </div>

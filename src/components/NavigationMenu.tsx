@@ -1,16 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronDown, ChevronRight, Home } from 'lucide-react';
+import { ChevronDown, ChevronRight, Home, User, LogOut, FileText, ShoppingCart, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import MobileCategoryGrid from './MobileCategoryGrid';
 
 const navigationData = [
   {
     id: 'home',
-    title: '실로스',
+    title: 'SILOS',
     href: '/',
     icon: Home,
     isHome: true
@@ -212,12 +213,16 @@ const navigationData = [
 
 export default function NavigationMenu() {
   const { itemCount } = useCart();
+  const { user, logout, isAuthenticated } = useAuth();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [mobileDropdownPosition, setMobileDropdownPosition] = useState({ top: 0, left: 0 });
   const [isMouseOverMenu, setIsMouseOverMenu] = useState(false);
   const [isMouseOverDropdown, setIsMouseOverDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<string | null>(null);
 
   const handleMouseEnter = (menuId: string, event: React.MouseEvent) => {
     setIsMouseOverMenu(true);
@@ -314,12 +319,41 @@ export default function NavigationMenu() {
       const mobile = window.innerWidth < 1024; // lg breakpoint
       console.log('Mobile detection:', mobile, 'width:', window.innerWidth);
       setIsMobile(mobile);
+      
+      // Close mobile menu if switching to desktop
+      if (!mobile) {
+        setIsMobileMenuOpen(false);
+        setMobileSubmenuOpen(null);
+      }
     };
     
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Close mobile menu on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+        setMobileSubmenuOpen(null);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('keydown', handleEscape);
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <nav className="relative w-full">
@@ -339,7 +373,7 @@ export default function NavigationMenu() {
                 height={20} 
                 className="mr-2"
               />
-              <span className="tracking-wide">실로스</span>
+              <span className="tracking-wide font-extralight">SILOS</span>
             </Link>
           </div>
           
@@ -369,7 +403,7 @@ export default function NavigationMenu() {
               {item.href ? (
                 <Link
                   href={item.href}
-                  className="flex items-center px-2.5 py-2.5 rounded-lg text-[15px] font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-cyan-700 hover:text-cyan-800 whitespace-nowrap"
+                  className="flex items-center px-2.5 py-2.5 rounded-lg text-[15px] font-elegant-sans font-light transition-all duration-300 hover:bg-teal-smoke-50 text-cyan-700 hover:text-cyan-800 whitespace-nowrap"
                 >
                   <span className="flex flex-col">
                     <span className="whitespace-nowrap">{item.title}</span>
@@ -385,7 +419,7 @@ export default function NavigationMenu() {
                 </Link>
               ) : (
                 <button
-                  className="flex items-center px-2.5 py-2.5 rounded-lg text-[15px] font-elegant-sans font-medium transition-all duration-300 hover:bg-teal-smoke-50 text-cyan-700 hover:text-cyan-800 whitespace-nowrap cursor-pointer"
+                  className="flex items-center px-2.5 py-2.5 rounded-lg text-[15px] font-elegant-sans font-light transition-all duration-300 hover:bg-teal-smoke-50 text-cyan-700 hover:text-cyan-800 whitespace-nowrap cursor-pointer"
                 >
                   <span className="flex flex-col">
                     <span className="whitespace-nowrap">{item.title}</span>
@@ -412,7 +446,7 @@ export default function NavigationMenu() {
       {activeDropdown && !isMobile && (
         <div 
           key={activeDropdown}
-          className="fixed bg-white shadow-2xl border border-teal-smoke-200 rounded-xl opacity-0 animate-smooth-dropdown"
+          className="fixed bg-gradient-to-br from-white/95 via-teal-smoke-50/80 to-white/90 backdrop-blur-md shadow-2xl border border-teal-smoke-300/40 rounded-xl opacity-0 animate-smooth-dropdown"
           data-dropdown-portal
           style={{
             top: dropdownPosition.top,
@@ -445,22 +479,22 @@ export default function NavigationMenu() {
             // 일반 메뉴들의 기본 레이아웃
             return (
               <div className="p-4 space-y-1">
-                <h4 className="font-elegant font-medium text-cyan-700 mb-3 text-base tracking-wide border-b border-teal-smoke-200/30 pb-2">
+                <h4 className="font-elegant font-light text-slate-800 mb-3 text-base tracking-wide border-b border-teal-smoke-200/30 pb-2">
                   {menuItem.title}
                 </h4>
                 {menuItem.submenu.map((subItem, index) => (
                   <Link
                     key={index}
                     href={subItem.href}
-                    className="flex items-start px-3 py-2.5 rounded-lg text-cyan-600 hover:text-cyan-700 hover:bg-teal-smoke-50/80 transition-all duration-200 group"
+                    className="flex items-start px-3 py-2.5 rounded-lg text-slate-700 hover:text-slate-800 hover:bg-gradient-to-r hover:from-teal-smoke-100/70 hover:to-white/80 transition-all duration-200 group border border-transparent hover:border-teal-smoke-200/30"
                     onMouseEnter={() => setIsMouseOverDropdown(true)}
                   >
                     <div className="flex-1">
-                      <div className="font-elegant-sans font-medium text-sm leading-tight mb-1 group-hover:text-cyan-700">
+                      <div className="font-elegant-sans font-light text-sm leading-tight mb-1 group-hover:text-slate-900">
                         {subItem.title}
                       </div>
                       {subItem.subtitle && (
-                        <div className="text-xs text-cyan-500 leading-relaxed">
+                        <div className="text-xs text-slate-600 leading-relaxed">
                           {subItem.subtitle}
                         </div>
                       )}
@@ -476,66 +510,198 @@ export default function NavigationMenu() {
 
       {/* Mobile Menu */}
       <div className="lg:hidden w-full">
-        <div className="flex items-center w-full">
-          {/* Logo/Home - 로고만 표시 */}
-          <div className="flex-shrink-0 mr-2">
-            <Link
-              href="/"
-              className="flex items-center p-1.5 rounded-lg text-base font-display font-medium text-cyan-700 hover:text-cyan-800 transition-all duration-300 hover:bg-teal-smoke-50"
-            >
-              <Image 
-                src="/images/logo/silos-icon.png" 
-                alt="Silos" 
-                width={18} 
-                height={18} 
-              />
-            </Link>
-          </div>
+        <div className="flex items-center justify-between w-full">
+          {/* Hamburger Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 hover:bg-white/30 rounded-lg transition-all duration-300 backdrop-blur-sm"
+          >
+            <Menu className="w-6 h-6 text-slate-700" />
+          </button>
           
-          {/* Mobile Navigation Items */}
-          <div className="flex-1 min-w-0 overflow-x-auto">
-            <div className="flex items-center space-x-0.5">
-              {navigationData.slice(1).map((item) => (
-                <div key={item.id} className="relative flex-shrink-0">
-                  {item.submenu ? (
-                    <button
-                      data-dropdown-button
-                      onClick={(e) => {
-                        const target = e.currentTarget;
-                        const rect = target.getBoundingClientRect();
-                        const dropdownWidth = 280; // 드롭다운 너비
-                        const viewportWidth = window.innerWidth;
-                        const padding = 8; // 화면 가장자리 여백
-                        
-                        // 드롭다운이 화면 오른쪽을 벗어나지 않도록 위치 계산
-                        let left = rect.left;
-                        
-                        // 드롭다운이 화면 오른쪽을 벗어나는 경우
-                        if (left + dropdownWidth > viewportWidth - padding) {
-                          // 오른쪽 정렬
-                          left = viewportWidth - dropdownWidth - padding;
-                        }
-                        
-                        // 드롭다운이 왼쪽 화면을 벗어나는 경우
-                        if (left < padding) {
-                          left = padding;
-                        }
-                        
-                        setMobileDropdownPosition({
-                          top: rect.bottom + 8,
-                          left: left
-                        });
-                        setActiveDropdown(activeDropdown === item.id ? null : item.id);
-                      }}
-                      className="flex items-center px-2.5 py-2 rounded-lg text-[13px] font-elegant-sans font-medium text-cyan-700 hover:text-cyan-800 hover:bg-teal-smoke-50 transition-all duration-300 whitespace-nowrap"
+          {/* Center Logo */}
+          <Link
+            href="/"
+            className="flex items-center"
+          >
+            <Image 
+              src="/images/logo/silos-icon.png" 
+              alt="Silos" 
+              width={24} 
+              height={24} 
+              className="mr-2"
+            />
+            <span className="text-xl font-display font-extralight text-slate-800">SILOS</span>
+          </Link>
+          
+          {/* Cart Icon */}
+          <Link 
+            href="/consultation/request"
+            className="relative p-2 hover:bg-white/30 rounded-lg transition-all duration-300 group flex items-center justify-center backdrop-blur-sm"
+          >
+            <ShoppingCart className="w-6 h-6 text-slate-700 group-hover:text-slate-900" />
+            {itemCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 text-white text-xs rounded-full flex items-center justify-center font-bold shadow-lg">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+        </div>
+      </div>
+
+      {/* Mobile Hamburger Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[100000] lg:hidden">
+          <div 
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-teal-smoke-100/80 via-teal-smoke-50/60 to-white/95 backdrop-blur-md shadow-2xl max-h-screen flex flex-col border-b border-teal-smoke-200/30 animate-in slide-in-from-top-4 duration-300">
+            {/* Sticky Header */}
+            <div className="sticky top-0 z-50 flex items-center justify-between p-4 bg-gradient-to-r from-teal-smoke-100/90 to-elegant-100/90 backdrop-blur-lg border-b border-teal-smoke-300/40 shadow-sm">
+              <Link
+                href="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center hover:opacity-80 transition-opacity"
+              >
+                <Image 
+                  src="/images/logo/silos-icon.png" 
+                  alt="Silos" 
+                  width={24} 
+                  height={24} 
+                  className="mr-2"
+                />
+                <span className="text-xl font-display font-extralight text-slate-800">SILOS</span>
+              </Link>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 hover:bg-white/50 rounded-lg transition-all duration-300 backdrop-blur-sm"
+              >
+                <X className="w-6 h-6 text-slate-700" />
+              </button>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto">
+
+            {/* User Section */}
+            <div className="p-4 bg-gradient-to-br from-teal-smoke-50/40 to-elegant-50/40 backdrop-blur-sm border-b border-teal-smoke-200/30">
+              {isAuthenticated ? (
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full flex items-center justify-center shadow-lg">
+                      <User className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-elegant-sans font-light text-slate-800">{user?.username || user?.name || '사용자'}님 반갑습니다</p>
+                      <p className="text-sm text-slate-600">
+                        {user?.accessLevel === 'admin' && '관리자'}
+                        {user?.accessLevel === 'premium' && '프리미엄 회원'}
+                        {user?.accessLevel === 'basic' && '일반 회원'}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-2">
+                    <Link
+                      href="/consultation/list"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex-1 bg-white/70 backdrop-blur-sm text-center py-2 px-4 rounded-xl text-sm font-elegant-sans text-slate-700 hover:bg-white/90 transition-all shadow-sm border border-teal-smoke-200/30"
                     >
-                      <span>{item.title}</span>
-                      <ChevronDown className="w-3 h-3 ml-1" />
-                    </button>
+                      상담 내역
+                    </Link>
+                    <Link
+                      href="/mypage"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 text-center py-2 px-4 rounded-xl text-sm font-elegant-sans text-white hover:from-teal-smoke-400 hover:to-elegant-400 transition-all shadow-lg"
+                    >
+                      마이페이지
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <p className="text-lg font-elegant-sans font-light text-slate-800">환영합니다!</p>
+                  <div className="flex space-x-2">
+                    <Link
+                      href="/login"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex-1 bg-gradient-to-r from-teal-smoke-300 to-elegant-300 text-center py-2.5 px-4 rounded-xl text-sm font-elegant-sans font-light text-white hover:from-teal-smoke-400 hover:to-elegant-400 transition-all shadow-lg"
+                    >
+                      로그인
+                    </Link>
+                    <Link
+                      href="/auth/signup"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex-1 bg-white/70 backdrop-blur-sm text-center py-2.5 px-4 rounded-xl text-sm font-elegant-sans font-light text-slate-700 hover:bg-white/90 transition-all shadow-sm border border-teal-smoke-200/30"
+                    >
+                      회원가입하기
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Navigation Menu */}
+            <div className="py-2 bg-white/30 backdrop-blur-sm">
+              {navigationData.slice(1).map((item) => (
+                <div key={item.id} className="border-b border-teal-smoke-100/30 last:border-0">
+                  {item.submenu ? (
+                    <div>
+                      <button
+                        onClick={() => setMobileSubmenuOpen(mobileSubmenuOpen === item.id ? null : item.id)}
+                        className="w-full flex items-center justify-between px-4 py-3.5 text-left text-base font-elegant-sans font-light text-slate-800 hover:bg-white/40 transition-all backdrop-blur-sm"
+                      >
+                        <span>{item.title}</span>
+                        <ChevronDown className={`w-5 h-5 text-slate-600 transition-transform ${mobileSubmenuOpen === item.id ? 'rotate-180' : ''}`} />
+                      </button>
+                      
+                      {mobileSubmenuOpen === item.id && (
+                        <div className="bg-gradient-to-br from-teal-smoke-50/60 to-elegant-50/60 backdrop-blur-sm animate-in slide-in-from-top-2 duration-300">
+                          {item.id === 'procedures' ? (
+                            <div className="relative overflow-hidden">
+                              {/* Gradient fade-in top */}
+                              <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-teal-smoke-50/90 via-teal-smoke-50/60 to-transparent z-10 pointer-events-none"></div>
+                              
+                              {/* Gradient fade-in sides */}
+                              <div className="absolute top-0 left-0 bottom-0 w-6 bg-gradient-to-r from-teal-smoke-50/70 via-teal-smoke-50/30 to-transparent z-10 pointer-events-none"></div>
+                              <div className="absolute top-0 right-0 bottom-0 w-6 bg-gradient-to-l from-elegant-50/70 via-elegant-50/30 to-transparent z-10 pointer-events-none"></div>
+                              
+                              {/* Gradient fade-in bottom */}
+                              <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-elegant-50/90 via-elegant-50/60 to-transparent z-10 pointer-events-none"></div>
+                              
+                              {/* Inner content with subtle border shadow */}
+                              <div className="relative p-4">
+                                <div className="rounded-2xl p-3 shadow-xl shadow-teal-smoke-300/40 border border-teal-smoke-300/50 backdrop-blur-md bg-gradient-to-br from-white/15 via-teal-smoke-50/10 to-teal-smoke-100/15">
+                                  <MobileCategoryGrid onCategoryClick={() => setIsMobileMenuOpen(false)} />
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="space-y-1 p-3">
+                              {item.submenu.map((subItem, index) => (
+                                <Link
+                                  key={index}
+                                  href={subItem.href}
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                  className="block px-4 py-2.5 bg-white/50 backdrop-blur-sm rounded-xl text-sm font-elegant-sans text-slate-700 hover:bg-white/70 transition-all border border-teal-smoke-100/30"
+                                >
+                                  <div className="font-light">{subItem.title}</div>
+                                  {subItem.subtitle && (
+                                    <div className="text-xs text-slate-500 mt-1">{subItem.subtitle}</div>
+                                  )}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <Link
-                      href={item.href}
-                      className="flex items-center px-2.5 py-2 rounded-lg text-[13px] font-elegant-sans font-medium text-cyan-700 hover:text-cyan-800 hover:bg-teal-smoke-50 transition-all duration-300 whitespace-nowrap"
+                      href={item.href || '#'}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block px-4 py-3.5 text-base font-elegant-sans font-light text-slate-800 hover:bg-white/40 transition-all backdrop-blur-sm"
                     >
                       {item.title}
                     </Link>
@@ -543,84 +709,10 @@ export default function NavigationMenu() {
                 </div>
               ))}
             </div>
-          </div>
-          
-          {/* Mobile Shopping Cart Icon */}
-          <div className="flex-shrink-0 ml-1">
-            <Link 
-              href="/consultation/request"
-              className="relative p-1.5 hover:bg-teal-smoke-50 rounded-lg transition-all duration-300 group flex items-center justify-center"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-600 group-hover:text-slate-800">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-              </svg>
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-teal-smoke-400 text-white text-xs rounded-full flex items-center justify-center font-bold">
-                {itemCount}
-              </span>
-            </Link>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Mobile Dropdown Portal */}
-      {activeDropdown && isMobile && ((() => {
-        const menuItem = navigationData.find(item => item.id === activeDropdown);
-        if (!menuItem?.submenu) return null;
-        
-        console.log('Rendering mobile dropdown portal for:', activeDropdown);
-        return (
-          <div 
-            data-dropdown
-            className={`fixed bg-white shadow-2xl ${activeDropdown === 'procedures' ? 'border-t' : 'rounded-xl border'} border-teal-smoke-200`}
-            style={{
-              top: mobileDropdownPosition.top,
-              left: activeDropdown === 'procedures' ? 0 : mobileDropdownPosition.left,
-              right: activeDropdown === 'procedures' ? 0 : 'auto',
-              width: activeDropdown === 'procedures' ? '100vw' : '280px',
-              maxWidth: activeDropdown === 'procedures' ? '100vw' : 'calc(100vw - 16px)',
-              maxHeight: '70vh',
-              overflowY: 'auto',
-              zIndex: 99999
-            }}
-          >
-            {/* 시술안내 특별 레이아웃 - 3x5 Grid */}
-            {activeDropdown === 'procedures' ? (
-              <div className="w-full">
-                <MobileCategoryGrid onCategoryClick={() => setActiveDropdown(null)} />
-              </div>
-            ) : (
-              /* 일반 메뉴들의 기본 레이아웃 */
-              <div className="p-4 space-y-1">
-                <h4 className="font-elegant font-medium text-cyan-700 mb-3 text-base tracking-wide border-b border-teal-smoke-200/30 pb-2">
-                  {menuItem.title}
-                </h4>
-                {menuItem.submenu.map((subItem, index) => (
-                  <Link
-                    key={index}
-                    href={subItem.href}
-                    className="flex items-start px-3 py-2.5 rounded-lg text-cyan-600 hover:text-cyan-700 hover:bg-teal-smoke-50/80 transition-all duration-200 group"
-                    onClick={() => setActiveDropdown(null)}
-                  >
-                    <div className="flex-1">
-                      <div className="font-elegant-sans font-medium text-sm leading-tight mb-1 group-hover:text-cyan-700">
-                        {subItem.title}
-                      </div>
-                      {subItem.subtitle && (
-                        <div className="text-xs text-cyan-500 leading-relaxed">
-                          {subItem.subtitle}
-                        </div>
-                      )}
-                    </div>
-                    <ChevronRight className="w-3 h-3 text-cyan-500 mt-1 ml-2 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-      })())}
+      )}
     </nav>
   );
 }

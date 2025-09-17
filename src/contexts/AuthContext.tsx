@@ -3,19 +3,23 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
-  id: string;
+  id: number;
+  userId: string;
+  username: string;
   email: string;
-  name: string;
   phone: string;
-  isAdmin?: boolean;
+  role: 'USER' | 'ADMIN';
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, name: string, phone: string) => Promise<void>;
+  token: string | null;
+  login: (userId: string, password: string) => Promise<{ success: boolean; message: string }>;
+  signup: (userId: string, password: string, username: string, email: string, phone: string) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
   isLoading: boolean;
+  isAuthenticated: boolean;
+  hasAccess: (requiredLevel: 'USER' | 'ADMIN') => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,66 +32,148 @@ export const useAuth = () => {
   return context;
 };
 
+const roleHierarchy = {
+  USER: 1,
+  ADMIN: 2
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for saved user in localStorage
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    // Check for saved auth data in localStorage
+    const savedToken = localStorage.getItem('authToken');
+    const savedUser = localStorage.getItem('authUser');
+    
+    if (savedToken && savedUser) {
+      try {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.error('Failed to parse stored auth data:', error);
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('authUser');
+      }
     }
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (userId: string, password: string): Promise<{ success: boolean; message: string }> => {
     try {
-      // Simulate API call - replace with actual API
-      // For demo, check if admin
-      const isAdmin = email === 'admin@silos.com' && password === 'admin123';
-      
-      const userData: User = {
-        id: Math.random().toString(36).substr(2, 9),
-        email,
-        name: isAdmin ? '관리자' : email.split('@')[0],
-        phone: '010-0000-0000',
-        isAdmin
-      };
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, password }),
+      });
 
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
+      const result = await response.json();
+
+      if (result.success) {
+        const userData = {
+          id: result.data.userId,
+          userId: result.data.userId,
+          username: result.data.username,
+          email: result.data.email,
+          phone: result.data.phone,
+          role: result.data.role
+        };
+        
+        setUser(userData);
+        setToken(result.data.accessToken);
+        
+        // Store in localStorage
+        localStorage.setItem('authToken', result.data.accessToken);
+        localStorage.setItem('authUser', JSON.stringify(userData));
+        
+        return { success: true, message: result.message };
+      } else {
+        return { success: false, message: result.message };
+      }
     } catch (error) {
-      throw new Error('로그인에 실패했습니다.');
+      console.error('Login error:', error);
+      return { success: false, message: '로그인 중 오류가 발생했습니다.' };
     }
   };
 
-  const signup = async (email: string, _password: string, name: string, phone: string) => {
+  const signup = async (userId: string, password: string, username: string, email: string, phone: string): Promise<{ success: boolean; message: string }> => {
     try {
-      // Simulate API call - replace with actual API
-      const userData: User = {
-        id: Math.random().toString(36).substr(2, 9),
-        email,
-        name,
-        phone,
-        isAdmin: false
-      };
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, password, username, email, phone }),
+      });
 
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
+      const result = await response.json();
+      console.log('Raw signup API response:', result); // 전체 응답 확인
+      console.log('Response success:', result.success); // success 필드 확인
+      console.log('Response data:', result.data); // data 필드 확인
+
+      if (result.success && result.data) {
+        const userData = {
+          id: result.data.id,
+          userId: result.data.userId,
+          username: result.data.username,
+          email: result.data.email,
+          phone: result.data.phone,
+          role: result.data.role,
+          accessLevel: result.data.role === 'ADMIN' ? 'admin' : 'basic',
+          name: result.data.username // name 필드 추가
+        };
+        
+        console.log('Signup successful, setting user:', userData); // 디버깅용
+        setUser(userData);
+        setToken(result.data.accessToken); // 회원가입 시 받은 토큰으로 자동 로그인
+        
+        // Store in localStorage
+        localStorage.setItem('authToken', result.data.accessToken);
+        localStorage.setItem('authUser', JSON.stringify(userData));
+        
+        return { success: true, message: '회원가입이 완료되었습니다.' };
+      } else {
+        return { success: false, message: result.message };
+      }
     } catch (error) {
-      throw new Error('회원가입에 실패했습니다.');
+      console.error('Signup error:', error);
+      return { success: false, message: '회원가입 중 오류가 발생했습니다.' };
     }
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('cart');
+    setToken(null);
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authUser');
+    // Note: Cart data is now managed per-user and should not be cleared on logout
+  };
+
+  const hasAccess = (requiredLevel: 'USER' | 'ADMIN'): boolean => {
+    if (!user) return false;
+    
+    const userLevel = roleHierarchy[user.role];
+    const required = roleHierarchy[requiredLevel];
+    
+    return userLevel >= required;
+  };
+
+  const value: AuthContextType = {
+    user,
+    token,
+    login,
+    signup,
+    logout,
+    isLoading,
+    isAuthenticated: !!user,
+    hasAccess
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, isLoading }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

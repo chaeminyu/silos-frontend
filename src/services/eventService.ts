@@ -1,12 +1,12 @@
 // 이벤트 관련 API 서비스
 // 실제 백엔드 연동 시 사용할 서비스 파일
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
 // 임시 데이터 - 실제로는 백엔드에서 가져와야 함
 const mockEvents = [
   {
-    id: '1',
+    id: 1, // Promotion API 호환 (number 타입)
     title: '실로스 실리프팅 솔루션',
     periodStart: '2025-08-01',
     periodEnd: '2025-09-30',
@@ -17,7 +17,7 @@ const mockEvents = [
     createdAt: '2025-08-01 10:21'
   },
   {
-    id: '2',
+    id: 2,
     title: '실로스 레이저 리프팅',
     periodStart: '2025-08-01',
     periodEnd: '2025-09-30',
@@ -28,7 +28,7 @@ const mockEvents = [
     createdAt: '2025-08-01 10:21'
   },
   {
-    id: '3',
+    id: 3,
     title: '가을 특별 이벤트',
     periodStart: '2025-09-15',
     periodEnd: '2025-10-31',
@@ -39,7 +39,7 @@ const mockEvents = [
     createdAt: '2025-08-20 10:21'
   },
   {
-    id: '4',
+    id: 4,
     title: '여름 스페셜 프로모션',
     periodStart: '2025-06-01',
     periodEnd: '2025-07-31',
@@ -51,37 +51,71 @@ const mockEvents = [
   }
 ];
 
+// Promotion과 호환되는 Event 인터페이스 (연동 개발자 요청사항 반영)
 export interface Event {
-  id: string;
+  id: number; // Promotion API와 호환
   title: string;
-  periodStart: string;
-  periodEnd: string;
+  periodStart: string; // promotionStartDate와 매핑
+  periodEnd: string;   // promotionEndDate와 매핑
   posterUrl: string;
-  status: 'ongoing' | 'upcoming' | 'ended';
+  status: 'ongoing' | 'upcoming' | 'ended'; // 프론트엔드 표시용
   content?: string;
   viewCount?: number;
   createdAt?: string;
   updatedAt?: string;
 }
 
+// 백엔드 Promotion 상태를 프론트엔드 Event 상태로 변환
+export function mapPromotionStatus(promotionStatus: 'UPCOMING' | 'ACTIVE' | 'END'): 'ongoing' | 'upcoming' | 'ended' {
+  switch (promotionStatus) {
+    case 'ACTIVE':
+      return 'ongoing';
+    case 'UPCOMING':
+      return 'upcoming';
+    case 'END':
+      return 'ended';
+    default:
+      return 'ended';
+  }
+}
+
 export const eventService = {
   // 이벤트 목록 조회
   async getEvents(status?: string): Promise<Event[]> {
     try {
-      // 임시로 mockEvents 사용 - 실제로는 백엔드 API 호출
-      let filteredEvents = mockEvents;
+      let url = `${API_BASE_URL}/promotions`;
       if (status) {
-        filteredEvents = mockEvents.filter(event => event.status === status);
+        // 프론트엔드 status를 백엔드 status로 변환
+        const backendStatus = status === 'ongoing' ? 'ACTIVE' : 
+                             status === 'upcoming' ? 'UPCOMING' : 
+                             status === 'ended' ? 'END' : status;
+        url += `?status=${backendStatus}`;
       }
       
-      // 날짜 포맷 변환
-      return filteredEvents.map(event => ({
-        ...event,
-        periodStart: event.periodStart,
-        periodEnd: event.periodEnd
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch promotions');
+      }
+      
+      const result = await response.json();
+      const promotions = result.data || [];
+      
+      // 백엔드 응답을 프론트엔드 Event 형식으로 변환
+      return promotions.map((promotion: any) => ({
+        id: promotion.id,
+        title: promotion.title,
+        periodStart: promotion.periodStart,
+        periodEnd: promotion.periodEnd,
+        posterUrl: promotion.posterUrl || '/images/events/default-event.jpg',
+        status: promotion.status,
+        content: promotion.content,
+        viewCount: promotion.viewCount,
+        createdAt: promotion.createdAt,
+        updatedAt: promotion.updatedAt
       }));
     } catch (error) {
       console.error('Error fetching events:', error);
+      // 에러 시 빈 배열 반환
       return [];
     }
   },
@@ -89,12 +123,25 @@ export const eventService = {
   // 진행 중인 이벤트 조회 (팝업용)
   async getOngoingEvents(): Promise<Event[]> {
     try {
-      // 임시로 mockEvents에서 ongoing 상태만 필터링
-      const ongoingEvents = mockEvents.filter(event => event.status === 'ongoing');
-      return ongoingEvents.map(event => ({
-        ...event,
-        periodStart: event.periodStart,
-        periodEnd: event.periodEnd
+      const response = await fetch(`${API_BASE_URL}/promotions/active`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch active promotions');
+      }
+      
+      const result = await response.json();
+      const promotions = result.data || [];
+      
+      return promotions.map((promotion: any) => ({
+        id: promotion.id,
+        title: promotion.title,
+        periodStart: promotion.periodStart,
+        periodEnd: promotion.periodEnd,
+        posterUrl: promotion.posterUrl || '/images/events/default-event.jpg',
+        status: promotion.status,
+        content: promotion.content,
+        viewCount: promotion.viewCount,
+        createdAt: promotion.createdAt,
+        updatedAt: promotion.updatedAt
       }));
     } catch (error) {
       console.error('Error fetching ongoing events:', error);
@@ -103,11 +150,30 @@ export const eventService = {
   },
 
   // 이벤트 상세 조회
-  async getEventById(id: string): Promise<Event | null> {
+  async getEventById(id: number): Promise<Event | null> {
     try {
-      const response = await fetch(`${API_BASE_URL}/events/${id}`);
-      if (!response.ok) throw new Error('Failed to fetch event');
-      return response.json();
+      const response = await fetch(`${API_BASE_URL}/promotions/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch promotion');
+      }
+      
+      const result = await response.json();
+      const promotion = result.data;
+      
+      if (!promotion) return null;
+      
+      return {
+        id: promotion.id,
+        title: promotion.title,
+        periodStart: promotion.periodStart,
+        periodEnd: promotion.periodEnd,
+        posterUrl: promotion.posterUrl || '/images/events/default-event.jpg',
+        status: promotion.status,
+        content: promotion.content,
+        viewCount: promotion.viewCount,
+        createdAt: promotion.createdAt,
+        updatedAt: promotion.updatedAt
+      };
     } catch (error) {
       console.error('Error fetching event:', error);
       return null;
@@ -192,13 +258,48 @@ export const eventService = {
   },
 
   // 조회수 증가
-  async incrementViewCount(id: string): Promise<void> {
+  async incrementViewCount(id: number): Promise<void> {
     try {
-      await fetch(`${API_BASE_URL}/events/${id}/view`, {
+      await fetch(`${API_BASE_URL}/promotions/${id}/view`, {
         method: 'POST'
       });
     } catch (error) {
       console.error('Error incrementing view count:', error);
+    }
+  },
+
+  // 이벤트 신청
+  async applyForEvent(id: number, applicationData: {
+    name: string;
+    phone: string;
+    message?: string;
+    preferredDate?: string;
+    preferredTime?: string;
+  }): Promise<{ success: boolean; message: string }> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/promotions/${id}/apply`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(applicationData)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to apply for event');
+      }
+      
+      const result = await response.json();
+      return {
+        success: true,
+        message: result.data || '이벤트 신청이 완료되었습니다.'
+      };
+    } catch (error) {
+      console.error('Error applying for event:', error);
+      return {
+        success: false,
+        message: '신청 중 오류가 발생했습니다. 다시 시도해주세요.'
+      };
     }
   }
 };

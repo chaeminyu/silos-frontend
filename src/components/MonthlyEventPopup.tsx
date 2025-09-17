@@ -3,14 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { X, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
-
-interface Event {
-  id: string;
-  title: string;
-  period: string;
-  posterUrl: string;
-  status: 'ongoing' | 'upcoming' | 'ended';
-}
+import { Event, eventService } from '@/services/eventService';
 
 interface MonthlyEventPopupProps {
   isOpen: boolean;
@@ -18,31 +11,36 @@ interface MonthlyEventPopupProps {
   onDontShowToday: () => void;
 }
 
-// 임시 진행 중인 이벤트 데이터 - 실제로는 백엔드에서 가져와야 함
-const ongoingEvents: Event[] = [
-  {
-    id: '1',
-    title: '실로스 실리프팅 솔루션',
-    period: '2025-08-01 ~ 2025-09-30',
-    posterUrl: '/images/events/silos-lifting-event.jpg',
-    status: 'ongoing'
-  },
-  {
-    id: '2',
-    title: '실로스 레이저 리프팅',
-    period: '2025-08-01 ~ 2025-09-30', 
-    posterUrl: '/images/events/laser-lifting-event.jpg',
-    status: 'ongoing'
-  }
-];
 
 export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: MonthlyEventPopupProps) {
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [ongoingEvents, setOngoingEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
   
   // Touch/swipe state
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+
+  // 진행 중인 이벤트 가져오기
+  useEffect(() => {
+    const fetchOngoingEvents = async () => {
+      if (!isOpen) return;
+      
+      setLoading(true);
+      try {
+        const events = await eventService.getOngoingEvents();
+        setOngoingEvents(events);
+      } catch (error) {
+        console.error('Failed to fetch ongoing events:', error);
+        setOngoingEvents([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOngoingEvents();
+  }, [isOpen]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -64,9 +62,24 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
     };
   }, [isOpen]);
 
-  if (!isOpen || ongoingEvents.length === 0) return null;
+  if (!isOpen) return null;
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-[100000] flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+        <div className="bg-white rounded-2xl p-8 relative">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-smoke-500"></div>
+          <p className="mt-4 text-gray-600">이벤트를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (ongoingEvents.length === 0) return null;
 
   const currentEvent = ongoingEvents[currentEventIndex];
+  const eventPeriod = `${currentEvent.periodStart} ~ ${currentEvent.periodEnd}`;
 
   const handleNext = () => {
     setCurrentEventIndex((prev) => (prev + 1) % ongoingEvents.length);
@@ -159,7 +172,7 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
                       {currentEvent.title}
                     </h4>
                     <p className="text-sm text-slate-600 font-elegant-sans">
-                      {currentEvent.period}
+                      {eventPeriod}
                     </p>
                   </div>
                 </Link>
@@ -266,13 +279,12 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
                     {currentEvent.title}
                   </h2>
                   <p className="text-xl font-elegant-sans font-light mb-6">
-                    개인별 피부 상태, 탄력도, 블루밍을 정밀 분석하여<br />
-                    개인 맞춤형 리프팅 솔루션을 제공합니다.
+                    {currentEvent.content || '개인별 피부 상태, 탄력도, 블루밍을 정밀 분석하여 개인 맞춤형 리프팅 솔루션을 제공합니다.'}
                   </p>
                   <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-xl">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span className="font-elegant-sans font-medium">
-                      {currentEvent.period}
+                      {eventPeriod}
                     </span>
                   </div>
                 </div>
