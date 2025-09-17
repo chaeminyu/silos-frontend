@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { 
-  UsersIcon,
   CalendarIcon,
   ArrowTrendingUpIcon,
   ChatBubbleLeftIcon,
