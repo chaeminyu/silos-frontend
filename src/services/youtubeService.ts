@@ -33,6 +33,12 @@ class YouTubeService {
   constructor() {
     this.apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || '';
     this.channelId = process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_ID || '';
+    
+    console.log('YouTube Service initialized:', {
+      hasApiKey: !!this.apiKey,
+      hasChannelId: !!this.channelId,
+      apiKeyLength: this.apiKey.length
+    });
   }
 
   // 채널의 최신 동영상 가져오기 (Shorts 제외)
@@ -45,15 +51,25 @@ class YouTubeService {
     try {
       // 1단계: 최신 동영상들을 많이 가져오기
       const searchUrl = `${this.baseUrl}/search?key=${this.apiKey}&channelId=${this.channelId}&part=snippet&order=date&maxResults=50&type=video`;
+      console.log('YouTube API 요청 URL:', searchUrl);
+      
       const searchResponse = await fetch(searchUrl);
+      console.log('YouTube API 응답 상태:', searchResponse.status);
       
       if (!searchResponse.ok) {
-        throw new Error(`YouTube API 요청 실패: ${searchResponse.status}`);
+        const errorText = await searchResponse.text();
+        console.error('YouTube API 에러 응답:', errorText);
+        throw new Error(`YouTube API 요청 실패: ${searchResponse.status} - ${errorText}`);
       }
 
       const searchData: YouTubeAPIResponse = await searchResponse.json();
+      console.log('YouTube API 검색 결과:', {
+        itemCount: searchData.items?.length || 0,
+        totalResults: searchData.pageInfo?.totalResults
+      });
       
       if (!searchData.items || searchData.items.length === 0) {
+        console.warn('YouTube API에서 동영상을 찾을 수 없습니다.');
         return this.getFallbackVideos();
       }
 
@@ -89,6 +105,11 @@ class YouTubeService {
           snippet: video.snippet
         }));
 
+      console.log('최신 동영상 결과:', {
+        longFormCount: longFormVideos.length,
+        usingFallback: longFormVideos.length === 0
+      });
+      
       return longFormVideos.length > 0 ? longFormVideos : this.getFallbackVideos();
     } catch (error) {
       console.error('YouTube API 호출 중 오류:', error);
@@ -98,15 +119,25 @@ class YouTubeService {
 
   // 인기 동영상 가져오기 (실제 조회수 기준, Shorts 제외)
   async getPopularVideos(maxResults: number = 4): Promise<YouTubeVideo[]> {
+    console.log('인기 동영상 요청 시작:', { maxResults });
+    
     if (!this.apiKey || !this.channelId) {
+      console.warn('인기 동영상: API 키 또는 채널 ID가 없음, fallback 사용');
       return this.getFallbackVideos().slice(0, maxResults);
     }
 
     try {
       // 1단계: 채널의 최신 동영상들을 많이 가져오기 (Shorts 포함)
       const searchUrl = `${this.baseUrl}/search?key=${this.apiKey}&channelId=${this.channelId}&part=snippet&order=date&maxResults=50&type=video`;
+      console.log('인기 동영상 API 요청:', searchUrl);
+      
       const searchResponse = await fetch(searchUrl);
+      console.log('인기 동영상 API 응답 상태:', searchResponse.status);
+      
       const searchData: YouTubeAPIResponse = await searchResponse.json();
+      console.log('인기 동영상 검색 결과:', {
+        itemCount: searchData.items?.length || 0
+      });
       
       if (!searchData.items || searchData.items.length === 0) {
         return this.getFallbackVideos().slice(0, maxResults);
@@ -150,6 +181,12 @@ class YouTubeService {
           snippet: video.snippet
         }));
 
+      console.log('인기 동영상 최종 결과:', {
+        longFormCount: longFormVideos.length,
+        maxResults,
+        usingFallback: longFormVideos.length === 0
+      });
+      
       return longFormVideos.length > 0 ? longFormVideos : this.getFallbackVideos().slice(0, maxResults);
     } catch (error) {
       console.error('YouTube 인기 동영상 가져오기 실패:', error);
