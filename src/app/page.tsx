@@ -6,7 +6,8 @@ import StandardConsultationSection from '../components/StandardConsultationSecti
 import MonthlyEventPopup from '../components/MonthlyEventPopup';
 import PageLayout from '../components/PageLayout';
 import { useState, useEffect } from 'react';
-import { Sparkles, Clock, ShoppingCart, Check } from 'lucide-react';
+import { Sparkles, Clock, ShoppingCart, Check, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { eventService } from '../services/eventService';
 import { youtubeService, YouTubeVideo } from '../services/youtubeService';
 
@@ -140,71 +141,55 @@ export default function HomePage() {
     }
   ];
 
-  // Representative procedures data
+  // Representative procedures data with route mapping
   const representativeProcedures = [
     {
       id: 'silos-lifting',
-      title: '실로프팅(실리프팅)',
+      title: '실로스 리프팅',
       subtitle: 'SILOS THREAD LIFTING',
-      description: [
-        '실로스만의 특허받은 실리프팅 기법으로',
-        '개인의 얼굴 구조와 노화 패턴을 분석하여',
-        '최적의 실 종류와 삽입 방향을 결정합니다.',
-        '자연스러우면서도 효과적인 리프팅으로',
-        '젊고 세련된 인상을 만들어드립니다.'
-      ],
+      shortDesc: '실로스만의 특허받은 실리프팅 기법으로 자연스러운 리프팅 효과',
       features: ['무절개', '즉시효과', '자연스러움'],
       duration: '30분',
-      feature: '무절개',
-      gradient: 'from-teal-smoke-100 to-teal-smoke-200'
+      route: '/procedures/silos-lifting',
+      gradient: 'from-teal-smoke-400 to-elegant-500',
+      bgGradient: 'from-teal-smoke-50 to-elegant-50',
+      icon: '🧵'
     },
     {
       id: 'silopat',
-      title: '실로팻(지방추출주사)',
+      title: '실로팻',
       subtitle: 'SILOPAT FAT DISSOLVING',
-      description: [
-        '실로스 독자개발 지방분해 주사로',
-        '안전하고 효과적인 부분 지방 감소',
-        '이중턱, 볼살, 팔뚝 등 다양한 부위에 적용',
-        '시술 후 즉시 일상생활 가능하며',
-        '자연스러운 라인 개선 효과를 제공합니다.'
-      ],
+      shortDesc: '실로스 독자개발 지방분해 주사로 안전하고 효과적인 부분 지방 감소',
       features: ['무통증', '즉시회복', '부분감소'],
       duration: '20분',
-      feature: '무통증',
-      gradient: 'from-elegant-100 to-teal-smoke-200'
+      route: '/silofat',
+      gradient: 'from-elegant-400 to-teal-smoke-500',
+      bgGradient: 'from-elegant-50 to-teal-smoke-50',
+      icon: '💉'
     },
     {
       id: 'under-eye-laser',
-      title: '반달레이저(눈밑지방레이저)',
+      title: '눈밑지방 레이저',
       subtitle: 'UNDER-EYE FAT LASER',
-      description: [
-        '눈밑 지방을 레이저로 안전하게 제거하여',
-        '다크서클과 눈밑 불룩함을 동시에 개선',
-        '비절개 방식으로 흉터 걱정 없이',
-        '자연스러운 눈가 라인을 완성하며',
-        '젊고 밝은 인상을 만들어드립니다.'
-      ],
+      shortDesc: '레이저로 안전하게 눈밑 지방을 제거하여 밝은 인상 완성',
       features: ['비절개', '흉터없음', '자연개선'],
       duration: '10분',
-      feature: '비절개',
-      gradient: 'from-teal-smoke-200 to-elegant-200'
+      route: '/procedures/under-eye-lifting',
+      gradient: 'from-teal-smoke-400 to-elegant-400',
+      bgGradient: 'from-teal-smoke-50 to-elegant-50',
+      icon: '👁️'
     },
     {
       id: 'neck-lifting',
-      title: '넥리프팅(목리프팅)',
+      title: '넥 리프팅',
       subtitle: 'NECK LIFTING',
-      description: [
-        '처진 목주름과 이중턱을 동시에 개선하는',
-        '넥 리프팅으로 목과 턱라인을 선명하게',
-        '실과 레이저를 복합적으로 사용하여',
-        '안전하고 확실한 결과를 제공하며',
-        '우아한 목라인을 완성해드립니다.'
-      ],
+      shortDesc: '처진 목주름과 이중턱을 동시에 개선하여 우아한 목라인 완성',
       features: ['복합시술', '목주름개선', '자연결과'],
       duration: '45분',
-      feature: '자연결과',
-      gradient: 'from-elegant-200 to-teal-smoke-300'
+      route: '/procedures/neck-lifting',
+      gradient: 'from-elegant-400 to-teal-smoke-400',
+      bgGradient: 'from-elegant-50 to-teal-smoke-50',
+      icon: '✨'
     }
   ];
 
@@ -424,11 +409,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 시술 안내 섹션 - 탭 기반 */}
+        {/* 대표 시술 섹션 - 카드 레이아웃 */}
         <section id="procedures" className="w-full py-24 bg-gradient-to-br from-white via-teal-smoke-50 to-elegant-50">
           <div className="w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-20">
+              <div className="text-center mb-16">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide px-4">대표 시술</h2>
                 <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-8"></div>
                 <p className="text-base sm:text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed px-4">
@@ -436,31 +421,82 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* 탭 버튼들 */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-12 max-w-5xl mx-auto px-4">
-                <button
-                  onClick={() => setActiveProcedureTab('silos-lifting')}
-                  className={`px-3 sm:px-2 py-3 sm:py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
-                    activeProcedureTab === 'silos-lifting'
-                      ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
-                      : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
-                  }`}
-                >
-                  <div className="text-xs sm:text-xs font-light opacity-80 leading-tight">SILOS</div>
-                  <div className="text-sm sm:text-sm font-medium leading-tight">실리프팅</div>
-                </button>
-                
-                <button
-                  onClick={() => setActiveProcedureTab('silopat')}
-                  className={`px-3 sm:px-2 py-3 sm:py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
-                    activeProcedureTab === 'silopat'
-                      ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
-                      : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
-                  }`}
-                >
-                  <div className="text-xs sm:text-xs font-light opacity-80 leading-tight">SILOS</div>
-                  <div className="text-sm sm:text-sm font-medium leading-tight">지방추출주사</div>
-                </button>
+              {/* 시술 카드 그리드 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                {representativeProcedures.map((procedure) => (
+                  <Link
+                    key={procedure.id}
+                    href={procedure.route}
+                    className="group block"
+                  >
+                    <div className={`relative bg-gradient-to-br ${procedure.bgGradient} rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-2 border border-white/50`}>
+                      {/* 카드 헤더 */}
+                      <div className={`bg-gradient-to-r ${procedure.gradient} p-6 text-center relative overflow-hidden`}>
+                        {/* 배경 패턴 */}
+                        <div className="absolute inset-0 opacity-10">
+                          <div className="absolute top-2 right-2 text-4xl opacity-50">{procedure.icon}</div>
+                          <div className="absolute bottom-2 left-2 w-8 h-8 bg-white/20 rounded-full"></div>
+                          <div className="absolute top-1/2 left-1/4 w-4 h-4 bg-white/10 rounded-full"></div>
+                        </div>
+                        
+                        <div className="relative z-10">
+                          <div className="text-4xl mb-3">{procedure.icon}</div>
+                          <h3 className="text-xl font-display font-bold text-white mb-2 tracking-wide">
+                            {procedure.title}
+                          </h3>
+                          <p className="text-sm font-elegant-sans font-light text-white/90">
+                            {procedure.subtitle}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 카드 바디 */}
+                      <div className="p-6">
+                        <p className="text-sm text-slate-600 font-elegant-sans font-light leading-relaxed mb-6 min-h-[3rem]">
+                          {procedure.shortDesc}
+                        </p>
+
+                        {/* 특징 배지들 */}
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {procedure.features.map((feature, i) => (
+                            <span key={i} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-elegant-sans font-medium bg-white/80 text-slate-700 border border-slate-200">
+                              {feature}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* 시술 시간 */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center text-slate-600">
+                            <Clock className="w-4 h-4 mr-2" />
+                            <span className="text-sm font-elegant-sans font-medium">{procedure.duration}</span>
+                          </div>
+                          
+                          <div className="flex items-center text-teal-smoke-600 group-hover:text-teal-smoke-700 transition-colors">
+                            <span className="text-sm font-elegant-sans font-medium mr-1">자세히 보기</span>
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 호버 효과 오버레이 */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-transparent to-black/0 opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              {/* 하단 CTA */}
+              <div className="text-center mt-16">
+                <Link href="/consultation/request" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                  <ShoppingCart className="w-5 h-5 mr-3" />
+                  <span className="font-elegant-sans font-bold text-lg">전체 시술 상담 신청하기</span>
+                  <ArrowRight className="w-5 h-5 ml-3" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
                 
                 <button
                   onClick={() => setActiveProcedureTab('under-eye-laser')}
