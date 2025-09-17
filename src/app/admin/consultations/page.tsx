@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { 
   MagnifyingGlassIcon,
-  FunnelIcon,
   EyeIcon,
   ChatBubbleLeftEllipsisIcon,
   CalendarDaysIcon,
@@ -14,7 +13,6 @@ import {
   PhoneIcon,
   EnvelopeIcon,
   CheckCircleIcon,
-  XCircleIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 
@@ -64,7 +62,7 @@ export default function ConsultationsPage() {
   const [filteredConsultations, setFilteredConsultations] = useState<Consultation[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
 
   // Fetch consultations from API
   const fetchConsultations = async () => {
@@ -108,7 +106,6 @@ export default function ConsultationsPage() {
     if (userIdFilter) {
       // 특정 회원의 상담 이력만 필터링 (실제로는 API에서 userId로 매칭해야 함)
       // 여기서는 mock 데이터에서 이름으로 매칭
-      const userNames = ['김민지', '박지원', '이서연', '정하림']; // userId별 매핑 필요
       const userNameMap: { [key: string]: string } = {
         'minji123': '김민지',
         'jiwon456': '박지원', 

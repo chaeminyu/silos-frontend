@@ -8,41 +8,6 @@ import { Calendar, Heart } from 'lucide-react';
 // Event 인터페이스는 eventService에서 import하여 일관성 유지
 import { Event, eventService } from '@/services/eventService';
 
-const sampleEvents: Event[] = [
-  {
-    id: 1, // Promotion API 호환 (number 타입)
-    title: '실로스 실리프팅 솔루션',
-    periodStart: '2025-08-01',
-    periodEnd: '2025-09-30',
-    posterUrl: '/images/events/silos-lifting-event.jpg',
-    status: 'ongoing'
-  },
-  {
-    id: 2,
-    title: '실로스 레이저 리프팅',
-    periodStart: '2025-08-01',
-    periodEnd: '2025-09-30',
-    posterUrl: '/images/events/laser-lifting-event.jpg',
-    status: 'ongoing'
-  },
-  {
-    id: 3,
-    title: '가을 특별 이벤트',
-    periodStart: '2025-09-15',
-    periodEnd: '2025-10-31',
-    posterUrl: '/images/events/autumn-event.jpg',
-    status: 'upcoming'
-  },
-  {
-    id: 4,
-    title: '여름 스페셜 프로모션',
-    periodStart: '2025-06-01',
-    periodEnd: '2025-07-31',
-    posterUrl: '/images/events/summer-event.jpg',
-    status: 'ended'
-  }
-];
-
 const tabs = [
   { id: 'ongoing', label: '진행 중', status: 'ongoing' as const },
   { id: 'upcoming', label: '진행 예정', status: 'upcoming' as const },

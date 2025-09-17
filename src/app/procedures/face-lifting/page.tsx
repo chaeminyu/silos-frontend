@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import PageLayout from '../../../components/PageLayout';
 import StandardConsultationSection from '../../../components/StandardConsultationSection';
-import { Clock, Shield, Star, ShoppingCart, Check, User, Sparkles } from 'lucide-react';
+import { ShoppingCart, Check, User, Sparkles } from 'lucide-react';
 import { useCart } from '../../../contexts/CartContext';
 
 // SMAS 미니거상 데이터
@@ -166,7 +166,10 @@ export default function FaceLiftingPage() {
                     }}
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
-                      e.currentTarget.nextElementSibling.style.display = 'flex';
+                      const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                      if (nextElement) {
+                        nextElement.style.display = 'flex';
+                      }
                     }}
                   />
                   <div className="hidden items-center justify-center w-full h-full bg-gradient-to-br from-teal-smoke-100 to-elegant-100">
@@ -245,7 +248,10 @@ export default function FaceLiftingPage() {
                       onError={(e) => {
                         // 이미지가 없을 경우 fallback
                         e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling.style.display = 'flex';
+                        const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (nextElement) {
+                          nextElement.style.display = 'flex';
+                        }
                       }}
                     />
                     <div className="hidden items-center justify-center h-96 bg-gradient-to-br from-elegant-50 to-teal-smoke-50 rounded-3xl shadow-xl border border-elegant-200 w-full">

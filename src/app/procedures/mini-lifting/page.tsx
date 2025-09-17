@@ -191,7 +191,10 @@ export default function MiniLiftingPage() {
                     className="w-full h-full object-cover object-center"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
-                      e.currentTarget.nextElementSibling.style.display = 'flex';
+                      const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                      if (nextElement) {
+                        nextElement.style.display = 'flex';
+                      }
                     }}
                   />
                   <div className="hidden w-full h-full bg-gradient-to-br from-teal-smoke-100 to-elegant-100 items-center justify-center">
@@ -247,7 +250,10 @@ export default function MiniLiftingPage() {
                       className="w-full h-full object-cover object-center"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling.style.display = 'flex';
+                        const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (nextElement) {
+                          nextElement.style.display = 'flex';
+                        }
                       }}
                     />
                     <div className="hidden w-full h-full bg-gradient-to-br from-teal-smoke-100 to-elegant-100 items-center justify-center">
@@ -292,7 +298,10 @@ export default function MiniLiftingPage() {
                       onError={(e) => {
                         // 이미지가 없을 경우 fallback
                         e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling.style.display = 'flex';
+                        const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (nextElement) {
+                          nextElement.style.display = 'flex';
+                        }
                       }}
                     />
                     <div className="hidden items-center justify-center h-64 bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-3xl w-full shadow-xl border border-teal-smoke-200/50">

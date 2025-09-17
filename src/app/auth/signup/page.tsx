@@ -1,14 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import PageLayout from '../../../components/PageLayout';
 import { useAuth } from '../../../contexts/AuthContext';
-import { UserPlus, Lock, Mail, Phone, User } from 'lucide-react';
+import { Lock, Mail, Phone, User } from 'lucide-react';
 
 export default function SignupPage() {
-  const router = useRouter();
   const { signup } = useAuth();
   const [formData, setFormData] = useState({
     userId: '',

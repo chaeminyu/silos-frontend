@@ -3,53 +3,6 @@
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
-// 임시 데이터 - 실제로는 백엔드에서 가져와야 함
-const mockEvents = [
-  {
-    id: 1, // Promotion API 호환 (number 타입)
-    title: '실로스 실리프팅 솔루션',
-    periodStart: '2025-08-01',
-    periodEnd: '2025-09-30',
-    posterUrl: '/images/events/silos-lifting-event.jpg',
-    status: 'ongoing' as const,
-    content: '개인별 피부 상태를 분석한 맞춤형 리프팅',
-    viewCount: 371,
-    createdAt: '2025-08-01 10:21'
-  },
-  {
-    id: 2,
-    title: '실로스 레이저 리프팅',
-    periodStart: '2025-08-01',
-    periodEnd: '2025-09-30',
-    posterUrl: '/images/events/laser-lifting-event.jpg',
-    status: 'ongoing' as const,
-    content: '최신 레이저 기술을 활용한 프리미엄 리프팅',
-    viewCount: 256,
-    createdAt: '2025-08-01 10:21'
-  },
-  {
-    id: 3,
-    title: '가을 특별 이벤트',
-    periodStart: '2025-09-15',
-    periodEnd: '2025-10-31',
-    posterUrl: '/images/events/autumn-event.jpg',
-    status: 'upcoming' as const,
-    content: '가을맞이 특별 프로모션',
-    viewCount: 125,
-    createdAt: '2025-08-20 10:21'
-  },
-  {
-    id: 4,
-    title: '여름 스페셜 프로모션',
-    periodStart: '2025-06-01',
-    periodEnd: '2025-07-31',
-    posterUrl: '/images/events/summer-event.jpg',
-    status: 'ended' as const,
-    content: '여름 특별 할인 이벤트',
-    viewCount: 892,
-    createdAt: '2025-06-01 10:21'
-  }
-];
 
 // Promotion과 호환되는 Event 인터페이스 (연동 개발자 요청사항 반영)
 export interface Event {

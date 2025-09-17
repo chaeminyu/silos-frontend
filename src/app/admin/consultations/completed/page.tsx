@@ -6,13 +6,11 @@ import {
   MagnifyingGlassIcon,
   CalendarDaysIcon,
   CheckCircleIcon,
-  StarIcon,
   ClockIcon,
   UserIcon,
   EyeIcon,
   DocumentTextIcon,
-  ChartBarIcon,
-  FunnelIcon
+  ChartBarIcon
 } from '@heroicons/react/24/outline';
 
 interface CompletedConsultation {
@@ -102,7 +100,7 @@ const mockCompletedConsultations: CompletedConsultation[] = [
 ];
 
 export default function CompletedConsultationsPage() {
-  const [consultations, setConsultations] = useState<CompletedConsultation[]>(mockCompletedConsultations);
+  const consultations = mockCompletedConsultations;
   const [filteredConsultations, setFilteredConsultations] = useState<CompletedConsultation[]>(mockCompletedConsultations);
   const [searchTerm, setSearchTerm] = useState('');
   const [followUpFilter, setFollowUpFilter] = useState<string>('all');
@@ -167,13 +165,6 @@ export default function CompletedConsultationsPage() {
     }).length,
     followUpRequired: consultations.filter(c => c.needsFollowUp).length,
     registeredMembers: consultations.filter(c => c.isRegistered).length
-  };
-
-  // 시간대 매핑
-  const timeSlotMapping = {
-    morning: '오전 (10:00-12:00)',
-    afternoon: '오후 (14:00-17:00)', 
-    evening: '저녁 (17:00-19:00)'
   };
 
   return (

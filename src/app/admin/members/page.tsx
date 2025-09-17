@@ -7,11 +7,8 @@ import {
   UserIcon,
   PhoneIcon,
   EnvelopeIcon,
-  CalendarDaysIcon,
-  EyeIcon,
   UserGroupIcon,
   CheckCircleIcon,
-  ClockIcon,
   ChatBubbleLeftEllipsisIcon
 } from '@heroicons/react/24/outline';
 
@@ -30,87 +27,14 @@ interface Member {
   isActive: boolean;
 }
 
-const mockMembers: Member[] = [
-  {
-    id: 1,
-    userId: 'minji123',
-    username: '김민지',
-    email: 'minji@example.com',
-    phone: '010-1234-5678',
-    role: 'USER',
-    createdAt: '2024-12-01 10:30',
-    consultationCount: 2,
-    lastConsultationDate: '2025-01-15',
-    isActive: true
-  },
-  {
-    id: 2,
-    userId: 'jiwon456',
-    username: '박지원',
-    email: 'jiwon@example.com',
-    phone: '010-9876-5432',
-    role: 'USER',
-    createdAt: '2024-11-15 16:45',
-    consultationCount: 1,
-    lastConsultationDate: '2025-01-14',
-    isActive: true
-  },
-  {
-    id: 3,
-    userId: 'seoyeon789',
-    username: '이서연',
-    email: 'seoyeon@example.com',
-    phone: '010-5555-7777',
-    role: 'USER',
-    createdAt: '2024-10-20 11:20',
-    consultationCount: 3,
-    lastConsultationDate: '2025-01-10',
-    isActive: true
-  },
-  {
-    id: 4,
-    userId: 'harim999',
-    username: '정하림',
-    email: 'harim@example.com',
-    phone: '010-7777-8888',
-    role: 'USER',
-    createdAt: '2024-12-10 13:15',
-    consultationCount: 1,
-    lastConsultationDate: '2025-01-17',
-    isActive: true
-  },
-  {
-    id: 5,
-    userId: 'admin001',
-    username: '관리자',
-    email: 'admin@silos.com',
-    phone: '010-0000-0000',
-    role: 'ADMIN',
-    createdAt: '2024-01-01 00:00',
-    consultationCount: 0,
-    isActive: true
-  },
-  {
-    id: 6,
-    userId: 'inactive123',
-    username: '비활성유저',
-    email: 'inactive@example.com',
-    phone: '010-1111-2222',
-    role: 'USER',
-    createdAt: '2024-08-15 12:00',
-    consultationCount: 0,
-    isActive: false
-  }
-];
-
 export default function MembersManagementPage() {
   const [members, setMembers] = useState<Member[]>([]);
   const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setIsLoading] = useState(true);
+  const [, setError] = useState<string | null>(null);
   const [updatingRoles, setUpdatingRoles] = useState<Set<number>>(new Set());
 
   // 회원 데이터 로드
@@ -454,7 +378,7 @@ export default function MembersManagementPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                        {formatDate(member.createdAt)}
+                        {member.createdAt ? formatDate(member.createdAt) : '-'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${

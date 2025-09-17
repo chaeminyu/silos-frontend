@@ -1,4 +1,4 @@
-import api from '@/lib/axios';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
 export interface Promotion {
   id: number;
@@ -32,26 +32,72 @@ export interface PromotionApplication {
 class PromotionService {
   // 프로모션 목록 조회
   async getPromotions(status?: 'UPCOMING' | 'ACTIVE' | 'END'): Promise<PromotionListResponse> {
-    const params = status ? { status } : {};
-    const response = await api.get('/api/promotions', { params });
-    return response.data;
+    try {
+      let url = `${API_BASE_URL}/promotions`;
+      if (status) {
+        url += `?status=${status}`;
+      }
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch promotions');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching promotions:', error);
+      throw error;
+    }
   }
 
   // 프로모션 상세 조회
   async getPromotionById(id: number): Promise<Promotion> {
-    const response = await api.get(`/api/promotions/${id}`);
-    return response.data;
+    try {
+      const response = await fetch(`${API_BASE_URL}/promotions/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch promotion');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching promotion:', error);
+      throw error;
+    }
   }
 
   // 프로모션 신청
   async applyForPromotion(application: PromotionApplication): Promise<void> {
-    await api.post(`/api/promotions/${application.promotionId}/apply`, application);
+    try {
+      const response = await fetch(`${API_BASE_URL}/promotions/${application.promotionId}/apply`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(application),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to apply for promotion');
+      }
+    } catch (error) {
+      console.error('Error applying for promotion:', error);
+      throw error;
+    }
   }
 
   // 활성 프로모션 조회 (홈 팝업용)
   async getActivePromotions(): Promise<Promotion[]> {
-    const response = await api.get('/api/promotions/active');
-    return response.data;
+    try {
+      const response = await fetch(`${API_BASE_URL}/promotions/active`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch active promotions');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching active promotions:', error);
+      throw error;
+    }
   }
 }
 

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import PageLayout from '../../components/PageLayout';
 import CustomAlert from '../../components/CustomAlert';
-import { User, Edit3, LogOut, Trash2, Save, X, Mail, Phone, UserCircle } from 'lucide-react';
+import { Edit3, LogOut, Trash2, Save, X, Mail, Phone, UserCircle } from 'lucide-react';
 
 interface UserInfo {
   name: string;

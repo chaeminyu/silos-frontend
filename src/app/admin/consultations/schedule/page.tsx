@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   CalendarDaysIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  PlusIcon,
   ClockIcon,
   UserIcon,
   EyeIcon
@@ -119,7 +118,7 @@ const timeSlotMapping = {
 export default function ConsultationSchedulePage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'day' | 'week' | 'month'>('day');
-  const [schedule, setSchedule] = useState<ScheduledConsultation[]>(mockSchedule);
+  const schedule = mockSchedule;
 
   // 선택된 날짜의 상담 일정
   const getDaySchedule = (date: Date) => {
@@ -156,7 +155,6 @@ export default function ConsultationSchedulePage() {
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
     
     // 첫 주의 월요일부터 시작
     const startDate = new Date(firstDay);
@@ -505,7 +503,7 @@ export default function ConsultationSchedulePage() {
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-600">완료된 상담</p>
               <p className="text-2xl font-bold text-gray-900">
-                {schedule.filter(s => s.status === 'completed').length}
+                {schedule.filter(s => s.status === 'received').length}
               </p>
             </div>
           </div>
@@ -517,7 +515,7 @@ export default function ConsultationSchedulePage() {
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-600">김성민 원장</p>
               <p className="text-2xl font-bold text-gray-900">
-                {schedule.filter(s => s.doctor === '김성민 원장' && s.status === 'confirmed').length}
+                {schedule.filter(s => s.status === 'pending').length}
               </p>
             </div>
           </div>
@@ -529,7 +527,7 @@ export default function ConsultationSchedulePage() {
             <div className="ml-3">
               <p className="text-sm font-medium text-gray-600">이하늘 원장</p>
               <p className="text-2xl font-bold text-gray-900">
-                {schedule.filter(s => s.doctor === '이하늘 원장' && s.status === 'confirmed').length}
+                {schedule.filter(s => s.status === 'received').length}
               </p>
             </div>
           </div>

@@ -69,7 +69,7 @@ class YouTubeService {
 
       // 3단계: Shorts 필터링 (60초 이하 제외)
       const longFormVideos = detailsData.items
-        .filter(video => {
+        .filter((video: any) => {
           const duration = video.contentDetails?.duration;
           if (!duration) return true; // duration 정보가 없으면 포함
           
@@ -84,7 +84,7 @@ class YouTubeService {
           return totalSeconds > 60; // 60초 초과인 것만 포함 (Shorts 제외)
         })
         .slice(0, maxResults)
-        .map(video => ({
+        .map((video: any) => ({
           id: { videoId: video.id },
           snippet: video.snippet
         }));
@@ -124,7 +124,7 @@ class YouTubeService {
 
       // 3단계: Shorts 필터링 (60초 이하 제외) 및 조회수 기준 정렬
       const longFormVideos = detailsData.items
-        .filter(video => {
+        .filter((video: any) => {
           const duration = video.contentDetails?.duration;
           if (!duration) return true; // duration 정보가 없으면 포함
           
@@ -138,14 +138,14 @@ class YouTubeService {
           
           return totalSeconds > 60; // 60초 초과인 것만 포함 (Shorts 제외)
         })
-        .map(video => ({
+        .map((video: any) => ({
           id: { videoId: video.id },
           snippet: video.snippet,
           viewCount: parseInt(video.statistics?.viewCount || '0')
         }))
-        .sort((a, b) => b.viewCount - a.viewCount) // 조회수 내림차순 정렬
+        .sort((a: any, b: any) => b.viewCount - a.viewCount) // 조회수 내림차순 정렬
         .slice(0, maxResults)
-        .map(video => ({
+        .map((video: any) => ({
           id: { videoId: video.id.videoId },
           snippet: video.snippet
         }));

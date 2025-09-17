@@ -9,7 +9,6 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function AnalyticsPage() {
-  const [selectedPeriod, setSelectedPeriod] = useState('month');
   const [isLoading, setIsLoading] = useState(false);
   const [statistics, setStatistics] = useState<any>({
     totalConsultations: 0,

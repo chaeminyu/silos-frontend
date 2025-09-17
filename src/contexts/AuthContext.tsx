@@ -9,6 +9,8 @@ interface User {
   email: string;
   phone: string;
   role: 'USER' | 'ADMIN';
+  name?: string;
+  accessLevel?: 'admin' | 'premium' | 'basic';
 }
 
 interface AuthContextType {
@@ -79,7 +81,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           username: result.data.username,
           email: result.data.email,
           phone: result.data.phone,
-          role: result.data.role
+          role: result.data.role,
+          name: result.data.username,
+          accessLevel: result.data.role === 'ADMIN' ? 'admin' as const : 'basic' as const
         };
         
         setUser(userData);
@@ -122,8 +126,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           email: result.data.email,
           phone: result.data.phone,
           role: result.data.role,
-          accessLevel: result.data.role === 'ADMIN' ? 'admin' : 'basic',
-          name: result.data.username // name 필드 추가
+          name: result.data.username,
+          accessLevel: result.data.role === 'ADMIN' ? 'admin' as const : 'basic' as const
         };
         
         console.log('Signup successful, setting user:', userData); // 디버깅용

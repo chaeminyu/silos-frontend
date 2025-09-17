@@ -1,12 +1,11 @@
 'use client';
 
 // src/app/page.tsx
-import MainBannerSlider from '../components/MainBannerSlider';
 // MobileCategoryGrid moved to navigation dropdown
 import StandardConsultationSection from '../components/StandardConsultationSection';
 import MonthlyEventPopup from '../components/MonthlyEventPopup';
 import PageLayout from '../components/PageLayout';
-import { Suspense, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Sparkles, Clock, ShoppingCart, Check } from 'lucide-react';
 import { eventService } from '../services/eventService';
 import { youtubeService, YouTubeVideo } from '../services/youtubeService';
@@ -18,7 +17,7 @@ export default function HomePage() {
   const [isWhySilosTransitioning, setIsWhySilosTransitioning] = useState(true);
   const [activeProcedureTab, setActiveProcedureTab] = useState<string>('silos-lifting');
   const [addedToCart, setAddedToCart] = useState<string[]>([]);
-  const [isMobile, setIsMobile] = useState(false);
+  const [, setIsMobile] = useState(false);
   const [showEventPopup, setShowEventPopup] = useState(false);
   const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [popularVideos, setPopularVideos] = useState<YouTubeVideo[]>([]);
@@ -661,7 +660,7 @@ export default function HomePage() {
                             </div>
                           </>
                         ) : popularVideos.length >= 2 ? (
-                          popularVideos.slice(0, 2).map((video, index) => (
+                          popularVideos.slice(0, 2).map((video) => (
                             <a 
                               key={video.id.videoId}
                               href={youtubeService.getVideoUrl(video.id.videoId)} 
@@ -838,7 +837,10 @@ export default function HomePage() {
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
                                   e.currentTarget.style.display = 'none';
-                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                  const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                                  if (nextElement) {
+                                    nextElement.style.display = 'flex';
+                                  }
                                 }}
                               />
                               <div className="w-full h-full bg-gradient-to-br from-teal-smoke-200 to-elegant-200 items-center justify-center relative hidden">
@@ -886,7 +888,10 @@ export default function HomePage() {
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
                                   e.currentTarget.style.display = 'none';
-                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                  const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                                  if (nextElement) {
+                                    nextElement.style.display = 'flex';
+                                  }
                                 }}
                               />
                               <div className="w-full h-full bg-gradient-to-br from-elegant-200 to-teal-smoke-200 items-center justify-center relative hidden">
@@ -934,7 +939,10 @@ export default function HomePage() {
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
                                   e.currentTarget.style.display = 'none';
-                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                  const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                                  if (nextElement) {
+                                    nextElement.style.display = 'flex';
+                                  }
                                 }}
                               />
                               <div className="w-full h-full bg-gradient-to-br from-teal-smoke-300 to-elegant-300 items-center justify-center relative hidden">
@@ -982,7 +990,10 @@ export default function HomePage() {
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
                                   e.currentTarget.style.display = 'none';
-                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                  const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                                  if (nextElement) {
+                                    nextElement.style.display = 'flex';
+                                  }
                                 }}
                               />
                               <div className="w-full h-full bg-gradient-to-br from-elegant-300 to-teal-smoke-300 items-center justify-center relative hidden">

@@ -77,15 +77,15 @@ export default function ConsultationRequestPage() {
     console.log('userInfo:', userInfo);
     
     // 로그인한 회원의 경우 개인정보 자동 입력 (이미 같은 데이터가 있으면 스킵)
-    if (isAuthenticated && user && (!userInfo?.name || userInfo.name !== (user.username || user.name))) {
+    if (isAuthenticated && user && (!userInfo?.name || userInfo.name !== user.username)) {
       console.log('Auto-filling user info from auth context');
       console.log('Updating with user data:', {
-        name: user.username || user.name || '',
+        name: user.username || '',
         phone: user.phone || '',
         email: user.email || '',
       });
       updateUserInfo({
-        name: user.username || user.name || '',
+        name: user.username || '',
         phone: user.phone || '',
         email: user.email || '',
       });
@@ -614,7 +614,7 @@ export default function ConsultationRequestPage() {
                               이름
                             </label>
                             <div className="glass-consultation-form w-full px-4 py-3 rounded-xl font-elegant-sans text-slate-800 bg-slate-50/50">
-                              {userInfo?.name || user?.username || user?.name || ''}
+                              {userInfo?.name || user?.username || ''}
                             </div>
                           </div>
 

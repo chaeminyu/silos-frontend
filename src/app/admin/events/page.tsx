@@ -9,7 +9,6 @@ import {
   TrashIcon,
   PlusIcon,
   MagnifyingGlassIcon,
-  FunnelIcon,
   PhotoIcon
 } from '@heroicons/react/24/outline';
 

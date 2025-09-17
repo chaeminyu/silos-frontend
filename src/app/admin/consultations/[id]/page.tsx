@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   ArrowLeftIcon,
@@ -10,11 +9,9 @@ import {
   EnvelopeIcon,
   CalendarDaysIcon,
   ClockIcon,
-  ChatBubbleLeftEllipsisIcon,
   PencilIcon,
   CheckIcon,
-  XMarkIcon,
-  ExclamationTriangleIcon
+  XMarkIcon
 } from '@heroicons/react/24/outline';
 
 interface Consultation {
@@ -61,7 +58,6 @@ interface ConsultationDetailProps {
 }
 
 export default function ConsultationDetail({ params }: ConsultationDetailProps) {
-  const router = useRouter();
   const [consultation, setConsultation] = useState<Consultation | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState('');

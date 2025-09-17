@@ -190,7 +190,6 @@ interface MobileCategoryGridProps {
 
 export default function MobileCategoryGrid({ onCategoryClick }: MobileCategoryGridProps = {}) {
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
 
   // Fix overlay interference with 3rd column buttons on mobile
   useEffect(() => {
@@ -252,7 +251,7 @@ export default function MobileCategoryGrid({ onCategoryClick }: MobileCategoryGr
     return undefined;
   }, [expandedCategory]);
 
-  const toggleCategory = (categoryId: number, event?: React.MouseEvent) => {
+  const toggleCategory = (categoryId: number) => {
     const newExpanded = expandedCategory === categoryId ? null : categoryId;
     setExpandedCategory(newExpanded);
   };
@@ -287,7 +286,7 @@ export default function MobileCategoryGrid({ onCategoryClick }: MobileCategoryGr
                         className="relative flex-1"
                       >
                         <button
-                          onClick={(e) => toggleCategory(category.id, e)}
+                          onClick={() => toggleCategory(category.id)}
                           className={`
                             w-full h-20 p-2.5
                             ${category.isImportant 

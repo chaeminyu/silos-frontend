@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import PageLayout from '../../../components/PageLayout';
 import { useAuth } from '@/contexts/AuthContext';
-import { Calendar, Clock, CheckCircle, AlertCircle, MessageSquare, User, Eye, EyeOff, LogIn, Lock } from 'lucide-react';
+import { Calendar, Clock, CheckCircle, AlertCircle, MessageSquare, User, Eye, EyeOff, Lock } from 'lucide-react';
 
 // Backend 데이터 타입 정의
 interface ConsultationData {
@@ -118,7 +118,7 @@ export default function ConsultationListPage() {
   
   // Use auth context for current user
   const currentUserId = user?.id?.toString() || '';
-  const isAdmin = user?.accessLevel === 'admin';
+  const isAdmin = user?.role === 'ADMIN';
 
   // 백엔드에서 상담 데이터 불러오기
   useEffect(() => {
@@ -505,7 +505,7 @@ export default function ConsultationListPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center text-sm text-slate-600 font-elegant-sans">
                           <Calendar className="w-4 h-4 mr-1" />
-                          {consultation.preferredDate}
+                          {consultation.requestedDate}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -568,7 +568,7 @@ export default function ConsultationListPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center text-sm text-slate-600 font-elegant-sans">
                       <Calendar className="w-4 h-4 mr-1" />
-                      {consultation.preferredDate}
+                      {consultation.requestedDate}
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="flex items-center">
@@ -622,11 +622,11 @@ export default function ConsultationListPage() {
                   <div className="flex items-center space-x-4 text-slate-600 font-elegant-sans">
                     <span className="flex items-center">
                       <Calendar className="w-4 h-4 mr-1" />
-                      {selectedConsultation.preferredDate}
+                      {selectedConsultation.requestedDate}
                     </span>
                     <span className="flex items-center">
                       <Clock className="w-4 h-4 mr-1" />
-                      {selectedConsultation.preferredTime}
+                      {selectedConsultation.requestedTime}
                     </span>
                   </div>
                 </div>

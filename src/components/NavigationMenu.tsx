@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronDown, ChevronRight, Home, User, LogOut, FileText, ShoppingCart, Menu, X } from 'lucide-react';
+import { ChevronDown, ChevronRight, Home, User, ShoppingCart, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
@@ -213,14 +213,12 @@ const navigationData = [
 
 export default function NavigationMenu() {
   const { itemCount } = useCart();
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-  const [mobileDropdownPosition, setMobileDropdownPosition] = useState({ top: 0, left: 0 });
   const [isMouseOverMenu, setIsMouseOverMenu] = useState(false);
   const [isMouseOverDropdown, setIsMouseOverDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<string | null>(null);
 

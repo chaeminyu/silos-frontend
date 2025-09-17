@@ -6,7 +6,6 @@ import Link from 'next/link';
 import {
   ArrowLeftIcon,
   PhotoIcon,
-  CalendarDaysIcon,
   XMarkIcon,
   CheckIcon
 } from '@heroicons/react/24/outline';

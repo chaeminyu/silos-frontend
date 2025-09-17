@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import PageLayout from '../../../components/PageLayout';
 import StandardConsultationSection from '../../../components/StandardConsultationSection';
-import { Clock, Shield, Star, ShoppingCart, Check, Sparkles, Heart, AlertCircle, Users, Award } from 'lucide-react';
+import { Shield, Star, ShoppingCart, Check, Sparkles, Heart, Users, Award } from 'lucide-react';
 import { useCart } from '../../../contexts/CartContext';
 
 // SILOS 실리프팅 프로그램 데이터
@@ -120,7 +119,6 @@ const siloCarePrograms = [
 
 export default function SilosLiftingPage() {
   const { addToCart, removeFromCart, isInCart } = useCart();
-  const [selectedProgram, setSelectedProgram] = useState<string>('01');
 
   const handleToggleCart = (programId: string, programName: string, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -221,7 +219,7 @@ export default function SilosLiftingPage() {
 
             {/* 프로그램 목록 */}
             <div className="space-y-3">
-              {silosLiftingPrograms.map((program, index) => (
+              {silosLiftingPrograms.map((program) => (
                 <div key={program.id} className="bg-white rounded-xl shadow-sm border border-elegant-200/30 overflow-hidden hover:shadow-md transition-all duration-300">
                   <div className="p-4">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-3">
@@ -285,7 +283,10 @@ export default function SilosLiftingPage() {
                 className="w-full h-auto object-cover rounded-2xl"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.nextElementSibling.style.display = 'block';
+                  const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (nextElement) {
+                    nextElement.style.display = 'block';
+                  }
                 }}
               />
               <div className="hidden bg-gradient-to-br from-elegant-100 to-teal-smoke-100 rounded-2xl p-8 text-center border border-elegant-200">
@@ -304,7 +305,10 @@ export default function SilosLiftingPage() {
                   className="w-full h-auto object-cover rounded-xl"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
-                    e.currentTarget.nextElementSibling.style.display = 'flex';
+                    const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (nextElement) {
+                      nextElement.style.display = 'flex';
+                    }
                   }}
                 />
                 <div className="hidden bg-gradient-to-br from-elegant-100 to-teal-smoke-100 rounded-xl p-8 items-center justify-center">
@@ -321,7 +325,10 @@ export default function SilosLiftingPage() {
                   className="w-full h-auto object-cover rounded-xl"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
-                    e.currentTarget.nextElementSibling.style.display = 'flex';
+                    const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (nextElement) {
+                      nextElement.style.display = 'flex';
+                    }
                   }}
                 />
                 <div className="hidden bg-gradient-to-br from-elegant-100 to-teal-smoke-100 rounded-xl p-8 items-center justify-center">

@@ -12,8 +12,6 @@ import {
   CalendarDaysIcon,
   MegaphoneIcon,
   DocumentTextIcon,
-  ChevronDownIcon,
-  ChevronRightIcon
 } from '@heroicons/react/24/outline'
 
 interface MenuItem {
@@ -117,7 +115,7 @@ const menuItems: MenuItem[] = [
 
 export default function AdminSidebar() {
   const pathname = usePathname()
-  const [openMenus, setOpenMenus] = useState<Set<string>>(new Set(['통계/분석']))
+  const [, setOpenMenus] = useState<Set<string>>(new Set(['통계/분석']))
 
   const toggleMenu = (menuName: string) => {
     setOpenMenus(prev => {
@@ -134,7 +132,6 @@ export default function AdminSidebar() {
   const renderMenuItem = (item: MenuItem) => {
     const isActive = pathname === item.href
     const hasChildren = item.children && item.children.length > 0
-    const isOpen = openMenus.has(item.name)
     const Icon = item.icon
 
     if (hasChildren) {

@@ -10,8 +10,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const authHeader = request.headers.get('authorization');
-    const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status');
 
     let backendUrl = `${BACKEND_URL}/admin/promotions`;
     
