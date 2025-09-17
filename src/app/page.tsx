@@ -429,61 +429,61 @@ export default function HomePage() {
           <div className="w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-20">
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide">대표 시술</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide px-4">대표 시술</h2>
                 <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-8"></div>
-                <p className="text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-base sm:text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed px-4">
                   실로스만의 특화된 시술로 더 젊고 아름다운 모습을 만나보세요
                 </p>
               </div>
 
               {/* 탭 버튼들 */}
-              <div className="grid grid-cols-4 gap-2 mb-12 max-w-5xl mx-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-12 max-w-5xl mx-auto px-4">
                 <button
                   onClick={() => setActiveProcedureTab('silos-lifting')}
-                  className={`px-2 py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
+                  className={`px-3 sm:px-2 py-3 sm:py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
                     activeProcedureTab === 'silos-lifting'
                       ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
                       : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
                   }`}
                 >
-                  <div className="text-xs font-light opacity-80 leading-tight">SILOS</div>
-                  <div className="text-sm font-medium leading-tight">실리프팅</div>
+                  <div className="text-xs sm:text-xs font-light opacity-80 leading-tight">SILOS</div>
+                  <div className="text-sm sm:text-sm font-medium leading-tight">실리프팅</div>
                 </button>
                 
                 <button
                   onClick={() => setActiveProcedureTab('silopat')}
-                  className={`px-2 py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
+                  className={`px-3 sm:px-2 py-3 sm:py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
                     activeProcedureTab === 'silopat'
                       ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
                       : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
                   }`}
                 >
-                  <div className="text-xs font-light opacity-80 leading-tight">SILOS</div>
-                  <div className="text-sm font-medium leading-tight">지방추출주사</div>
+                  <div className="text-xs sm:text-xs font-light opacity-80 leading-tight">SILOS</div>
+                  <div className="text-sm sm:text-sm font-medium leading-tight">지방추출주사</div>
                 </button>
                 
                 <button
                   onClick={() => setActiveProcedureTab('under-eye-laser')}
-                  className={`px-2 py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
+                  className={`px-3 sm:px-2 py-3 sm:py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
                     activeProcedureTab === 'under-eye-laser'
                       ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
                       : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
                   }`}
                 >
-                  <div className="text-xs font-light opacity-80 leading-tight">SILOS</div>
-                  <div className="text-sm font-medium leading-tight">눈밑지방레이저</div>
+                  <div className="text-xs sm:text-xs font-light opacity-80 leading-tight">SILOS</div>
+                  <div className="text-sm sm:text-sm font-medium leading-tight">눈밑지방레이저</div>
                 </button>
                 
                 <button
                   onClick={() => setActiveProcedureTab('neck-lifting')}
-                  className={`px-2 py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
+                  className={`px-3 sm:px-2 py-3 sm:py-3 rounded-xl font-elegant-sans transition-all duration-300 text-center ${
                     activeProcedureTab === 'neck-lifting'
                       ? 'bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white shadow-lg'
                       : 'bg-white text-slate-700 border-2 border-teal-smoke-200 hover:border-teal-smoke-300 hover:bg-teal-smoke-50'
                   }`}
                 >
-                  <div className="text-xs font-light opacity-80 leading-tight">SILOS</div>
-                  <div className="text-sm font-medium leading-tight">목리프팅</div>
+                  <div className="text-xs sm:text-xs font-light opacity-80 leading-tight">SILOS</div>
+                  <div className="text-sm sm:text-sm font-medium leading-tight">목리프팅</div>
                 </button>
               </div>
 
