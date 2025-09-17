@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { 
   CalendarIcon,
-  ArrowTrendingUpIcon,
   ChatBubbleLeftIcon,
   ClockIcon,
   CheckCircleIcon
