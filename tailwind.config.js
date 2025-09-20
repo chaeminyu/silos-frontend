@@ -41,6 +41,8 @@ module.exports = {
         'elegant': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
         'elegant-sans': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
         'display': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        'gmarket': ['"GmarketSans"', '"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        'nanum-myeongjo': ['"Nanum Myeongjo"', 'serif'],
       },
       // ✅ 1. animation & keyframes
       animation: {
@@ -49,6 +51,8 @@ module.exports = {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.5s ease-out',
         'scale-in': 'scaleIn 0.3s ease-out',
+        'slide-from-left': 'slideFromLeft 0.7s ease-out',
+        'slide-from-right': 'slideFromRight 0.7s ease-out',
       },
       keyframes: {
         fadeIn: {
@@ -62,6 +66,14 @@ module.exports = {
         scaleIn: {
           '0%': { transform: 'scale(0.95)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        slideFromLeft: {
+          '0%': { transform: 'translateX(-100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        slideFromRight: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
         },
       },
 

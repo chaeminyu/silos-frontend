@@ -21,6 +21,12 @@ export default function HomePage() {
   const [youtubeVideos, setYoutubeVideos] = useState<YouTubeVideo[]>([]);
   const [popularVideos, setPopularVideos] = useState<YouTubeVideo[]>([]);
   const [isLoadingVideos, setIsLoadingVideos] = useState(true);
+  const [currentDoctorIndex, setCurrentDoctorIndex] = useState(0);
+  const [isSloganVisible, setIsSloganVisible] = useState(false);
+
+  // Doctor colors
+  const doctorColors = ['#A8A8A7', '#4C4845', '#656661', '#7D7E77', '#878884'];
+  const doctorAccentColors = ['#B8B8B7', '#5C5855', '#757671', '#8D8E87', '#979894'];
 
   // Detect mobile screen size
   useEffect(() => {
@@ -84,6 +90,32 @@ export default function HomePage() {
     fetchYouTubeVideos();
   }, []);
 
+  // 슬로건 섹션 스크롤 애니메이션
+  useEffect(() => {
+    const sloganSection = document.getElementById('slogan-section');
+    if (!sloganSection) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsSloganVisible(true);
+          }
+        });
+      },
+      {
+        threshold: 0.2, // 20% 보이면 트리거
+        rootMargin: '0px 0px -100px 0px' // 하단에서 100px 전에 트리거
+      }
+    );
+
+    observer.observe(sloganSection);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
 
   const handleCloseEventPopup = () => {
     setShowEventPopup(false);
@@ -130,6 +162,127 @@ export default function HomePage() {
       iconGradient: 'from-teal-smoke-300 to-elegant-300',
       iconBg: 'bg-gradient-to-br from-teal-smoke-400 to-elegant-400',
       borderColor: 'border-teal-smoke-200/50'
+    }
+  ];
+
+  // Doctors data
+  const doctorsData = [
+    {
+      id: 1,
+      name: '정영진',
+      title: '원장',
+      image: '/images/doctors/정영진_원장.png',
+      bio: {
+        title: 'MEDICAL DOCTOR',
+        name: '정영진 원장',
+        positions: [
+          '실로스 창원 원장',
+          '포에버 성형외과 창립 원장',
+          '(전)시온성형외과 대표 원장',
+          '중한국제미용성형의학회장',
+          '국제성형외과학회 정회원',
+          '시온 열린성형세미나 주관원장',
+          '(2009년부터 65회 개회 강의 수술.시연)'
+        ],
+        specialties: [
+          '실리프팅/이마 & 안면거상/눈성형',
+          '실로팻/고난이도 필러'
+        ]
+      }
+    },
+    {
+      id: 2,
+      name: '임동혁',
+      title: '원장',
+      image: '/images/doctors/임동혁_원장.png',
+      bio: {
+        title: 'MEDICAL DOCTOR',
+        name: '임동혁 원장',
+        positions: [
+          '실로스 창원 원장',
+          '대한 미용성형레이져 학회 정회원',
+          '대한 리프팅연구회 정회원',
+          '대한 미용외과 학회 정회원',
+          '고난도 필러, 보톡스 전문',
+          '울쎄라, 온다 레이져 키닥터',
+          '덴서티, 엔코어 키닥터',
+          '슈링크, 인모드 시술 1만건',
+          '쁘띠 시술 경력 10만건'
+        ],
+        specialties: [
+          '실리프팅/코 실리프팅/고난이도 필러',
+          '심부볼 축소 실&레이져 리프팅'
+        ]
+      }
+    },
+    {
+      id: 3,
+      name: '이원준',
+      title: '원장',
+      image: '/images/doctors/이원준_원장.png',
+      bio: {
+        title: 'MEDICAL DOCTOR',
+        name: '이원준 원장',
+        positions: [
+          '실로스 창원 원장',
+          '대한성형외과 학회',
+          '대한 미용성형레이져 학회',
+          '대한 리프팅 학회',
+          '올타이트 레이저 EXPERT',
+          '온다 레이저 키닥터',
+          '울쎄라 슈링크 마에스트로'
+        ],
+        specialties: [
+          '실리프팅/눈성형/실로팻/레이저리프팅/필러/보톡스',
+          '스킨부스터/스킨보톡스'
+        ]
+      }
+    },
+    {
+      id: 4,
+      name: '안소현',
+      title: '원장',
+      image: '/images/doctors/안소현_원장.png',
+      bio: {
+        title: 'MEDICAL DOCTOR',
+        name: '안소현 원장',
+        positions: [
+          '실로스 창원 원장',
+          '대한 미용성형레이져 학회 회원',
+          '대한 리프팅 연구회 회원',
+          '울쎄라, 온다 레이져 키닥터',
+          '덴거티, 엔코어 시술 마에스트로',
+          '슈링크, 인모드 시술 2만건',
+          '쁘띠 시술 경력 5만건'
+        ],
+        specialties: [
+          '실리프팅/레이저리프팅/색소레이저',
+          '보톡스/필러/스킨부스터/스킨보톡스'
+        ]
+      }
+    },
+    {
+      id: 5,
+      name: '방다솔',
+      title: '원장',
+      image: '/images/doctors/방다솔_원장.png',
+      bio: {
+        title: 'MEDICAL DOCTOR',
+        name: '방다솔 원장',
+        positions: [
+          '실로스 창원 원장',
+          '대한 미용성령레이져 학회 회원',
+          '대한 리프팅 연구회 회원',
+          '대한 미용외과학회 회원',
+          '올타이트 레이저 EXPERT',
+          '온다 레이저 키닥터',
+          '울쎄라 슈링크 마에스트로'
+        ],
+        specialties: [
+          '실리프팅/레이저리프팅/색소레이저',
+          '보톡스/필러/스킨부스터/스킨보톡스'
+        ]
+      }
     }
   ];
 
@@ -225,6 +378,18 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, [whySilosItems.length]);
 
+  // Auto-rotation for Doctors with circular motion
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDoctorIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % doctorsData.length;
+        return nextIndex;
+      });
+    }, 12000); // Rotate every 12 seconds
+
+    return () => clearInterval(interval);
+  }, [doctorsData.length]);
+
   // Handle transition end for seamless loop (Gallery)
   useEffect(() => {
     if (currentGalleryIndex === galleryItems.length && isTransitioning) {
@@ -246,6 +411,7 @@ export default function HomePage() {
       }, 500);
     }
   }, [currentWhySilosIndex, whySilosItems.length, isWhySilosTransitioning]);
+
 
   return (
     <PageLayout>
@@ -276,14 +442,14 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-br from-teal-smoke-500 to-elegant-500" style={{zIndex: -1}}></div>
             <div className="absolute inset-0 bg-black/20"></div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-white px-6">
-                <h1 className="text-3xl font-display font-light mb-4 tracking-wide">
-                  실로스
-                  <span className="block text-4xl font-medium mt-2">성형외과</span>
+              <div className="text-center text-white px-6 -mt-20">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-nanum-myeongjo font-light mb-12 tracking-wide leading-relaxed">
+                  실로스, 20년 리프팅 기술
+                  <span className="block mt-8 text-4xl md:text-5xl lg:text-6xl font-bold">손끝에서 완성되는 당신의 라이프 타임</span>
                 </h1>
-                <div className="w-16 h-0.5 bg-white/60 rounded-full mx-auto mb-4"></div>
-                <p className="text-base font-elegant-sans font-light leading-relaxed text-white/90">
-                  자연스러운 아름다움을 추구합니다
+                <div className="w-0.5 h-40 bg-white/60 rounded-full mx-auto mb-16"></div>
+                <p className="text-xl md:text-2xl lg:text-3xl font-elegant-sans font-medium text-white/90 mt-8">
+                  SILOS 성형외과
                 </p>
               </div>
             </div>
@@ -396,6 +562,219 @@ export default function HomePage() {
                     />
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 의사 소개 섹션 */}
+        <section id="doctors" className="w-full py-24 bg-gradient-to-br from-white via-elegant-50 to-teal-smoke-50">
+          <div className="w-full">
+            {/* 섹션 제목 */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+              <div className="text-center">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide">SILOS CLINIC<br />의료진 소개</h2>
+                <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-8"></div>
+                <p className="text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed">
+                  풍부한 경험과 전문성을 갖춘 실로스 의료진이 당신의 아름다움을 완성합니다
+                </p>
+              </div>
+            </div>
+
+            {/* 의료진 회전 컨테이너 */}
+            <div className="w-full relative">
+              {/* 의료진 개별 섹션 */}
+              <div 
+                className="w-full transition-all duration-700 ease-in-out transform translate-x-0 opacity-100"
+                style={{
+                  backgroundColor: doctorColors[currentDoctorIndex]
+                }}
+              >
+                <div className="max-w-7xl mx-auto">
+                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-0 ${
+                    currentDoctorIndex % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
+                  }`}>
+                    {/* 의사 사진 */}
+                    <div className={`${currentDoctorIndex % 2 === 1 ? 'lg:col-start-2' : ''} flex items-end ${
+                      currentDoctorIndex % 2 === 1 ? 'pr-0' : 'pl-0'
+                    } transition-all duration-700 ease-in-out transform ${
+                      currentDoctorIndex % 2 === 1 ? 'animate-slide-from-right' : 'animate-slide-from-left'
+                    }`}>
+                      <div className={`relative aspect-[3/5] w-96 overflow-hidden ${
+                        currentDoctorIndex % 2 === 1 ? 'ml-auto' : 'mr-auto'
+                      }`}>
+                        <div 
+                          className="absolute inset-0"
+                          style={{
+                            background: `
+                              radial-gradient(ellipse 140% 130% at center, transparent 0%, transparent 10%, ${doctorColors[currentDoctorIndex]}30 40%, ${doctorColors[currentDoctorIndex]}70 70%, ${doctorAccentColors[currentDoctorIndex]} 100%),
+                              linear-gradient(to right, ${doctorAccentColors[currentDoctorIndex]}40 0%, transparent 30%, transparent 70%, ${doctorAccentColors[currentDoctorIndex]}40 100%),
+                              linear-gradient(to bottom, transparent 0%, transparent 50%, ${doctorAccentColors[currentDoctorIndex]}60 100%)
+                            `,
+                            zIndex: 10
+                          }}
+                        ></div>
+                        
+                        {/* 사진 가장자리 그라데이션 */}
+                        <div 
+                          className={`absolute ${currentDoctorIndex % 2 === 1 ? 'left-0' : 'right-0'} top-0 bottom-0 w-16 z-20`}
+                          style={{
+                            background: currentDoctorIndex % 2 === 1 
+                              ? `linear-gradient(to right, ${[
+                                  '#A8A8A7',
+                                  '#4C4845',
+                                  '#656661',
+                                  '#7D7E77',
+                                  '#878884'
+                                ][currentDoctorIndex]}80 0%, ${[
+                                  '#A8A8A7',
+                                  '#4C4845',
+                                  '#656661',
+                                  '#7D7E77',
+                                  '#878884'
+                                ][currentDoctorIndex]}40 40%, transparent 100%)`
+                              : `linear-gradient(to left, ${[
+                                  '#A8A8A7',
+                                  '#4C4845',
+                                  '#656661',
+                                  '#7D7E77',
+                                  '#878884'
+                                ][currentDoctorIndex]}80 0%, ${[
+                                  '#A8A8A7',
+                                  '#4C4845',
+                                  '#656661',
+                                  '#7D7E77',
+                                  '#878884'
+                                ][currentDoctorIndex]}40 40%, transparent 100%)`
+                          }}
+                        ></div>
+                        
+                        <img
+                          src={doctorsData[currentDoctorIndex].image}
+                          alt={`${doctorsData[currentDoctorIndex].name} ${doctorsData[currentDoctorIndex].title}`}
+                          className="w-full h-full object-cover object-center relative z-0"
+                          onError={(e) => {
+                            e.currentTarget.src = '/images/placeholder-doctor.jpg';
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* 약력 정보 */}
+                    <div className={`${currentDoctorIndex % 2 === 1 ? 'lg:col-start-1' : ''} space-y-2 px-8 py-6 flex flex-col justify-center transition-all duration-700 ease-in-out transform ${
+                      currentDoctorIndex % 2 === 1 ? 'animate-slide-from-left' : 'animate-slide-from-right'
+                    }`}>
+                      <div>
+                        <h3 className={`text-2xl md:text-3xl font-display font-bold mb-1 tracking-wide ${
+                          currentDoctorIndex === 1 ? 'text-white' : 
+                          currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
+                        }`}>
+                          {doctorsData[currentDoctorIndex].name} {doctorsData[currentDoctorIndex].title}
+                        </h3>
+                        <p className={`text-base font-elegant-sans font-medium mb-4 ${
+                          currentDoctorIndex === 1 ? 'text-white/80' : 
+                          currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white/90' : 'text-slate-600'
+                        }`}>
+                          {doctorsData[currentDoctorIndex].bio.title}
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <h4 className={`text-lg font-elegant font-semibold mb-2 ${
+                          currentDoctorIndex === 1 ? 'text-white' : 
+                          currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
+                        }`}>주요 경력</h4>
+                        <ul className="space-y-1">
+                          {doctorsData[currentDoctorIndex].bio.positions.map((position, idx) => (
+                            <li key={idx} className="flex items-start">
+                              <div 
+                                className="w-2 h-2 rounded-full mt-2 mr-3 flex-shrink-0"
+                                style={{
+                                  backgroundColor: doctorAccentColors[currentDoctorIndex]
+                                }}
+                              ></div>
+                              <p className={`font-elegant-sans leading-relaxed ${
+                                currentDoctorIndex === 1 ? 'text-white/90' : 
+                                currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white/85' : 'text-slate-700'
+                              }`}>{position}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="space-y-3 pt-4 border-t border-slate-200">
+                        <h4 className={`text-xl font-elegant font-semibold mb-3 ${
+                          currentDoctorIndex === 1 ? 'text-white' : 
+                          currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
+                        }`}>전문시술분야</h4>
+                        <div className="flex flex-wrap gap-3">
+                          {doctorsData[currentDoctorIndex].bio.specialties.flatMap(specialty => 
+                            specialty.split('/').map(item => item.trim())
+                          ).map((specialty, idx) => (
+                            <span 
+                              key={idx} 
+                              className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-default backdrop-blur-sm"
+                              style={{
+                                background: `linear-gradient(135deg, ${doctorColors[currentDoctorIndex]}40, ${doctorColors[currentDoctorIndex]}80)`,
+                                borderColor: doctorColors[currentDoctorIndex],
+                                borderWidth: '2px',
+                                borderStyle: 'solid',
+                                color: '#ffffff',
+                                textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                              }}
+                            >
+                              {specialty}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 네비게이션 버튼 및 인디케이터 */}
+              <div className="relative mt-12 flex items-center justify-center space-x-8">
+                {/* Left Arrow */}
+                <button
+                  onClick={() => {
+                    const newIndex = (currentDoctorIndex - 1 + doctorsData.length) % doctorsData.length;
+                    setCurrentDoctorIndex(newIndex);
+                  }}
+                  className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/90 flex items-center justify-center group"
+                >
+                  <svg className="w-5 h-5 text-cyan-800 group-hover:text-cyan-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
+                {/* Indicators */}
+                <div className="flex space-x-3">
+                  {doctorsData.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentDoctorIndex(index)}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === currentDoctorIndex
+                          ? 'bg-teal-smoke-500 w-10' 
+                          : 'bg-teal-smoke-200'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                {/* Right Arrow */}
+                <button
+                  onClick={() => {
+                    const newIndex = (currentDoctorIndex + 1) % doctorsData.length;
+                    setCurrentDoctorIndex(newIndex);
+                  }}
+                  className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/90 flex items-center justify-center group"
+                >
+                  <svg className="w-5 h-5 text-cyan-800 group-hover:text-cyan-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -532,6 +911,36 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* 중간 분리 섹션 - 슬로건 */}
+        <section id="slogan-section" className="w-full bg-white py-40 md:py-48">
+          {/* 슬로건 텍스트 */}
+          <div className={`text-center mb-24 md:mb-28 px-6 transform transition-all duration-1000 ease-out ${
+            isSloganVisible 
+              ? 'translate-y-0 opacity-100' 
+              : 'translate-y-16 opacity-0'
+          }`}>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-nanum-myeongjo font-light mb-6 tracking-wide leading-tight text-slate-800">
+              Lifting Beyond Expectations
+            </h2>
+            <p className="text-xl md:text-2xl lg:text-3xl font-nanum-myeongjo font-light text-slate-600">
+              기대 이상의 리프팅, SILOS
+            </p>
+          </div>
+          
+          {/* 이미지 */}
+          <div className={`w-full h-80 md:h-96 lg:h-[28rem] transform transition-all duration-1000 ease-out delay-300 ${
+            isSloganVisible 
+              ? 'translate-y-0 opacity-100' 
+              : 'translate-y-16 opacity-0'
+          }`}>
+            <img 
+              src="/images/banners/middle-image.png"
+              alt="SILOS Clinic"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </section>
+
         {/* YouTube 섹션 */}
         <section id="youtube" className="w-full py-24 bg-gradient-to-br from-slate-50 via-white to-teal-smoke-50">
           <div className="w-full">
@@ -550,12 +959,7 @@ export default function HomePage() {
                 <div className="text-center">
                   <h3 className="text-xl font-elegant font-medium text-cyan-800 mb-6">SILOS 전문의가 알려드립니다!</h3>
                   <div className="relative max-w-4xl mx-auto">
-                    <a 
-                      href="https://www.youtube.com/watch?v=aYLEbz7aHgg" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="block relative group"
-                    >
+                    <div className="relative group">
                       <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group-hover:scale-[1.02]">
                         {/* YouTube 썸네일 */}
                         <img 
@@ -590,7 +994,7 @@ export default function HomePage() {
                           </div>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   </div>
                 </div>
 
