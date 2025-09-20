@@ -41,7 +41,27 @@ export default function StandardConsultationSection({
     setSelectedProcedures(procedures);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // 이벤트 참여 API 호출 함수
+  const participateInEvent = async (eventId: number) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/${eventId}/participate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        console.log('이벤트 참여가 성공적으로 처리되었습니다.');
+      } else {
+        console.error('이벤트 참여 처리 중 오류가 발생했습니다.');
+      }
+    } catch (error) {
+      console.error('이벤트 참여 API 호출 실패:', error);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // 필수 필드 검증
@@ -175,6 +195,9 @@ export default function StandardConsultationSection({
       selectedProcedures: selectedProcedures,
       message: formData.message
     };
+    
+    // 이벤트 참여수 증가 (이벤트 ID 1번으로 가정)
+    await participateInEvent(1);
     
     sessionStorage.setItem('consultationData', JSON.stringify(consultationData));
     router.push('/consultation/request');

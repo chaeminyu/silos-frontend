@@ -3,8 +3,10 @@
 import NavigationMenu from './NavigationMenu';
 import QuickConsultationMenu from './QuickConsultationMenu';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { ReactNode, useState, useEffect, useRef } from 'react';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { User, LogOut, FileText, ShoppingCart, ChevronDown } from 'lucide-react';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -12,6 +14,21 @@ interface PageLayoutProps {
 
 export default function PageLayout({ children }: PageLayoutProps) {
   const { itemCount } = useCart();
+  const { user, logout, isAuthenticated } = useAuth();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-smoke-50 via-white to-teal-smoke-100">
@@ -25,27 +42,82 @@ export default function PageLayout({ children }: PageLayoutProps) {
                 <NavigationMenu />
               </div>
               
-              {/* 로그인/장바구니 버튼 */}
+              {/* 로그인/장바구니 버튼 - Desktop */}
               <div className="hidden lg:flex items-center space-x-3 flex-shrink-0 ml-4">
                 <Link 
                   href="/consultation/request"
                   className="relative p-2.5 hover:bg-teal-smoke-50 rounded-lg transition-all duration-300 group block"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-600 group-hover:text-slate-800">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                  </svg>
+                  <ShoppingCart className="w-5 h-5 text-slate-600 group-hover:text-slate-800" />
                   <span className="absolute -top-1 -right-1 w-5 h-5 bg-teal-smoke-400 text-white text-xs rounded-full flex items-center justify-center font-bold">
                     {itemCount}
                   </span>
                 </Link>
-                <Link 
-                  href="/auth/login"
-                  className="bg-teal-smoke-300 hover:bg-teal-smoke-400 text-slate-900 px-5 py-2 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300 shadow-lg hover:shadow-xl border border-teal-smoke-400/30 whitespace-nowrap inline-block"
-                >
-                  로그인
-                </Link>
+                
+                {isAuthenticated ? (
+                  <div className="relative" ref={userMenuRef}>
+                    <button
+                      onClick={() => setShowUserMenu(!showUserMenu)}
+                      className="flex items-center space-x-2 bg-teal-smoke-100 hover:bg-teal-smoke-200 px-4 py-2 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300"
+                    >
+                      <User className="w-4 h-4" />
+                      <span>{user?.name || '회원'}</span>
+                      <ChevronDown className={`w-3 h-3 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {showUserMenu && (
+                      <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-teal-smoke-200 overflow-hidden z-50">
+                        <div className="px-4 py-3 border-b border-teal-smoke-100">
+                          <p className="text-sm font-medium text-slate-800">{user?.name}</p>
+                          <p className="text-xs text-slate-500">{user?.phone}</p>
+                          <p className="text-xs text-teal-smoke-600 mt-1">
+                            {user?.accessLevel === 'admin' && '관리자'}
+                            {user?.accessLevel === 'premium' && '프리미엄 회원'}
+                            {user?.accessLevel === 'basic' && '일반 회원'}
+                          </p>
+                        </div>
+                        
+                        <div className="py-2">
+                          <Link
+                            href="/consultation/list"
+                            className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-teal-smoke-50"
+                            onClick={() => setShowUserMenu(false)}
+                          >
+                            <FileText className="w-4 h-4 mr-3" />
+                            상담 내역 조회
+                          </Link>
+                          {user?.accessLevel === 'admin' && (
+                            <Link
+                              href="/admin/consultations"
+                              className="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-teal-smoke-50"
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <FileText className="w-4 h-4 mr-3" />
+                              상담 관리 (관리자)
+                            </Link>
+                          )}
+                          <button
+                            onClick={() => {
+                              logout();
+                              setShowUserMenu(false);
+                            }}
+                            className="flex items-center w-full px-4 py-2 text-sm text-slate-700 hover:bg-teal-smoke-50"
+                          >
+                            <LogOut className="w-4 h-4 mr-3" />
+                            로그아웃
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link 
+                    href="/login"
+                    className="bg-teal-smoke-300 hover:bg-teal-smoke-400 text-slate-900 px-5 py-2 rounded-full text-sm font-elegant-sans font-medium transition-all duration-300 shadow-lg hover:shadow-xl border border-teal-smoke-400/30 whitespace-nowrap inline-block"
+                  >
+                    로그인
+                  </Link>
+                )}
               </div>
             </div>
           </div>

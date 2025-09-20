@@ -3,14 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { X, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
-
-interface Event {
-  id: string;
-  title: string;
-  period: string;
-  posterUrl: string;
-  status: 'ongoing' | 'upcoming' | 'ended';
-}
+import { Event, eventService } from '@/services/eventService';
 
 interface MonthlyEventPopupProps {
   isOpen: boolean;
@@ -18,27 +11,36 @@ interface MonthlyEventPopupProps {
   onDontShowToday: () => void;
 }
 
-// 임시 진행 중인 이벤트 데이터 - 실제로는 백엔드에서 가져와야 함
-const ongoingEvents: Event[] = [
-  {
-    id: '1',
-    title: '실로스 실리프팅 솔루션',
-    period: '2025-08-01 ~ 2025-09-30',
-    posterUrl: '/images/events/silos-lifting-event.jpg',
-    status: 'ongoing'
-  },
-  {
-    id: '2',
-    title: '실로스 레이저 리프팅',
-    period: '2025-08-01 ~ 2025-09-30', 
-    posterUrl: '/images/events/laser-lifting-event.jpg',
-    status: 'ongoing'
-  }
-];
 
 export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: MonthlyEventPopupProps) {
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [ongoingEvents, setOngoingEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Touch/swipe state
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  // 진행 중인 이벤트 가져오기
+  useEffect(() => {
+    const fetchOngoingEvents = async () => {
+      if (!isOpen) return;
+      
+      setLoading(true);
+      try {
+        const events = await eventService.getOngoingEvents();
+        setOngoingEvents(events);
+      } catch (error) {
+        console.error('Failed to fetch ongoing events:', error);
+        setOngoingEvents([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOngoingEvents();
+  }, [isOpen]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -60,9 +62,24 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
     };
   }, [isOpen]);
 
-  if (!isOpen || ongoingEvents.length === 0) return null;
+  if (!isOpen) return null;
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-[100000] flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+        <div className="bg-white rounded-2xl p-8 relative">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-teal-smoke-500"></div>
+          <p className="mt-4 text-gray-600">이벤트를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (ongoingEvents.length === 0) return null;
 
   const currentEvent = ongoingEvents[currentEventIndex];
+  const eventPeriod = `${currentEvent.periodStart} ~ ${currentEvent.periodEnd}`;
 
   const handleNext = () => {
     setCurrentEventIndex((prev) => (prev + 1) % ongoingEvents.length);
@@ -70,6 +87,32 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
 
   const handlePrev = () => {
     setCurrentEventIndex((prev) => (prev - 1 + ongoingEvents.length) % ongoingEvents.length);
+  };
+
+  // 스와이프 핸들러들
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0); // 이전 터치 종료 지점 초기화
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50; // 50px 이상 왼쪽으로 스와이프
+    const isRightSwipe = distance < -50; // 50px 이상 오른쪽으로 스와이프
+    
+    if (ongoingEvents.length > 1) {
+      if (isLeftSwipe) {
+        handleNext(); // 왼쪽 스와이프 → 다음 이벤트
+      } else if (isRightSwipe) {
+        handlePrev(); // 오른쪽 스와이프 → 이전 이벤트
+      }
+    }
   };
 
   if (isMobile) {
@@ -105,9 +148,14 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
           {/* 이벤트 콘텐츠 */}
           <div className="p-6">
             <div className="relative">
-              {/* 이벤트 카드 */}
-              <Link href={`/events/${currentEvent.id}`} onClick={onClose}>
-                <div className="bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl overflow-hidden shadow-lg">
+              {/* 이벤트 카드 - 스와이프 가능 */}
+              <div 
+                className="bg-gradient-to-br from-teal-smoke-100 to-elegant-100 rounded-2xl overflow-hidden shadow-lg cursor-pointer select-none"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
+                <Link href={`/events/${currentEvent.id}`} onClick={onClose}>
                   {/* 포스터 영역 */}
                   <div className="aspect-[3/2] bg-gradient-to-br from-teal-smoke-200 to-elegant-200 flex items-center justify-center">
                     <div className="text-center text-slate-600">
@@ -124,11 +172,11 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
                       {currentEvent.title}
                     </h4>
                     <p className="text-sm text-slate-600 font-elegant-sans">
-                      {currentEvent.period}
+                      {eventPeriod}
                     </p>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
               
               {/* 네비게이션 버튼 (여러 이벤트가 있을 때만) */}
               {ongoingEvents.length > 1 && (
@@ -149,20 +197,26 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
               )}
             </div>
             
-            {/* 인디케이터 */}
+            {/* 인디케이터 및 스와이프 힌트 */}
             {ongoingEvents.length > 1 && (
-              <div className="flex justify-center mt-4 space-x-2">
-                {ongoingEvents.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentEventIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === currentEventIndex
-                        ? 'bg-teal-smoke-500 w-6'
-                        : 'bg-gray-300'
-                    }`}
-                  />
-                ))}
+              <div className="mt-4">
+                <div className="flex justify-center space-x-2 mb-2">
+                  {ongoingEvents.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentEventIndex(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        index === currentEventIndex
+                          ? 'bg-teal-smoke-500 w-6'
+                          : 'bg-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+                {/* 스와이프 힌트 */}
+                <p className="text-xs text-gray-400 text-center font-elegant-sans">
+                  좌우로 스와이프하여 다른 이벤트 보기
+                </p>
               </div>
             )}
             
@@ -225,13 +279,12 @@ export default function MonthlyEventPopup({ isOpen, onClose, onDontShowToday }: 
                     {currentEvent.title}
                   </h2>
                   <p className="text-xl font-elegant-sans font-light mb-6">
-                    개인별 피부 상태, 탄력도, 블루밍을 정밀 분석하여<br />
-                    개인 맞춤형 리프팅 솔루션을 제공합니다.
+                    {currentEvent.content || '개인별 피부 상태, 탄력도, 블루밍을 정밀 분석하여 개인 맞춤형 리프팅 솔루션을 제공합니다.'}
                   </p>
                   <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-xl">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span className="font-elegant-sans font-medium">
-                      {currentEvent.period}
+                      {eventPeriod}
                     </span>
                   </div>
                 </div>

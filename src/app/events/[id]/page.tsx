@@ -214,7 +214,7 @@ export default function EventDetailPage() {
           {event.status === 'ongoing' && (
             <div className="mt-12 text-center">
               <Link
-                href="/consultation/request"
+                href={`/consultation/request?eventId=${event.id}&eventTitle=${encodeURIComponent(event.title)}`}
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-xl font-elegant-sans font-bold text-lg hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 이벤트 신청하기
