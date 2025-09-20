@@ -41,7 +41,7 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css"
         />
       </head>
-      <body className={`${inter.variable} ${playfair.variable} ${cormorant.variable} font-elegant-sans antialiased`}>
+      <body className={`${inter.variable} ${playfair.variable} ${cormorant.variable} font-elegant-sans antialiased overflow-x-hidden`}>
         <AuthProvider>
           <CartProvider>
             {children}

@@ -25,7 +25,7 @@ interface Consultation {
   message: string;
   preferredDate: string;
   preferredTime: string;
-  status: 'waiting' | 'completed';
+  status: 'REQUESTED' | 'CONFIRMED' | 'CANCELLED';
   createdAt: string;
   updatedAt: string;
   adminComment?: string;
@@ -38,15 +38,20 @@ interface Consultation {
 
 
 const statusConfig = {
-  waiting: { 
-    label: '대기 중', 
+  REQUESTED: { 
+    label: '예약 요청', 
     color: 'bg-yellow-100 text-yellow-800',
     icon: ExclamationTriangleIcon 
   },
-  completed: { 
-    label: '접수 완료', 
+  CONFIRMED: { 
+    label: '예약 확정', 
     color: 'bg-green-100 text-green-800',
     icon: CheckCircleIcon 
+  },
+  CANCELLED: { 
+    label: '예약 취소', 
+    color: 'bg-red-100 text-red-800',
+    icon: ExclamationTriangleIcon 
   }
 };
 
@@ -148,8 +153,9 @@ export default function ConsultationsPage() {
   // 상태별 카운트 (필터링된 데이터 기준)
   const statusCounts = useMemo(() => ({
     all: filteredConsultations.length,
-    waiting: filteredConsultations.filter(c => c.status === 'waiting').length,
-    completed: filteredConsultations.filter(c => c.status === 'completed').length
+    REQUESTED: filteredConsultations.filter(c => c.status === 'REQUESTED').length,
+    CONFIRMED: filteredConsultations.filter(c => c.status === 'CONFIRMED').length,
+    CANCELLED: filteredConsultations.filter(c => c.status === 'CANCELLED').length
   }), [filteredConsultations]);
 
   return (
@@ -231,8 +237,9 @@ export default function ConsultationsPage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">전체 상태</option>
-              <option value="waiting">대기 중</option>
-              <option value="completed">접수 완료</option>
+              <option value="REQUESTED">예약 요청</option>
+              <option value="CONFIRMED">예약 확정</option>
+              <option value="CANCELLED">예약 취소</option>
             </select>
           </div>
         </div>

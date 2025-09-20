@@ -23,6 +23,7 @@ export default function HomePage() {
   const [isLoadingVideos, setIsLoadingVideos] = useState(true);
   const [currentDoctorIndex, setCurrentDoctorIndex] = useState(0);
   const [isSloganVisible, setIsSloganVisible] = useState(false);
+  const [isDoctorCardVisible, setIsDoctorCardVisible] = useState(false);
 
   // Doctor colors
   const doctorColors = ['#A8A8A7', '#4C4845', '#656661', '#7D7E77', '#878884'];
@@ -100,6 +101,8 @@ export default function HomePage() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsSloganVisible(true);
+          } else {
+            setIsSloganVisible(false);
           }
         });
       },
@@ -116,6 +119,34 @@ export default function HomePage() {
     };
   }, []);
 
+  // 의료진 카드 스크롤 애니메이션
+  useEffect(() => {
+    const doctorsSection = document.getElementById('doctors');
+    if (!doctorsSection) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsDoctorCardVisible(true);
+            // 의료진 섹션이 보일 때 정영진 원장(index 0)부터 시작
+            setCurrentDoctorIndex(0);
+          } else {
+            setIsDoctorCardVisible(false);
+          }
+        });
+      },
+      {
+        threshold: 0.3, // 30% 보이면 트리거
+        rootMargin: '0px 0px -50px 0px' // 하단에서 50px 전에 트리거
+      }
+    );
+
+    observer.observe(doctorsSection);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const handleCloseEventPopup = () => {
     setShowEventPopup(false);
@@ -289,16 +320,21 @@ export default function HomePage() {
   // Representative procedures data
   const representativeProcedures = [
     {
-      id: 'silos-lifting',
-      title: '실로스 리프팅',
-      subtitle: 'SILOS THREAD LIFTING',
-      shortDesc: '실로스만의 특허받은 실리프팅 기법으로 자연스러운 리프팅 효과',
+      id: 'lifting-procedures',
+      title: '리프팅 시술',
+      subtitle: 'LIFTING PROCEDURES',
+      shortDesc: '실로스만의 다양한 리프팅 기법으로 개인별 맞춤 리프팅 솔루션을 제공',
       route: '/procedures/silos-lifting',
-      features: ['무절개', '즉시효과', '자연스러움'],
-      duration: '30분',
+      features: ['무절개', '즉시효과', '자연스러움', '맞춤형'],
+      duration: '15-60분',
       gradient: 'from-teal-smoke-400 to-elegant-500',
       icon: '🧵',
-      image: '/images/home-procedures/silos-lifting.jpg'
+      image: '/images/home-procedures/silos-lifting.jpg',
+      subOptions: [
+        { name: '실로스 리프팅', route: '/procedures/silos-lifting', duration: '30분', desc: '실로스만의 특허받은 실리프팅 기법' },
+        { name: '미니 리프팅', route: '/procedures/mini-lifting', duration: '60분', desc: '최소 절개로 최대 효과' },
+        { name: '스킨 리프팅', route: '/procedures/skin-lifting', duration: '15분', desc: '콜라겐 리모델링으로 피부 탄력 개선' }
+      ]
     },
     {
       id: 'silopat',
@@ -311,30 +347,6 @@ export default function HomePage() {
       gradient: 'from-elegant-400 to-teal-smoke-500',
       icon: '💉',
       image: '/images/home-procedures/silofat.jpg'
-    },
-    {
-      id: 'mini-lifting',
-      title: '미니 리프팅',
-      subtitle: 'MINI LIFTING',
-      shortDesc: '최소 절개로 최대 효과를 내는 프리미엄 미니 리프팅',
-      route: '/procedures/mini-lifting',
-      features: ['최소절개', '빠른회복', '자연결과'],
-      duration: '60분',
-      gradient: 'from-teal-smoke-500 to-elegant-400',
-      icon: '✨',
-      image: '/images/home-procedures/mini-lifting.png'
-    },
-    {
-      id: 'skin-lifting',
-      title: '스킨 리프팅',
-      subtitle: 'SKIN LIFTING',
-      shortDesc: '콜라겐 리모델링으로 피부 탄력과 리프팅을 동시에',
-      route: '/procedures/skin-lifting',
-      features: ['비절개', '탄력개선', '자연리프팅'],
-      duration: '15분',
-      gradient: 'from-elegant-500 to-teal-smoke-400',
-      icon: '🌟',
-      image: '/images/home-procedures/skin-lifting.jpg'
     }
   ];
 
@@ -417,7 +429,7 @@ export default function HomePage() {
     <PageLayout>
 
       {/* 메인 컨텐츠 - PC: 배너 슬라이더, 모바일: 카테고리 그리드 */}
-      <main className="w-full">
+      <main className="w-full overflow-x-hidden">
         {/* ROTATING PROCEDURE CARDS - 주석처리됨 (향후 사용 가능) */}
         {/* 
         <div className="hidden lg:block">
@@ -486,94 +498,208 @@ export default function HomePage() {
           </div>
         </div> */}
         
-        {/* 실로스 소개 섹션 - 모바일/PC 모두 표시 */}
-        <section id="about" className="w-full py-24 bg-gradient-to-br from-teal-smoke-50 via-white to-elegant-100">
-          <div className="w-full">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-20">
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide">왜 실로스인가?</h2>
-                <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-8"></div>
-                <p className="text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed">
-                  실리프팅의 새로운 기준, 실로스가 제시하는 차별화된 시술 철학
+        {/* 왜 실로스인가? 섹션 - 현재 웹사이트 스타일에 맞는 밝은 디자인 */}
+        <section id="about" className="w-full py-24 bg-gradient-to-br from-teal-smoke-50 via-white to-elegant-100 relative overflow-hidden">
+          {/* 배경 장식 요소들 */}
+          <div className="absolute inset-0">
+            <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-teal-smoke-200/30 to-elegant-300/30 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-32 left-20 w-80 h-80 bg-gradient-to-tr from-elegant-200/25 to-teal-smoke-300/25 rounded-full blur-3xl"></div>
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* 헤더 */}
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center px-6 py-3 bg-white/60 backdrop-blur-sm rounded-full text-sm font-medium text-teal-smoke-800 border border-teal-smoke-200/30 mb-8">
+                <Sparkles className="w-4 h-4 mr-2 text-teal-smoke-500" />
+                WHY SILOS?
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-nanum-myeongjo font-bold text-gray-800 mb-6 tracking-tight leading-tight">
+                리프팅의 새로운 기준
+              </h2>
+              <div className="w-0.5 h-20 bg-gradient-to-b from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-8"></div>
+              <p className="text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed">
+                실로스가 제시하는 차별화된 시술 철학<br />
+                <span className="text-teal-smoke-600 font-medium">미용의사들이 추천하는 병원</span>
+              </p>
+            </div>
+
+          </div>
+
+          {/* 세미나 사진 파노라마 - 전체 폭, 좌우 여백 없음 */}
+          <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-16">
+            <div className="relative overflow-hidden bg-gradient-to-r from-teal-smoke-50 via-white to-elegant-50">
+              <div className="flex animate-scroll-slow">
+                {/* 첫 번째 세트 */}
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <div key={`seminar-1-${num}`} className="flex-shrink-0">
+                    <img
+                      src={`/images/panorama/sec05_img0${num}.png`}
+                      alt={`세미나 현장 ${num}`}
+                      className="h-32 w-auto object-cover"
+                    />
+                  </div>
+                ))}
+                {/* 두 번째 세트 */}
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <div key={`seminar-2-${num}`} className="flex-shrink-0">
+                    <img
+                      src={`/images/panorama/sec05_img0${num}.png`}
+                      alt={`세미나 현장 ${num}`}
+                      className="h-32 w-auto object-cover"
+                    />
+                  </div>
+                ))}
+                {/* 세 번째 세트 */}
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <div key={`seminar-3-${num}`} className="flex-shrink-0">
+                    <img
+                      src={`/images/panorama/sec05_img0${num}.png`}
+                      alt={`세미나 현장 ${num}`}
+                      className="h-32 w-auto object-cover"
+                    />
+                  </div>
+                ))}
+                {/* 네 번째 세트 */}
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <div key={`seminar-4-${num}`} className="flex-shrink-0">
+                    <img
+                      src={`/images/panorama/sec05_img0${num}.png`}
+                      alt={`세미나 현장 ${num}`}
+                      className="h-32 w-auto object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* 임팩트 있는 통계 섹션 */}
+            <div className="text-center mb-20">
+              {/* 메인 헤드라인 */}
+              <div className="mb-16">
+                <h3 className="text-3xl md:text-4xl font-nanum-myeongjo text-gray-800 mb-6">
+                  대한민국 성형의학계가 인정하는
+                </h3>
+                <p className="text-xl md:text-2xl font-elegant-sans text-teal-smoke-600 font-medium">
+                  SILOS의 교육 실적과 시술 경험
                 </p>
               </div>
-              
-              {/* Desktop Grid */}
-              <div className="hidden md:grid md:grid-cols-3 gap-8 justify-items-center">
-                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-full max-w-sm border border-teal-smoke-200/50">
-                  <div className="w-20 h-20 bg-gradient-to-br from-teal-smoke-200 to-teal-smoke-300 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-lg">
-                    <div className="w-10 h-10 bg-teal-smoke-400 rounded-xl opacity-70"></div>
+
+              {/* 주요 통계 - 모던 미니멀 디자인 */}
+              <div className="grid grid-cols-3 gap-4 md:gap-10 mb-16">
+                <div className="group relative bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-teal-smoke-100/60 hover:bg-white/30 hover:backdrop-blur-md hover:border-white/40 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)]">
+                  {/* 좌측 컬러 액센트 */}
+                  <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-teal-smoke-400 to-teal-smoke-600 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
+                  <div className="text-center pl-2">
+                    <div className="text-2xl md:text-5xl lg:text-6xl font-display font-bold bg-gradient-to-br from-teal-smoke-600 via-teal-smoke-500 to-teal-smoke-700 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-teal-smoke-700 group-hover:via-teal-smoke-600 group-hover:to-teal-smoke-800 transition-all duration-300">
+                      68<span className="text-lg md:text-3xl lg:text-4xl">회</span>
+                    </div>
+                    <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
+                      전국 단체 세미나 개최
+                    </div>
+                    <div className="text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                      성형의사 교육 프로그램
+                    </div>
                   </div>
-                  <h3 className="text-xl font-elegant font-light text-cyan-800 mb-6 text-center tracking-wide">맞춤형 시술</h3>
-                  <p className="text-slate-700 text-center font-elegant-sans font-light leading-relaxed">개인별 얼굴 구조와 특성을 분석하여 최적의 시술 계획을 제안합니다.</p>
                 </div>
-                
-                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-full max-w-sm border border-elegant-200/50">
-                  <div className="w-20 h-20 bg-gradient-to-br from-elegant-200 to-elegant-300 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-lg">
-                    <div className="w-10 h-10 bg-elegant-400 rounded-xl opacity-70"></div>
+
+                <div className="group relative bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-elegant-100/60 hover:bg-white/30 hover:backdrop-blur-md hover:border-white/40 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)]">
+                  {/* 좌측 컬러 액센트 */}
+                  <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-elegant-400 to-elegant-600 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
+                  <div className="text-center pl-2">
+                    <div className="text-2xl md:text-5xl lg:text-6xl font-display font-bold bg-gradient-to-br from-elegant-600 via-elegant-500 to-elegant-700 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-elegant-700 group-hover:via-elegant-600 group-hover:to-elegant-800 transition-all duration-300">
+                      100<span className="text-lg md:text-3xl lg:text-4xl">+</span>
+                    </div>
+                    <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
+                      성형의사 교육 참여
+                    </div>
+                    <div className="text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                      전국 의료진 기술 전수
+                    </div>
                   </div>
-                  <h3 className="text-xl font-elegant font-light text-cyan-800 mb-6 text-center tracking-wide">안전한 시술</h3>
-                  <p className="text-slate-700 text-center font-elegant-sans font-light leading-relaxed">FDA 승인 제품과 첨단 장비를 사용하여 안전하고 효과적인 시술을 제공합니다.</p>
                 </div>
-                
-                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-full max-w-sm border border-teal-smoke-200/50">
-                  <div className="w-20 h-20 bg-gradient-to-br from-teal-smoke-300 to-elegant-300 rounded-2xl flex items-center justify-center mb-8 mx-auto shadow-lg">
-                    <div className="w-10 h-10 bg-gradient-to-br from-teal-smoke-400 to-elegant-400 rounded-xl opacity-70"></div>
+
+                <div className="group relative bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-gray-100/60 hover:bg-white/30 hover:backdrop-blur-md hover:border-white/40 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)]">
+                  {/* 좌측 컬러 액센트 */}
+                  <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-gray-500 to-gray-700 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
+                  <div className="text-center pl-2">
+                    <div className="text-xl md:text-4xl lg:text-5xl font-display font-bold bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-gray-800 group-hover:via-gray-700 group-hover:to-gray-900 transition-all duration-300">
+                      43<span className="text-base md:text-3xl lg:text-4xl">만건</span>
+                    </div>
+                    <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
+                      누적 시술 경험
+                    </div>
+                    <div className="text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                      실리프팅 · 눈성형 · 보톡스 · 필러
+                    </div>
                   </div>
-                  <h3 className="text-xl font-elegant font-light text-cyan-800 mb-6 text-center tracking-wide">자연스러운 결과</h3>
-                  <p className="text-slate-700 text-center font-elegant-sans font-light leading-relaxed">과도하지 않은 자연스러운 변화로 본연의 아름다움을 극대화시킵니다.</p>
                 </div>
               </div>
 
-              {/* Mobile Horizontal Swipe with Auto-rotation */}
-              <div className="md:hidden overflow-hidden pb-4">
-                <div 
-                  className={`flex space-x-4 px-4 ${isWhySilosTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
-                  style={{ 
-                    transform: `translateX(-${currentWhySilosIndex * (288 + 16)}px)` // 288px = w-72 + 16px = gap
-                  }}
-                >
-                  {/* Duplicate items for seamless infinite scroll */}
-                  {[...whySilosItems, ...whySilosItems].map((item, index) => (
-                    <div key={`${item.id}-${Math.floor(index / whySilosItems.length)}`} className={`bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-lg flex-shrink-0 w-72 border ${item.borderColor}`}>
-                      <div className={`w-16 h-16 bg-gradient-to-br ${item.iconGradient} rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-lg`}>
-                        <div className={`w-8 h-8 ${item.iconBg} rounded-xl opacity-70`}></div>
+              {/* 세부 시술 통계 - 모던 미니멀 디자인 */}
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-100/60 hover:bg-white/40 hover:backdrop-blur-md hover:border-white/50 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)]">
+                <h4 className="text-xl font-elegant-sans font-bold text-gray-800 mb-8 text-center">
+                  SILOS 대표 시술 경험
+                </h4>
+                <div className="grid grid-cols-3 gap-3 md:gap-8">
+                  <div className="text-center group relative">
+                    {/* 상단 컬러 액센트 */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-teal-smoke-400 to-teal-smoke-600 rounded-full group-hover:w-16 transition-all duration-300"></div>
+                    <div className="pt-4">
+                      <div className="text-lg md:text-3xl font-display font-bold bg-gradient-to-br from-teal-smoke-600 via-teal-smoke-500 to-teal-smoke-700 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-teal-smoke-700 group-hover:via-teal-smoke-600 group-hover:to-teal-smoke-800 transition-all duration-300">
+                        10만건
                       </div>
-                      <h3 className="text-lg font-elegant font-light text-cyan-800 mb-4 text-center tracking-wide">{item.title}</h3>
-                      <p className="text-slate-700 text-center font-elegant-sans font-light leading-relaxed text-sm">{item.description}</p>
+                      <div className="text-xs md:text-base font-elegant-sans text-gray-800 font-medium group-hover:text-gray-900 transition-colors duration-300">실리프팅</div>
                     </div>
-                  ))}
-                </div>
-                
-                {/* Auto-rotation indicators */}
-                <div className="flex justify-center mt-4 space-x-2">
-                  {whySilosItems.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setIsWhySilosTransitioning(true);
-                        setCurrentWhySilosIndex(index);
-                      }}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        index === (currentWhySilosIndex % whySilosItems.length)
-                          ? 'bg-teal-smoke-500 w-8' 
-                          : 'bg-teal-smoke-200'
-                      }`}
-                    />
-                  ))}
+                  </div>
+                  <div className="text-center group relative">
+                    {/* 상단 컬러 액센트 */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-elegant-400 to-elegant-600 rounded-full group-hover:w-16 transition-all duration-300"></div>
+                    <div className="pt-4">
+                      <div className="text-lg md:text-3xl font-display font-bold bg-gradient-to-br from-elegant-600 via-elegant-500 to-elegant-700 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-elegant-700 group-hover:via-elegant-600 group-hover:to-elegant-800 transition-all duration-300">
+                        3만건
+                      </div>
+                      <div className="text-xs md:text-base font-elegant-sans text-gray-800 font-medium group-hover:text-gray-900 transition-colors duration-300">눈성형</div>
+                    </div>
+                  </div>
+                  <div className="text-center group relative">
+                    {/* 상단 컬러 액센트 */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-gray-500 to-gray-700 rounded-full group-hover:w-16 transition-all duration-300"></div>
+                    <div className="pt-4">
+                      <div className="text-lg md:text-3xl font-display font-bold bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-gray-800 group-hover:via-gray-700 group-hover:to-gray-900 transition-all duration-300">
+                        30만건
+                      </div>
+                      <div className="text-xs md:text-base font-elegant-sans text-gray-800 font-medium group-hover:text-gray-900 transition-colors duration-300">보톡스 · 필러</div>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            {/* 하단 강조 메시지 */}
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center px-8 py-4 bg-white/70 backdrop-blur-sm rounded-full border border-teal-smoke-200/50 shadow-lg">
+                <div className="w-3 h-3 bg-teal-smoke-400 rounded-full mr-4 animate-pulse"></div>
+                <span className="text-lg font-elegant-sans text-slate-700">
+                  전국 의료진이 인정하는 <span className="text-teal-smoke-600 font-semibold">SILOS 기술력</span>
+                </span>
+              </div>
+              
+              {/* 세로 디바이더 */}
+              <div className="w-0.5 h-20 bg-gradient-to-b from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mt-16"></div>
             </div>
           </div>
         </section>
 
+
         {/* 의사 소개 섹션 */}
-        <section id="doctors" className="w-full py-24 bg-gradient-to-br from-white via-elegant-50 to-teal-smoke-50">
+        <section id="doctors" className="w-full py-32 bg-gradient-to-br from-white via-elegant-50 to-teal-smoke-50">
           <div className="w-full">
             {/* 섹션 제목 */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
               <div className="text-center">
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide">SILOS CLINIC<br />의료진 소개</h2>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-cyan-800 mb-6 tracking-wide">SILOS CLINIC<br /><span className="font-nanum-myeongjo text-4xl md:text-5xl font-bold mt-4 block">의료진 소개</span></h2>
                 <div className="w-20 h-0.5 bg-teal-smoke-300 rounded-full mx-auto mb-8"></div>
                 <p className="text-lg md:text-xl font-elegant-sans font-light text-slate-700 max-w-3xl mx-auto leading-relaxed">
                   풍부한 경험과 전문성을 갖춘 실로스 의료진이 당신의 아름다움을 완성합니다
@@ -591,17 +717,22 @@ export default function HomePage() {
                 }}
               >
                 <div className="max-w-7xl mx-auto">
-                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-0 ${
+                  {/* 데스크톱 레이아웃 */}
+                  <div className={`hidden lg:grid lg:grid-cols-2 gap-0 ${
                     currentDoctorIndex % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
                   }`}>
-                    {/* 의사 사진 */}
+                    {/* 의사 사진 - 데스크톱 */}
                     <div className={`${currentDoctorIndex % 2 === 1 ? 'lg:col-start-2' : ''} flex items-end ${
-                      currentDoctorIndex % 2 === 1 ? 'pr-0' : 'pl-0'
+                      currentDoctorIndex % 2 === 1 ? 'justify-end pr-0' : 'justify-start pl-0'
                     } transition-all duration-700 ease-in-out transform ${
+                      !isDoctorCardVisible 
+                        ? (currentDoctorIndex % 2 === 1 ? 'translate-x-16 opacity-0' : '-translate-x-16 opacity-0')
+                        : ''
+                    } ${
                       currentDoctorIndex % 2 === 1 ? 'animate-slide-from-right' : 'animate-slide-from-left'
                     }`}>
                       <div className={`relative aspect-[3/5] w-96 overflow-hidden ${
-                        currentDoctorIndex % 2 === 1 ? 'ml-auto' : 'mr-auto'
+                        currentDoctorIndex % 2 === 1 ? 'ml-0' : 'mr-0'
                       }`}>
                         <div 
                           className="absolute inset-0"
@@ -660,18 +791,22 @@ export default function HomePage() {
                       </div>
                     </div>
 
-                    {/* 약력 정보 */}
-                    <div className={`${currentDoctorIndex % 2 === 1 ? 'lg:col-start-1' : ''} space-y-2 px-8 py-6 flex flex-col justify-center transition-all duration-700 ease-in-out transform ${
-                      currentDoctorIndex % 2 === 1 ? 'animate-slide-from-left' : 'animate-slide-from-right'
-                    }`}>
+                      {/* 약력 정보 */}
+                      <div className={`flex-1 space-y-2 px-8 py-6 flex flex-col justify-center transition-all duration-700 ease-in-out transform ${
+                        !isDoctorCardVisible 
+                          ? (currentDoctorIndex % 2 === 1 ? '-translate-x-16 opacity-0' : 'translate-x-16 opacity-0')
+                          : ''
+                      } ${
+                        currentDoctorIndex % 2 === 1 ? 'animate-slide-from-left' : 'animate-slide-from-right'
+                      }`}>
                       <div>
-                        <h3 className={`text-2xl md:text-3xl font-display font-bold mb-1 tracking-wide ${
+                        <h3 className={`text-xl md:text-3xl font-display font-bold mb-1 tracking-wide ${
                           currentDoctorIndex === 1 ? 'text-white' : 
                           currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
                         }`}>
                           {doctorsData[currentDoctorIndex].name} {doctorsData[currentDoctorIndex].title}
                         </h3>
-                        <p className={`text-base font-elegant-sans font-medium mb-4 ${
+                        <p className={`text-sm md:text-base font-elegant-sans font-medium mb-3 md:mb-4 ${
                           currentDoctorIndex === 1 ? 'text-white/80' : 
                           currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white/90' : 'text-slate-600'
                         }`}>
@@ -679,12 +814,12 @@ export default function HomePage() {
                         </p>
                       </div>
 
-                      <div className="space-y-2">
-                        <h4 className={`text-lg font-elegant font-semibold mb-2 ${
+                      <div className="space-y-1 md:space-y-2">
+                        <h4 className={`text-base md:text-lg font-elegant font-semibold mb-1 md:mb-2 ${
                           currentDoctorIndex === 1 ? 'text-white' : 
                           currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
                         }`}>주요 경력</h4>
-                        <ul className="space-y-1">
+                        <ul className="space-y-0.5 md:space-y-1">
                           {doctorsData[currentDoctorIndex].bio.positions.map((position, idx) => (
                             <li key={idx} className="flex items-start">
                               <div 
@@ -693,7 +828,7 @@ export default function HomePage() {
                                   backgroundColor: doctorAccentColors[currentDoctorIndex]
                                 }}
                               ></div>
-                              <p className={`font-elegant-sans leading-relaxed ${
+                              <p className={`text-sm md:text-base font-elegant-sans leading-relaxed ${
                                 currentDoctorIndex === 1 ? 'text-white/90' : 
                                 currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white/85' : 'text-slate-700'
                               }`}>{position}</p>
@@ -702,18 +837,18 @@ export default function HomePage() {
                         </ul>
                       </div>
 
-                      <div className="space-y-3 pt-4 border-t border-slate-200">
-                        <h4 className={`text-xl font-elegant font-semibold mb-3 ${
+                      <div className="space-y-2 md:space-y-3 pt-3 md:pt-4 border-t border-slate-200">
+                        <h4 className={`text-lg md:text-xl font-elegant font-semibold mb-2 md:mb-3 ${
                           currentDoctorIndex === 1 ? 'text-white' : 
                           currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
                         }`}>전문시술분야</h4>
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-2 md:gap-3">
                           {doctorsData[currentDoctorIndex].bio.specialties.flatMap(specialty => 
                             specialty.split('/').map(item => item.trim())
                           ).map((specialty, idx) => (
                             <span 
                               key={idx} 
-                              className="inline-flex items-center px-5 py-3 rounded-full text-sm font-elegant-sans font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-default backdrop-blur-sm"
+                              className="inline-flex items-center px-3 md:px-5 py-2 md:py-3 rounded-full text-xs md:text-sm font-elegant-sans font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-default backdrop-blur-sm"
                               style={{
                                 background: `linear-gradient(135deg, ${doctorColors[currentDoctorIndex]}40, ${doctorColors[currentDoctorIndex]}80)`,
                                 borderColor: doctorColors[currentDoctorIndex],
@@ -727,6 +862,122 @@ export default function HomePage() {
                             </span>
                           ))}
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* 모바일 레이아웃 */}
+                  <div className="lg:hidden px-6 py-6 transition-all duration-700 ease-in-out transform ${
+                    !isDoctorCardVisible 
+                      ? 'opacity-0 translate-y-4'
+                      : 'opacity-100 translate-y-0'
+                  }">
+                    {/* 의사 이름 및 직책 */}
+                    <div className="mb-6">
+                      <h3 className={`text-xl font-display font-bold mb-1 tracking-wide ${
+                        currentDoctorIndex === 1 ? 'text-white' : 
+                        currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
+                      }`}>
+                        {doctorsData[currentDoctorIndex].name} {doctorsData[currentDoctorIndex].title}
+                      </h3>
+                      <p className={`text-sm font-elegant-sans font-medium ${
+                        currentDoctorIndex === 1 ? 'text-white/80' : 
+                        currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white/90' : 'text-slate-600'
+                      }`}>
+                        {doctorsData[currentDoctorIndex].bio.title}
+                      </p>
+                    </div>
+                    
+                    {/* 주요 경력과 사진 나란히 */}
+                    <div className="grid grid-cols-2 gap-6 mb-6">
+                      {/* 주요 경력 */}
+                      <div className={`transition-all duration-700 ease-in-out transform ${
+                        !isDoctorCardVisible 
+                          ? (currentDoctorIndex % 2 === 1 ? 'translate-x-16 opacity-0' : '-translate-x-16 opacity-0')
+                          : 'translate-x-0 opacity-100'
+                      } ${
+                        currentDoctorIndex % 2 === 1 ? 'animate-slide-from-right' : 'animate-slide-from-left'
+                      }`}>
+                        <h4 className={`text-base font-elegant font-semibold mb-3 ${
+                          currentDoctorIndex === 1 ? 'text-white' : 
+                          currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
+                        }`}>주요 경력</h4>
+                        <ul className="space-y-2">
+                          {doctorsData[currentDoctorIndex].bio.positions.map((position, idx) => (
+                            <li key={idx} className="flex items-start">
+                              <div 
+                                className="w-1.5 h-1.5 rounded-full mt-2 mr-2 flex-shrink-0"
+                                style={{
+                                  backgroundColor: doctorAccentColors[currentDoctorIndex]
+                                }}
+                              ></div>
+                              <p className={`text-xs font-elegant-sans leading-relaxed ${
+                                currentDoctorIndex === 1 ? 'text-white/90' : 
+                                currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white/85' : 'text-slate-700'
+                              }`}>{position}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      {/* 의사 사진 - 모바일 (Oval, 더 큰 크기) */}
+                      <div className={`flex justify-center transition-all duration-700 ease-in-out transform ${
+                        !isDoctorCardVisible 
+                          ? (currentDoctorIndex % 2 === 1 ? 'translate-x-16 opacity-0 scale-95' : '-translate-x-16 opacity-0 scale-95')
+                          : 'translate-x-0 opacity-100 scale-100'
+                      } ${
+                        currentDoctorIndex % 2 === 1 ? 'animate-slide-from-right' : 'animate-slide-from-left'
+                      }`}>
+                        <div className="relative w-44 h-52 overflow-hidden rounded-[50%]">
+                          <div 
+                            className="absolute inset-0"
+                            style={{
+                              background: `
+                                radial-gradient(ellipse 140% 130% at center, transparent 0%, transparent 10%, ${doctorColors[currentDoctorIndex]}30 40%, ${doctorColors[currentDoctorIndex]}70 70%, ${doctorAccentColors[currentDoctorIndex]} 100%),
+                                linear-gradient(to right, ${doctorAccentColors[currentDoctorIndex]}40 0%, transparent 30%, transparent 70%, ${doctorAccentColors[currentDoctorIndex]}40 100%),
+                                linear-gradient(to bottom, transparent 0%, transparent 50%, ${doctorAccentColors[currentDoctorIndex]}60 100%)
+                              `,
+                              zIndex: 10
+                            }}
+                          ></div>
+                          
+                          <img
+                            src={doctorsData[currentDoctorIndex].image}
+                            alt={`${doctorsData[currentDoctorIndex].name} ${doctorsData[currentDoctorIndex].title}`}
+                            className="w-full h-full object-cover object-center relative z-0"
+                            onError={(e) => {
+                              e.currentTarget.src = '/images/placeholder-doctor.jpg';
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* 전문시술분야 */}
+                    <div>
+                      <h4 className={`text-base font-elegant font-semibold mb-3 ${
+                        currentDoctorIndex === 1 ? 'text-white' : 
+                        currentDoctorIndex === 2 || currentDoctorIndex === 3 || currentDoctorIndex === 4 ? 'text-white' : 'text-slate-800'
+                      }`}>전문시술분야</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {doctorsData[currentDoctorIndex].bio.specialties.flatMap(specialty => 
+                          specialty.split('/').map(item => item.trim())
+                        ).map((specialty, idx) => (
+                          <span 
+                            key={idx} 
+                            className="inline-flex items-center px-3 py-2 rounded-full text-xs font-elegant-sans font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-default backdrop-blur-sm"
+                            style={{
+                              background: `linear-gradient(135deg, ${doctorColors[currentDoctorIndex]}40, ${doctorColors[currentDoctorIndex]}80)`,
+                              borderColor: doctorColors[currentDoctorIndex],
+                              borderWidth: '2px',
+                              borderStyle: 'solid',
+                              color: '#ffffff',
+                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                            }}
+                          >
+                            {specialty}
+                          </span>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -780,137 +1031,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 시술 안내 섹션 - 히어로 스타일 */}
-        <section id="procedures" className="w-full relative overflow-hidden">
-          {/* 히어로 배경 */}
-          <div className="relative pb-16 overflow-hidden aspect-video">
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: 'url(/images/main-face.jpeg)' }}
-            ></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-smoke-400/20 to-elegant-400/50"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-black/30"></div>
-            
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
-                <div className="md:order-1 hidden md:block">
-                  {/* 데스크톱: 왼쪽은 이미지가 보이도록 비워둡니다 */}
-                </div>
-                
-                <div className="md:order-2 text-white space-y-4 md:space-y-6 py-8 md:py-0">
-                  {/* 모바일: 오른쪽 정렬, 데스크톱: 왼쪽 정렬 */}
-                  <div className="flex justify-end md:justify-start">
-                    <div className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-white/20 backdrop-blur-sm rounded-full text-xs sm:text-sm font-elegant-sans font-medium border border-white/30">
-                      <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                      SILOS REPRESENTATIVE PROCEDURES
-                    </div>
-                  </div>
-                  
-                  <div className="text-right md:text-left">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-light mb-4 md:mb-6 tracking-wide leading-tight">
-                      대표 시술
-                    </h2>
-                    <div className="w-20 sm:w-24 h-0.5 bg-white/60 rounded-full mb-4 md:mb-6 ml-auto md:ml-0 md:mr-auto"></div>
-                    <p className="text-base sm:text-lg lg:text-xl font-elegant-sans font-light leading-relaxed text-white/90 max-w-xl ml-auto md:ml-0 md:mr-auto">
-                      실로스만의 특화된 시술로<br className="sm:hidden" /> 더 젊고 아름다운 모습을 만나보세요
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 카드 섹션 */}
-          <div className="w-full py-24 bg-gradient-to-br from-white via-teal-smoke-50 to-elegant-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-              {/* 카드 그리드 - 모바일 2x2, 데스크톱 4열 */}
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-                {representativeProcedures.map((procedure) => (
-                  <Link
-                    key={procedure.id}
-                    href={procedure.route}
-                    className="group block"
-                  >
-                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02] border border-white/50 h-full">
-                      {/* 카드 이미지 헤더 */}
-                      <div className="relative h-32 sm:h-40 lg:h-48 overflow-hidden">
-                        {/* 배경 이미지 */}
-                        <div 
-                          className="absolute inset-0 bg-cover bg-center"
-                          style={{ backgroundImage: `url(${procedure.image})` }}
-                        ></div>
-                        {/* 틴트 오버레이 */}
-                        <div className={`absolute inset-0 bg-gradient-to-br ${procedure.gradient} opacity-35`}></div>
-                        <div className="absolute inset-0 bg-black/10"></div>
-                        
-                        {/* 텍스트 콘텐츠 */}
-                        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center p-4">
-                          <div className="text-2xl sm:text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">
-                            {procedure.icon}
-                          </div>
-                          <h3 className="text-base sm:text-lg lg:text-xl font-display font-semibold text-white mb-1 tracking-wide drop-shadow-md">
-                            {procedure.title}
-                          </h3>
-                          <p className="text-xs sm:text-sm font-elegant-sans font-light text-white/90 hidden sm:block">
-                            {procedure.subtitle}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* 카드 콘텐츠 - 모바일에서 간소화 */}
-                      <div className="p-3 sm:p-4 lg:p-5">
-                        <p className="text-slate-700 font-elegant-sans font-light text-xs sm:text-sm leading-relaxed mb-3 lg:mb-4 line-clamp-2 sm:line-clamp-3">
-                          {procedure.shortDesc}
-                        </p>
-
-                        {/* 특징 배지들 - 모바일에서 1개만 표시 */}
-                        <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 lg:mb-4">
-                          {procedure.features.slice(0, 2).map((feature, i) => (
-                            <div key={i} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-elegant-sans font-medium bg-gradient-to-r from-teal-smoke-100 to-elegant-100 text-cyan-800 border border-teal-smoke-200">
-                              <Sparkles className="w-2.5 h-2.5 mr-1" />
-                              <span className="text-xs">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* 시술시간과 더보기 */}
-                        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-                          <div className="inline-flex items-center text-xs font-elegant-sans font-medium text-cyan-800">
-                            <Clock className="w-3 h-3 mr-1" />
-                            {procedure.duration}
-                          </div>
-                          <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 text-teal-smoke-500 group-hover:translate-x-1 transition-transform duration-300" />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              {/* 상담 신청 CTA */}
-              <div className="text-center mt-16">
-                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 max-w-2xl mx-auto">
-                  <h3 className="text-2xl font-display font-medium text-cyan-800 mb-4">
-                    맞춤 상담 받아보세요
-                  </h3>
-                  <p className="text-slate-700 font-elegant-sans font-light mb-6 leading-relaxed">
-                    전문의와의 1:1 상담으로 가장 적합한 시술을 추천받으세요
-                  </p>
-                  <Link
-                    href="/consultation/request"
-                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-xl font-elegant-sans font-medium hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                  >
-                    <ShoppingCart className="w-5 h-5 mr-3" />
-                    온라인 상담 신청
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* 중간 분리 섹션 - 슬로건 */}
         <section id="slogan-section" className="w-full bg-white py-40 md:py-48">
           {/* 슬로건 텍스트 */}
@@ -938,6 +1058,176 @@ export default function HomePage() {
               alt="SILOS Clinic"
               className="w-full h-full object-cover"
             />
+          </div>
+        </section>
+
+        {/* 시술 안내 섹션 - 세련된 히어로 */}
+        <section id="procedures" className="w-full relative overflow-hidden">
+          {/* 세련된 히어로 배경 */}
+          <div className="relative py-20 bg-gradient-to-br from-gray-50 via-white to-teal-smoke-50">
+            {/* 글래스 효과 백그라운드 */}
+            <div className="absolute inset-0">
+              <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-teal-smoke-300/15 to-elegant-400/15 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-elegant-300/10 to-teal-smoke-400/10 rounded-full blur-3xl"></div>
+            </div>
+            
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <div className="mb-6">
+                <span className="inline-block px-6 py-2 bg-white/60 backdrop-blur-sm rounded-full text-sm font-elegant-sans font-medium tracking-wide text-teal-smoke-800 border border-teal-smoke-200/30">
+                  <Sparkles className="w-4 h-4 mr-2 inline" />
+                  SILOS REPRESENTATIVE PROCEDURES
+                </span>
+              </div>
+              
+              <h2 className="text-4xl md:text-6xl font-nanum-myeongjo font-bold mb-6 tracking-tight leading-tight text-gray-800">
+                대표 시술
+              </h2>
+              
+              <div className="w-20 h-0.5 bg-gradient-to-r from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mb-6"></div>
+              
+              <p className="text-lg md:text-xl font-elegant-sans font-light leading-relaxed text-gray-600 max-w-2xl mx-auto">
+                실로스만의 특화된 시술로 더 젊고 아름다운 모습을 만나보세요
+              </p>
+            </div>
+          </div>
+
+          {/* 시술 섹션들 */}
+          <div className="w-full bg-gradient-to-br from-white via-teal-smoke-50 to-elegant-50">
+            {representativeProcedures.map((procedure, index) => (
+              <div key={procedure.id} className={`w-full py-12 ${index > 0 ? 'border-t border-teal-smoke-200/30' : ''} relative overflow-hidden`}>
+                {/* 섹션 배경 효과 */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white via-teal-smoke-25 to-elegant-25 opacity-50"></div>
+                <div className={`absolute ${index % 2 === 0 ? 'right-0' : 'left-0'} top-0 bottom-0 w-1/3 bg-gradient-to-${index % 2 === 0 ? 'l' : 'r'} from-teal-smoke-50/30 to-transparent`}></div>
+                
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
+                    index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
+                  }`}>
+                    {/* 이미지 섹션 */}
+                    <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''} relative group`}>
+                      <div className="relative w-full max-w-md mx-auto">
+                        {/* 배경 블롭 효과 */}
+                        <div className="absolute -inset-8 bg-gradient-to-br from-teal-smoke-100/50 to-elegant-200/50 rounded-full blur-3xl transform group-hover:scale-105 transition-all duration-500 opacity-60"></div>
+                        
+                        <div 
+                          className="relative w-full h-80 overflow-hidden transition-all duration-500 group-hover:shadow-xl"
+                          style={{
+                            clipPath: 'polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)',
+                            backgroundImage: `url(${procedure.image})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center'
+                          }}
+                        >
+                          {/* 미묘한 호버 오버레이 */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-teal-smoke-500/0 to-elegant-500/0 group-hover:from-teal-smoke-500/5 group-hover:to-elegant-500/5 transition-all duration-500"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 텍스트 섹션 */}
+                    <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''} space-y-4`}>
+                      <div>
+                        <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-teal-smoke-100/80 to-elegant-100/80 backdrop-blur-md rounded-2xl text-sm font-elegant-sans font-medium tracking-wide text-teal-smoke-800 border border-white/30 mb-3 shadow-lg">
+                          <div className="w-2 h-2 bg-teal-smoke-500 rounded-full mr-3 animate-pulse"></div>
+                          {procedure.subtitle}
+                        </div>
+                        
+                        <h3 className="text-2xl md:text-3xl font-display font-light text-gray-800 mb-3 tracking-wide">
+                          {procedure.title}
+                        </h3>
+                        
+                        <p className="text-base font-elegant-sans font-light leading-relaxed text-gray-600 mb-4">
+                          {procedure.shortDesc}
+                        </p>
+                      </div>
+
+                      {/* 서브 옵션들 (리프팅 시술에만 표시) */}
+                      {procedure.subOptions && (
+                        <div className="mb-4">
+                          <h4 className="text-lg font-elegant-sans font-semibold text-gray-800 mb-3">포함 시술</h4>
+                          <div className="space-y-3">
+                            {procedure.subOptions.map((option, i) => (
+                              <Link
+                                key={i}
+                                href={option.route}
+                                className="block bg-gradient-to-r from-white/90 to-white/70 backdrop-blur-md border border-white/40 rounded-2xl p-4 hover:from-teal-smoke-50/90 hover:to-elegant-50/70 hover:border-teal-smoke-200/60 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
+                              >
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="font-elegant-sans font-semibold text-gray-800 group-hover:text-teal-smoke-700 transition-colors">
+                                    {option.name}
+                                  </span>
+                                  <div className="flex items-center space-x-2">
+                                    <span className="font-elegant-sans text-teal-smoke-600 font-bold text-sm bg-teal-smoke-100/60 px-2 py-1 rounded-lg">{option.duration}</span>
+                                    <div className="w-6 h-6 bg-teal-smoke-100/60 rounded-full flex items-center justify-center group-hover:bg-teal-smoke-200/80 transition-colors">
+                                      <ArrowRight className="w-3 h-3 text-teal-smoke-600 group-hover:translate-x-0.5 transition-transform duration-300" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <p className="text-sm font-elegant-sans text-gray-600 leading-relaxed">{option.desc}</p>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 특징 배지들 */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {procedure.features.map((feature, i) => (
+                          <div key={i} className="inline-flex items-center px-4 py-2 rounded-2xl text-sm font-elegant-sans font-medium bg-gradient-to-r from-teal-smoke-50/90 to-elegant-50/90 text-teal-smoke-700 border border-white/50 backdrop-blur-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                            <div className="w-1.5 h-1.5 bg-teal-smoke-500 rounded-full mr-2"></div>
+                            <span>{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* CTA 버튼 */}
+                      <div className="flex items-center space-x-4">
+                        <Link
+                          href={procedure.route}
+                          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-smoke-500 via-teal-smoke-600 to-elegant-600 text-white rounded-2xl font-elegant-sans font-medium hover:from-teal-smoke-600 hover:via-teal-smoke-700 hover:to-elegant-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 hover:scale-[1.02]"
+                        >
+                          자세히 보기
+                          <div className="w-5 h-5 ml-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <ArrowRight className="w-3 h-3" />
+                          </div>
+                        </Link>
+                        
+                        <div className="inline-flex items-center text-teal-smoke-600 font-elegant-sans font-medium text-sm bg-teal-smoke-50/60 px-3 py-2 rounded-xl backdrop-blur-sm">
+                          <div className="w-4 h-4 mr-2 bg-teal-smoke-200 rounded-full flex items-center justify-center">
+                            <Clock className="w-2.5 h-2.5 text-teal-smoke-600" />
+                          </div>
+                          {procedure.duration}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* 상담 신청 CTA */}
+          <div className="w-full py-16 bg-gradient-to-br from-white via-teal-smoke-50 to-elegant-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center">
+                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 max-w-2xl mx-auto">
+                  <h3 className="text-2xl font-display font-medium text-cyan-800 mb-4">
+                    맞춤 상담 받아보세요
+                  </h3>
+                  <p className="text-slate-700 font-elegant-sans font-light mb-6 leading-relaxed">
+                    전문의와의 1:1 상담으로 가장 적합한 시술을 추천받으세요
+                  </p>
+                  <Link
+                    href="/consultation/request"
+                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-smoke-500 to-elegant-500 text-white rounded-xl font-elegant-sans font-medium hover:from-teal-smoke-600 hover:to-elegant-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                  >
+                    <ShoppingCart className="w-5 h-5 mr-3" />
+                    온라인 상담 신청
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

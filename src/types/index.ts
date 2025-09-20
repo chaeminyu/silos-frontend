@@ -98,7 +98,7 @@ export interface ConsultationRequest {
 
 export interface ConsultationResponse {
   id: string;
-  status: 'pending' | 'contacted' | 'scheduled' | 'completed' | 'cancelled';
+  status: 'REQUESTED' | 'CONFIRMED' | 'CANCELLED';
   submittedAt: string;
   contactedAt?: string;
   scheduledAt?: string;
