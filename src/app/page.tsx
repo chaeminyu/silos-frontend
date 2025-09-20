@@ -592,13 +592,13 @@ export default function HomePage() {
                   {/* 좌측 컬러 액센트 */}
                   <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-teal-smoke-400 to-teal-smoke-600 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
                   <div className="text-center pl-2">
-                    <div className="text-2xl md:text-5xl lg:text-6xl font-display font-bold bg-gradient-to-br from-teal-smoke-600 via-teal-smoke-500 to-teal-smoke-700 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-teal-smoke-700 group-hover:via-teal-smoke-600 group-hover:to-teal-smoke-800 transition-all duration-300">
-                      68<span className="text-lg md:text-3xl lg:text-4xl">회</span>
+                    <div className="text-xl md:text-5xl lg:text-6xl font-display font-bold bg-gradient-to-br from-teal-smoke-600 via-teal-smoke-500 to-teal-smoke-700 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-teal-smoke-700 group-hover:via-teal-smoke-600 group-hover:to-teal-smoke-800 transition-all duration-300">
+                      68<span className="text-base md:text-3xl lg:text-4xl">회</span>
                     </div>
                     <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
                       전국 단체 세미나 개최
                     </div>
-                    <div className="text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                    <div className="text-[10px] md:text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
                       성형의사 교육 프로그램
                     </div>
                   </div>
@@ -608,13 +608,13 @@ export default function HomePage() {
                   {/* 좌측 컬러 액센트 */}
                   <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-elegant-400 to-elegant-600 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
                   <div className="text-center pl-2">
-                    <div className="text-2xl md:text-5xl lg:text-6xl font-display font-bold bg-gradient-to-br from-elegant-600 via-elegant-500 to-elegant-700 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-elegant-700 group-hover:via-elegant-600 group-hover:to-elegant-800 transition-all duration-300">
-                      100<span className="text-lg md:text-3xl lg:text-4xl">+</span>
+                    <div className="text-xl md:text-5xl lg:text-6xl font-display font-bold bg-gradient-to-br from-elegant-600 via-elegant-500 to-elegant-700 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-elegant-700 group-hover:via-elegant-600 group-hover:to-elegant-800 transition-all duration-300">
+                      100<span className="text-base md:text-3xl lg:text-4xl">+</span>
                     </div>
                     <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
                       성형의사 교육 참여
                     </div>
-                    <div className="text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                    <div className="text-[10px] md:text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
                       전국 의료진 기술 전수
                     </div>
                   </div>
@@ -624,14 +624,14 @@ export default function HomePage() {
                   {/* 좌측 컬러 액센트 */}
                   <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-gray-500 to-gray-700 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
                   <div className="text-center pl-2">
-                    <div className="text-xl md:text-4xl lg:text-5xl font-display font-bold bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-gray-800 group-hover:via-gray-700 group-hover:to-gray-900 transition-all duration-300">
-                      43<span className="text-base md:text-3xl lg:text-4xl">만건</span>
+                    <div className="text-lg md:text-4xl lg:text-5xl font-display font-bold bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-gray-800 group-hover:via-gray-700 group-hover:to-gray-900 transition-all duration-300">
+                      43<span className="text-sm md:text-3xl lg:text-4xl">만건</span>
                     </div>
                     <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
                       누적 시술 경험
                     </div>
-                    <div className="text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
-                      실리프팅 · 눈성형 · 보톡스 · 필러
+                    <div className="text-[10px] md:text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300 leading-tight">
+                      실리프팅·눈성형<br/>보톡스·필러
                     </div>
                   </div>
                 </div>
@@ -647,7 +647,7 @@ export default function HomePage() {
                     {/* 상단 컬러 액센트 */}
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-teal-smoke-400 to-teal-smoke-600 rounded-full group-hover:w-16 transition-all duration-300"></div>
                     <div className="pt-4">
-                      <div className="text-lg md:text-3xl font-display font-bold bg-gradient-to-br from-teal-smoke-600 via-teal-smoke-500 to-teal-smoke-700 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-teal-smoke-700 group-hover:via-teal-smoke-600 group-hover:to-teal-smoke-800 transition-all duration-300">
+                      <div className="text-sm md:text-3xl font-display font-bold bg-gradient-to-br from-teal-smoke-600 via-teal-smoke-500 to-teal-smoke-700 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-teal-smoke-700 group-hover:via-teal-smoke-600 group-hover:to-teal-smoke-800 transition-all duration-300">
                         10만건
                       </div>
                       <div className="text-xs md:text-base font-elegant-sans text-gray-800 font-medium group-hover:text-gray-900 transition-colors duration-300">실리프팅</div>
@@ -657,7 +657,7 @@ export default function HomePage() {
                     {/* 상단 컬러 액센트 */}
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-elegant-400 to-elegant-600 rounded-full group-hover:w-16 transition-all duration-300"></div>
                     <div className="pt-4">
-                      <div className="text-lg md:text-3xl font-display font-bold bg-gradient-to-br from-elegant-600 via-elegant-500 to-elegant-700 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-elegant-700 group-hover:via-elegant-600 group-hover:to-elegant-800 transition-all duration-300">
+                      <div className="text-sm md:text-3xl font-display font-bold bg-gradient-to-br from-elegant-600 via-elegant-500 to-elegant-700 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-elegant-700 group-hover:via-elegant-600 group-hover:to-elegant-800 transition-all duration-300">
                         3만건
                       </div>
                       <div className="text-xs md:text-base font-elegant-sans text-gray-800 font-medium group-hover:text-gray-900 transition-colors duration-300">눈성형</div>
@@ -667,10 +667,10 @@ export default function HomePage() {
                     {/* 상단 컬러 액센트 */}
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-gray-500 to-gray-700 rounded-full group-hover:w-16 transition-all duration-300"></div>
                     <div className="pt-4">
-                      <div className="text-lg md:text-3xl font-display font-bold bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-gray-800 group-hover:via-gray-700 group-hover:to-gray-900 transition-all duration-300">
+                      <div className="text-sm md:text-3xl font-display font-bold bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 bg-clip-text text-transparent mb-1 md:mb-2 group-hover:from-gray-800 group-hover:via-gray-700 group-hover:to-gray-900 transition-all duration-300">
                         30만건
                       </div>
-                      <div className="text-xs md:text-base font-elegant-sans text-gray-800 font-medium group-hover:text-gray-900 transition-colors duration-300">보톡스 · 필러</div>
+                      <div className="text-xs md:text-base font-elegant-sans text-gray-800 font-medium group-hover:text-gray-900 transition-colors duration-300">보톡스·필러</div>
                     </div>
                   </div>
                 </div>
