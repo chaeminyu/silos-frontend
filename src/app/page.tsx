@@ -586,52 +586,129 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* 주요 통계 - 모던 미니멀 디자인 */}
-              <div className="grid grid-cols-3 gap-4 md:gap-10 mb-16">
-                <div className="group relative bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-teal-smoke-100/60 hover:bg-white/30 hover:backdrop-blur-md hover:border-white/40 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)]">
-                  {/* 좌측 컬러 액센트 */}
-                  <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-teal-smoke-400 to-teal-smoke-600 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
-                  <div className="text-center pl-2">
-                    <div className="text-xl md:text-5xl lg:text-6xl font-display font-bold bg-gradient-to-br from-teal-smoke-600 via-teal-smoke-500 to-teal-smoke-700 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-teal-smoke-700 group-hover:via-teal-smoke-600 group-hover:to-teal-smoke-800 transition-all duration-300">
-                      68<span className="text-base md:text-3xl lg:text-4xl">회</span>
+              {/* 주요 통계 - 지그재그 레이아웃 */}
+              <div className="space-y-16 md:space-y-20 mb-16">
+                {/* 첫 번째 행: 68회 세미나 (모바일: 이미지 위, 텍스트 아래 / 데스크톱: 텍스트 왼쪽, 이미지 오른쪽) */}
+                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+                  <div className="w-full md:w-2/3 order-2 md:order-1">
+                    <div className="text-center md:text-left">
+                      <div className="inline-flex items-center px-4 py-2 bg-teal-smoke-100 rounded-full text-sm font-medium text-teal-smoke-700 mb-4">
+                        <div className="w-2 h-2 bg-teal-smoke-500 rounded-full mr-2"></div>
+                        EDUCATION LEADERSHIP
+                      </div>
+                      <div className="text-4xl md:text-6xl lg:text-7xl font-display font-bold bg-gradient-to-br from-teal-smoke-600 via-teal-smoke-500 to-teal-smoke-700 bg-clip-text text-transparent mb-4">
+                        68<span className="text-2xl md:text-4xl lg:text-5xl">회</span>
+                      </div>
+                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-nanum-myeongjo font-bold text-gray-800 mb-3 leading-tight">
+                        전국 단체 세미나 개최
+                      </h3>
+                      <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+                        성형의사 교육 프로그램을 통해<br className="hidden md:block" />
+                        <span className="text-teal-smoke-600 font-semibold">전국 의료진에게 기술을 전수</span>
+                      </p>
                     </div>
-                    <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
-                      전국 단체 세미나 개최
-                    </div>
-                    <div className="text-[10px] md:text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
-                      성형의사 교육 프로그램
+                  </div>
+                  <div className="md:w-1/3 order-1 md:order-2">
+                    <div className="relative overflow-hidden shadow-lg group w-screen md:w-full relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
+                      <img 
+                        src="/images/why-silos/seminar.png" 
+                        alt="전국 단체 세미나 개최"
+                        className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-teal-smoke-500/30 to-transparent"></div>
+                      <div className="absolute inset-0 bg-black/10"></div>
                     </div>
                   </div>
                 </div>
 
-                <div className="group relative bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-elegant-100/60 hover:bg-white/30 hover:backdrop-blur-md hover:border-white/40 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)]">
-                  {/* 좌측 컬러 액센트 */}
-                  <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-elegant-400 to-elegant-600 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
-                  <div className="text-center pl-2">
-                    <div className="text-xl md:text-5xl lg:text-6xl font-display font-bold bg-gradient-to-br from-elegant-600 via-elegant-500 to-elegant-700 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-elegant-700 group-hover:via-elegant-600 group-hover:to-elegant-800 transition-all duration-300">
-                      100<span className="text-base md:text-3xl lg:text-4xl">+</span>
+                {/* Divider 1 */}
+                <div className="flex items-center justify-center py-8">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-teal-smoke-300"></div>
+                    <div className="w-3 h-3 bg-gradient-to-br from-teal-smoke-400 to-elegant-400 rounded-full"></div>
+                    <div className="w-16 h-0.5 bg-gradient-to-r from-teal-smoke-300 to-elegant-300"></div>
+                    <div className="w-3 h-3 bg-gradient-to-br from-elegant-400 to-gray-400 rounded-full"></div>
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-elegant-300 to-transparent"></div>
+                  </div>
+                </div>
+
+                {/* 두 번째 행: 100+ 의사 (모바일: 이미지 위, 텍스트 아래 / 데스크톱: 이미지 왼쪽, 텍스트 오른쪽 - 지그재그!) */}
+                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+                  <div className="md:w-1/3 order-1 md:order-1">
+                    <div className="relative overflow-hidden shadow-lg group w-screen md:w-full relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
+                      <img 
+                        src="/images/why-silos/education.png" 
+                        alt="성형의사 교육 참여"
+                        className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-l from-elegant-500/30 to-transparent"></div>
+                      <div className="absolute inset-0 bg-black/10"></div>
                     </div>
-                    <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
-                      성형의사 교육 참여
-                    </div>
-                    <div className="text-[10px] md:text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
-                      전국 의료진 기술 전수
+                  </div>
+                  <div className="w-full md:w-2/3 order-2 md:order-2">
+                    <div className="text-center md:text-left">
+                      <div className="inline-flex items-center px-4 py-2 bg-elegant-100 rounded-full text-sm font-medium text-elegant-700 mb-4">
+                        <div className="w-2 h-2 bg-elegant-500 rounded-full mr-2"></div>
+                        MEDICAL NETWORK
+                      </div>
+                      <div className="text-4xl md:text-6xl lg:text-7xl font-display font-bold bg-gradient-to-br from-elegant-600 via-elegant-500 to-elegant-700 bg-clip-text text-transparent mb-4">
+                        100<span className="text-2xl md:text-4xl lg:text-5xl">+</span>
+                      </div>
+                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-nanum-myeongjo font-bold text-gray-800 mb-3 leading-tight">
+                        성형의사 교육 참여
+                      </h3>
+                      <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+                        전국 의료진이 실로스의<br className="hidden md:block" />
+                        <span className="text-elegant-600 font-semibold">검증된 기술력을 인정</span>
+                      </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="group relative bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-gray-100/60 hover:bg-white/30 hover:backdrop-blur-md hover:border-white/40 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)]">
-                  {/* 좌측 컬러 액센트 */}
-                  <div className="absolute left-0 top-6 bottom-6 w-1 bg-gradient-to-b from-gray-500 to-gray-700 rounded-r-full group-hover:w-1.5 transition-all duration-300"></div>
-                  <div className="text-center pl-2">
-                    <div className="text-lg md:text-4xl lg:text-5xl font-display font-bold bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 bg-clip-text text-transparent mb-1 md:mb-3 group-hover:from-gray-800 group-hover:via-gray-700 group-hover:to-gray-900 transition-all duration-300">
-                      43<span className="text-sm md:text-3xl lg:text-4xl">만건</span>
+                {/* Divider 2 */}
+                <div className="flex items-center justify-center py-8">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-elegant-300"></div>
+                    <div className="w-3 h-3 bg-gradient-to-br from-elegant-400 to-gray-400 rounded-full"></div>
+                    <div className="w-16 h-0.5 bg-gradient-to-r from-elegant-300 to-gray-300"></div>
+                    <div className="w-3 h-3 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full"></div>
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-gray-300 to-transparent"></div>
+                  </div>
+                </div>
+
+                {/* 세 번째 행: 43만건 (모바일: 이미지 위, 텍스트 아래 / 데스크톱: 텍스트 왼쪽, 이미지 오른쪽 - 지그재그!) */}
+                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+                  <div className="w-full md:w-2/3 order-2 md:order-1">
+                    <div className="text-center md:text-left">
+                      <div className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-sm font-medium text-gray-700 mb-4">
+                        <div className="w-2 h-2 bg-gray-500 rounded-full mr-2"></div>
+                        PROVEN EXPERIENCE
+                      </div>
+                      <div className="text-5xl md:text-7xl lg:text-8xl font-display font-bold bg-gradient-to-br from-gray-700 via-gray-600 to-gray-800 bg-clip-text text-transparent mb-4">
+                        43<span className="text-3xl md:text-5xl lg:text-6xl">만건</span>
+                      </div>
+                      <h3 className="text-2xl md:text-3xl lg:text-4xl font-nanum-myeongjo font-bold text-gray-800 mb-3 leading-tight">
+                        누적 시술 경험
+                      </h3>
+                      <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-4">
+                        <span className="text-gray-800 font-semibold">실리프팅·눈성형·보톡스·필러</span><br className="hidden md:block" />
+                        축적된 노하우와 안전한 시술
+                      </p>
+                      <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-full font-medium hover:shadow-lg transition-all duration-300">
+                        <span>20년간 쌓아온 전문성</span>
+                        <div className="w-2 h-2 bg-white rounded-full ml-3 animate-pulse"></div>
+                      </div>
                     </div>
-                    <div className="text-xs md:text-lg font-elegant-sans text-gray-800 font-semibold mb-1 md:mb-2 group-hover:text-gray-900 transition-colors duration-300">
-                      누적 시술 경험
-                    </div>
-                    <div className="text-[10px] md:text-sm font-elegant-sans text-gray-600 group-hover:text-gray-700 transition-colors duration-300 leading-tight">
-                      실리프팅·눈성형<br/>보톡스·필러
+                  </div>
+                  <div className="md:w-1/3 order-1 md:order-2">
+                    <div className="relative overflow-hidden shadow-lg group w-screen md:w-full relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
+                      <img 
+                        src="/images/why-silos/43m-procedures.png" 
+                        alt="누적 시술 경험"
+                        className="w-full h-48 md:h-56 object-cover object-center scale-110 group-hover:scale-115 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-gray-600/30 to-transparent"></div>
+                      <div className="absolute inset-0 bg-black/10"></div>
                     </div>
                   </div>
                 </div>
