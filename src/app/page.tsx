@@ -4,6 +4,7 @@
 // MobileCategoryGrid moved to navigation dropdown
 import StandardConsultationSection from '../components/StandardConsultationSection';
 import MonthlyEventPopup from '../components/MonthlyEventPopup';
+import MonthlyEvents from '../components/MonthlyEvents';
 import PageLayout from '../components/PageLayout';
 import { useState, useEffect } from 'react';
 import { Sparkles, Clock, ShoppingCart, ArrowRight } from 'lucide-react';
@@ -1780,6 +1781,9 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* 실로 이달의 이벤트 섹션 */}
+        <MonthlyEvents maxEvents={3} />
 
         {/* 갤러리 섹션 - 모바일/PC 모두 표시 */}
         <section id="gallery" className="w-full py-24 bg-gradient-to-br from-elegant-50 via-teal-smoke-100 to-white">
