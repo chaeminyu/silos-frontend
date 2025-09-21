@@ -499,11 +499,11 @@ export default function HomePage() {
         </div> */}
         
         {/* 왜 실로스인가? 섹션 - 현재 웹사이트 스타일에 맞는 밝은 디자인 */}
-        <section id="about" className="w-full py-24 bg-gradient-to-br from-teal-smoke-50 via-white to-elegant-100 relative overflow-hidden">
-          {/* 배경 장식 요소들 */}
+        <section id="about" className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] pt-24 pb-24 overflow-hidden bg-gradient-to-br from-gray-50 via-white to-teal-smoke-50">
+          {/* 글래스 효과 백그라운드 */}
           <div className="absolute inset-0">
-            <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-teal-smoke-200/30 to-elegant-300/30 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-32 left-20 w-80 h-80 bg-gradient-to-tr from-elegant-200/25 to-teal-smoke-300/25 rounded-full blur-3xl"></div>
+            <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-teal-smoke-300/15 to-elegant-400/15 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-elegant-300/10 to-teal-smoke-400/10 rounded-full blur-3xl"></div>
           </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -527,7 +527,7 @@ export default function HomePage() {
 
           {/* 세미나 사진 파노라마 - 전체 폭, 좌우 여백 없음 */}
           <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-16">
-            <div className="relative overflow-hidden bg-gradient-to-r from-teal-smoke-50 via-white to-elegant-50">
+            <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-teal-smoke-50">
               <div className="flex animate-scroll-slow">
                 {/* 첫 번째 세트 */}
                 {[1, 2, 3, 4, 5].map((num) => (
@@ -573,9 +573,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 w-full">
             {/* 임팩트 있는 통계 섹션 */}
-            <div className="text-center mb-20">
+            <div className="text-center mb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* 메인 헤드라인 */}
               <div className="mb-16">
                 <h3 className="text-3xl md:text-4xl font-nanum-myeongjo text-gray-800 mb-6">
@@ -587,9 +587,9 @@ export default function HomePage() {
               </div>
 
               {/* 주요 통계 - 지그재그 레이아웃 */}
-              <div className="space-y-16 md:space-y-20 mb-16">
+              <div className="space-y-16 md:space-y-20 mb-16 max-w-7xl mx-auto">
                 {/* 첫 번째 행: 68회 세미나 (모바일: 이미지 위, 텍스트 아래 / 데스크톱: 텍스트 왼쪽, 이미지 오른쪽) */}
-                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-16">
                   <div className="w-full md:w-2/3 order-2 md:order-1">
                     <div className="text-center md:text-left">
                       <div className="inline-flex items-center px-4 py-2 bg-teal-smoke-100 rounded-full text-sm font-medium text-teal-smoke-700 mb-4">
@@ -608,15 +608,16 @@ export default function HomePage() {
                       </p>
                     </div>
                   </div>
-                  <div className="md:w-1/3 order-1 md:order-2">
-                    <div className="relative overflow-hidden shadow-lg group w-screen md:w-full relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
-                      <img 
-                        src="/images/why-silos/seminar.png" 
-                        alt="전국 단체 세미나 개최"
-                        className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-teal-smoke-500/30 to-transparent"></div>
-                      <div className="absolute inset-0 bg-black/10"></div>
+                  <div className="md:w-auto order-1 md:order-2 md:flex-shrink-0">
+                    <div className="relative overflow-hidden group w-screen md:w-64 lg:w-72 relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
+                      <div className="md:rounded-xl md:shadow-xl md:border md:border-gray-100">
+                        <img 
+                          src="/images/why-silos/seminar.png" 
+                          alt="전국 단체 세미나 개최"
+                          className="w-full h-48 md:h-48 lg:h-52 object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -633,16 +634,17 @@ export default function HomePage() {
                 </div>
 
                 {/* 두 번째 행: 100+ 의사 (모바일: 이미지 위, 텍스트 아래 / 데스크톱: 이미지 왼쪽, 텍스트 오른쪽 - 지그재그!) */}
-                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
-                  <div className="md:w-1/3 order-1 md:order-1">
-                    <div className="relative overflow-hidden shadow-lg group w-screen md:w-full relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
-                      <img 
-                        src="/images/why-silos/education.png" 
-                        alt="성형의사 교육 참여"
-                        className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-l from-elegant-500/30 to-transparent"></div>
-                      <div className="absolute inset-0 bg-black/10"></div>
+                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-16">
+                  <div className="md:w-auto order-1 md:order-1 md:flex-shrink-0">
+                    <div className="relative overflow-hidden group w-screen md:w-64 lg:w-72 relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
+                      <div className="md:rounded-xl md:shadow-xl md:border md:border-gray-100">
+                        <img 
+                          src="/images/why-silos/education.png" 
+                          alt="성형의사 교육 참여"
+                          className="w-full h-48 md:h-48 lg:h-52 object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                      </div>
                     </div>
                   </div>
                   <div className="w-full md:w-2/3 order-2 md:order-2">
@@ -677,7 +679,7 @@ export default function HomePage() {
                 </div>
 
                 {/* 세 번째 행: 43만건 (모바일: 이미지 위, 텍스트 아래 / 데스크톱: 텍스트 왼쪽, 이미지 오른쪽 - 지그재그!) */}
-                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
+                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-16 mb-16">
                   <div className="w-full md:w-2/3 order-2 md:order-1">
                     <div className="text-center md:text-left">
                       <div className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-sm font-medium text-gray-700 mb-4">
@@ -700,22 +702,23 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  <div className="md:w-1/3 order-1 md:order-2">
-                    <div className="relative overflow-hidden shadow-lg group w-screen md:w-full relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
-                      <img 
-                        src="/images/why-silos/43m-procedures.png" 
-                        alt="누적 시술 경험"
-                        className="w-full h-48 md:h-56 object-cover object-center scale-110 group-hover:scale-115 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-gray-600/30 to-transparent"></div>
-                      <div className="absolute inset-0 bg-black/10"></div>
+                  <div className="md:w-auto order-1 md:order-2 md:flex-shrink-0">
+                    <div className="relative overflow-hidden group w-screen md:w-64 lg:w-72 relative md:static left-1/2 md:left-auto right-1/2 md:right-auto -ml-[50vw] md:ml-0 -mr-[50vw] md:mr-0">
+                      <div className="md:rounded-xl md:shadow-xl md:border md:border-gray-100">
+                        <img 
+                          src="/images/why-silos/43m-procedures.png" 
+                          alt="누적 시술 경험"
+                          className="w-full h-48 md:h-48 lg:h-52 object-cover object-center scale-110 group-hover:scale-115 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* 세부 시술 통계 - 모던 미니멀 디자인 */}
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-100/60 hover:bg-white/40 hover:backdrop-blur-md hover:border-white/50 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)]">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-100/60 hover:bg-white/40 hover:backdrop-blur-md hover:border-white/50 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(31,38,135,0.15)] max-w-4xl mx-auto">
                 <h4 className="text-xl font-elegant-sans font-bold text-gray-800 mb-8 text-center">
                   SILOS 대표 시술 경험
                 </h4>
@@ -754,25 +757,31 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* 하단 강조 메시지 */}
-            <div className="text-center mb-16">
+            {/* 전국 의료진이 인정하는 버튼 - SILOS 대표 시술 경험 밖에 있되 회색 경계와 떨어져서 배치 */}
+            <div className="text-center mt-12 mb-32 relative -translate-y-8">
               <div className="inline-flex items-center px-8 py-4 bg-white/70 backdrop-blur-sm rounded-full border border-teal-smoke-200/50 shadow-lg">
                 <div className="w-3 h-3 bg-teal-smoke-400 rounded-full mr-4 animate-pulse"></div>
                 <span className="text-lg font-elegant-sans text-slate-700">
-                  전국 의료진이 인정하는 <span className="text-teal-smoke-600 font-semibold">SILOS 기술력</span>
+                  의사를 교육하는 의사, <span className="text-teal-smoke-600 font-semibold">SILOS의 기술력</span>
                 </span>
               </div>
-              
-              {/* 세로 디바이더 */}
-              <div className="w-0.5 h-20 bg-gradient-to-b from-teal-smoke-400 to-elegant-400 rounded-full mx-auto mt-16"></div>
             </div>
           </div>
         </section>
 
-
         {/* 의사 소개 섹션 */}
-        <section id="doctors" className="w-full py-32 bg-gradient-to-br from-white via-elegant-50 to-teal-smoke-50">
-          <div className="w-full">
+        <section id="doctors" className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-24 overflow-hidden bg-gradient-to-br from-gray-50 via-white to-teal-smoke-50">
+          
+          {/* 섹션 간 전환 디바이더 - 의료진 소개 섹션 상단에 배치 */}
+          <div className="flex justify-center pb-16 mb-8">
+            <div className="w-0.5 h-20 bg-gradient-to-b from-teal-smoke-400 to-elegant-400 rounded-full"></div>
+          </div>
+          {/* 글래스 효과 백그라운드 */}
+          <div className="absolute inset-0">
+            <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-teal-smoke-300/15 to-elegant-400/15 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-elegant-300/10 to-teal-smoke-400/10 rounded-full blur-3xl"></div>
+          </div>
+          <div className="w-full relative z-10">
             {/* 섹션 제목 */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
               <div className="text-center">
