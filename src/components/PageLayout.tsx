@@ -131,32 +131,21 @@ export default function PageLayout({ children }: PageLayoutProps) {
       </main>
 
       {/* 푸터 */}
-      <footer className="w-full bg-gradient-to-br from-teal-smoke-300 via-teal-smoke-400 to-teal-smoke-500 text-slate-900 py-16">
+      <footer className="w-full bg-gradient-to-br from-teal-smoke-300 via-teal-smoke-400 to-teal-smoke-500 text-slate-900 py-8 md:py-16">
         <div className="w-full">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 text-center md:text-left">
               <div className="md:col-span-1 flex flex-col items-center md:items-start">
                 <h3 className="text-3xl font-display font-light text-cyan-800 mb-4 tracking-wide">실로스</h3>
                 <p className="text-slate-800 font-elegant-sans font-light">실리프팅은 실로스</p>
               </div>
               
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-cyan-800 tracking-wide">시술 안내</h4>
-                <ul className="space-y-3 text-slate-800">
-                  <li><a href="/procedures/silos-lifting" className="hover:text-slate-900 transition-colors font-elegant-sans font-light">실로스 실리프팅</a></li>
-                  <li><a href="/procedures/forehead-lifting" className="hover:text-slate-900 transition-colors font-elegant-sans font-light">이마 눈썹 리프팅</a></li>
-                  <li><a href="/procedures/under-eye-laser" className="hover:text-slate-900 transition-colors font-elegant-sans font-light">눈밑 지방레이저</a></li>
-                  <li><a href="/procedures/silopat" className="hover:text-slate-900 transition-colors font-elegant-sans font-light">실로팻</a></li>
-                </ul>
-              </div>
               
               <div className="flex flex-col items-center md:items-start">
                 <h4 className="text-lg font-elegant font-light mb-6 text-cyan-800 tracking-wide">병원 정보</h4>
                 <ul className="space-y-3 text-slate-800 font-elegant-sans font-light">
                   <li>경상남도 창원시 성산구 중앙대로 114, 1층</li>
                   <li>TEL: 000-0000-0000 (추후 정보 수정 예정)</li>
-                  <li>진료시간: (추후 정보 수정 예정)</li>
-                  <li>휴진일: (추후 정보 수정 예정)</li>
                 </ul>
               </div>
               
@@ -165,14 +154,10 @@ export default function PageLayout({ children }: PageLayoutProps) {
                 <button className="bg-teal-smoke-200 hover:bg-teal-smoke-100 text-slate-900 px-8 py-3 rounded-full font-elegant-sans font-medium transition-all duration-300 mb-6 shadow-lg hover:shadow-xl">
                   카카오톡 상담
                 </button>
-                <div className="text-slate-800 text-sm font-elegant-sans font-light leading-relaxed">
-                  진료시간: (추후 정보 수정 예정)<br />
-                  휴진일: (추후 정보 수정 예정)
-                </div>
               </div>
             </div>
             
-            <div className="border-t border-teal-smoke-700/50 mt-12 pt-8 text-center">
+            <div className="border-t border-teal-smoke-700/50 mt-8 md:mt-12 pt-6 md:pt-8 text-center">
               <p className="text-slate-800 font-elegant-sans font-light">&copy; 2024 실로스 성형외과. All rights reserved.</p>
             </div>
           </div>
