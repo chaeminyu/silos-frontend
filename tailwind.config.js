@@ -10,28 +10,28 @@ module.exports = {
       // ✅ Bright Teal theme - lighter and modern
       colors: {
         'teal-smoke': {
-          50: '#f0f9fa',
-          100: '#d9eff1',
-          200: '#b3dfe3',
-          300: '#69C5CC', // Main color - darkest point
-          400: '#7ACDD3',
-          500: '#8BD5DA',
-          600: '#9CDDE1',
-          700: '#ADE5E8',
-          800: '#BEEDEF',
-          900: '#CFF5F6'
+          50: '#f0fdfe',
+          100: '#ccf7f9',
+          200: '#99eff3',
+          300: '#66e7ed',
+          400: '#69C5CC', // Main color 
+          500: '#5ab3ba',
+          600: '#4a9fa6',
+          700: '#3a8b92',
+          800: '#2a777e',
+          900: '#1a636a'
         },
         'elegant': {
-          50: '#f5fbfc',
-          100: '#e8f5f7',
-          200: '#d1eaed',
-          300: '#a9d7dc',
-          400: '#88CCD3',
-          500: '#95D2D8',
-          600: '#A2D8DD',
-          700: '#AFDEE2',
-          800: '#BCE4E7',
-          900: '#C9EAEC'
+          50: '#f0fdfe',
+          100: '#e0fafe',
+          200: '#c1f5fd',
+          300: '#a2f0fc',
+          400: '#83ebfb',
+          500: '#69C5CC',
+          600: '#5db1b8',
+          700: '#519da4',
+          800: '#458990',
+          900: '#39757c'
         }
       },
       
@@ -41,6 +41,8 @@ module.exports = {
         'elegant': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
         'elegant-sans': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
         'display': ['"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        'gmarket': ['"GmarketSans"', '"Pretendard"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        'nanum-myeongjo': ['"Nanum Myeongjo"', 'serif'],
       },
       // ✅ 1. animation & keyframes
       animation: {
@@ -49,6 +51,9 @@ module.exports = {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.5s ease-out',
         'scale-in': 'scaleIn 0.3s ease-out',
+        'slide-from-left': 'slideFromLeft 0.7s ease-out',
+        'slide-from-right': 'slideFromRight 0.7s ease-out',
+        'scroll-slow': 'scrollSlow 30s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -62,6 +67,18 @@ module.exports = {
         scaleIn: {
           '0%': { transform: 'scale(0.95)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        slideFromLeft: {
+          '0%': { transform: 'translateX(-100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        slideFromRight: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        scrollSlow: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
 

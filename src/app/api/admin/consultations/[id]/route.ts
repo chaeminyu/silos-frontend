@@ -38,7 +38,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         message: data.data.notes || '',
         preferredDate: data.data.requestedDate || '',
         preferredTime: data.data.requestedTime || '',
-        status: data.data.status?.toLowerCase() || 'waiting',
+        status: data.data.status || 'REQUESTED',
         createdAt: data.data.createdAt || new Date().toISOString(),
         updatedAt: data.data.updatedAt || new Date().toISOString(),
         adminComment: data.data.adminMemo || '',
@@ -82,7 +82,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // Validate status
-    const validStatuses = ['waiting', 'completed'];
+    const validStatuses = ['REQUESTED', 'CONFIRMED', 'CANCELLED'];
     if (!validStatuses.includes(status)) {
       return NextResponse.json(
         { success: false, message: '유효하지 않은 상태입니다.' },
@@ -92,8 +92,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const authHeader = request.headers.get('authorization');
     
-    // Backend 상태값으로 변환
-    const backendStatus = status.toUpperCase();
+    // Backend 상태값으로 변환 (3-status system)
+    const backendStatus = status; // 이미 대문자로 되어 있음
     
     const response = await fetch(`${BACKEND_URL}/admin/consultations/${params.id}`, {
       method: 'PUT',

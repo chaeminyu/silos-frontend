@@ -18,10 +18,11 @@ export async function GET(request: NextRequest) {
     
     // 상태별 필터링
     if (status && status !== 'all') {
-      // 백엔드 상태 값으로 변환
+      // 백엔드 상태 값으로 변환 (3-status system)
       const statusMap: { [key: string]: string } = {
-        'waiting': 'WAITING',
-        'completed': 'COMPLETED'
+        'REQUESTED': 'REQUESTED',
+        'CONFIRMED': 'CONFIRMED',
+        'CANCELLED': 'CANCELLED'
       };
       const backendStatus = statusMap[status];
       if (backendStatus) {
@@ -50,7 +51,7 @@ export async function GET(request: NextRequest) {
         message: consultation.notes || '',
         preferredDate: consultation.requestedDate || '',
         preferredTime: consultation.requestedTime || '',
-        status: consultation.status?.toLowerCase() || 'waiting',
+        status: consultation.status || 'REQUESTED',
         createdAt: consultation.createdAt || new Date().toISOString(),
         updatedAt: consultation.updatedAt || new Date().toISOString(),
         adminComment: consultation.adminMemo || '',
@@ -97,7 +98,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Validate status
-    const validStatuses = ['waiting', 'completed'];
+    const validStatuses = ['REQUESTED', 'CONFIRMED', 'CANCELLED'];
     if (!validStatuses.includes(status)) {
       return NextResponse.json(
         { success: false, message: '유효하지 않은 상태입니다.' },

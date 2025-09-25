@@ -1,11 +1,13 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css');
+@import url('https://webfontworld.github.io/gmarket/GmarketSans.css');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* 전역 CSS 변수 (실로스 브랜드 컬러) */
 :root {
-  --color-primary: #2dd4bf;
+  --color-primary: #69C5CC;
   --color-primary-dark: #0d9488;
   --color-secondary: #3b82f6;
   --color-accent-gold: #fbbf24;
