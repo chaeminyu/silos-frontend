@@ -44,10 +44,10 @@ export default function QuickConsultationMenu() {
     {
       id: 3,
       title: '전화 상담',
-      description: '02-1234-5678',
+      description: '1551-8875',
       icon: Phone,
       color: 'from-teal-smoke-400 to-elegant-400',
-      href: 'tel:02-1234-5678'
+      href: 'tel:1551-8875'
     }
   ];
 

@@ -151,7 +151,7 @@ export default function PageLayout({ children }: PageLayoutProps) {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-[#15D1D4]">📞</span>
-                    <span>000-0000-0000<br/><span className="text-gray-400 text-xs">(추후 정보 수정 예정)</span></span>
+                    <span>1551-8875</span>
                   </div>
                 </div>
               </div>
