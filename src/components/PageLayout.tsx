@@ -131,34 +131,48 @@ export default function PageLayout({ children }: PageLayoutProps) {
       </main>
 
       {/* 푸터 */}
-      <footer className="w-full bg-gradient-to-br from-teal-smoke-300 via-teal-smoke-400 to-teal-smoke-500 text-slate-900 py-8 md:py-16">
+      <footer className="w-full bg-gradient-to-br from-slate-800 via-slate-850 to-slate-900 text-white py-8 md:py-12">
         <div className="w-full">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 text-center md:text-left">
-              <div className="md:col-span-1 flex flex-col items-center md:items-start">
-                <h3 className="text-3xl font-display font-light text-cyan-800 mb-4 tracking-wide">실로스</h3>
-                <p className="text-slate-800 font-elegant-sans font-light">실리프팅은 실로스</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 text-left">
+              <div className="md:col-span-1 flex flex-col items-start">
+                <h3 className="text-2xl md:text-3xl font-nanum-myeongjo font-bold text-[#15D1D4] mb-3 md:mb-4 tracking-wide">실로스</h3>
+                <p className="text-gray-300 font-nanum-myeongjo text-sm md:text-base font-medium mb-2">실리프팅은 실로스</p>
+                <div className="w-12 h-0.5 bg-gradient-to-r from-[#15D1D4] to-transparent"></div>
               </div>
               
               
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-cyan-800 tracking-wide">병원 정보</h4>
-                <ul className="space-y-3 text-slate-800 font-elegant-sans font-light">
-                  <li>경상남도 창원시 성산구 중앙대로 114, 1층</li>
-                  <li>TEL: 000-0000-0000 (추후 정보 수정 예정)</li>
-                </ul>
+              <div className="flex flex-col items-start">
+                <h4 className="text-base md:text-lg font-nanum-myeongjo font-semibold mb-4 md:mb-6 text-[#15D1D4] tracking-wide">병원 정보</h4>
+                <div className="space-y-2 md:space-y-3 text-gray-300 font-elegant-sans text-sm md:text-base">
+                  <div className="flex items-start space-x-2">
+                    <span className="text-[#15D1D4] mt-1">📍</span>
+                    <span>경상남도 창원시 성산구<br/>중앙대로 114, 1층</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[#15D1D4]">📞</span>
+                    <span>000-0000-0000<br/><span className="text-gray-400 text-xs">(추후 정보 수정 예정)</span></span>
+                  </div>
+                </div>
               </div>
               
-              <div className="flex flex-col items-center md:items-start">
-                <h4 className="text-lg font-elegant font-light mb-6 text-cyan-800 tracking-wide">빠른 상담</h4>
-                <button className="bg-teal-smoke-200 hover:bg-teal-smoke-100 text-slate-900 px-8 py-3 rounded-full font-elegant-sans font-medium transition-all duration-300 mb-6 shadow-lg hover:shadow-xl">
-                  카카오톡 상담
+              <div className="flex flex-col items-start">
+                <h4 className="text-base md:text-lg font-nanum-myeongjo font-semibold mb-4 md:mb-6 text-[#15D1D4] tracking-wide">빠른 상담</h4>
+                <button className="bg-gradient-to-r from-[#15D1D4] to-[#12B8BB] hover:from-[#12B8BB] hover:to-[#0F9A9D] text-white px-6 py-2.5 md:px-8 md:py-3 rounded-lg font-nanum-myeongjo font-medium text-sm md:text-base transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] mb-3">
+                  💬 카카오톡 상담
                 </button>
+                <p className="text-gray-400 text-xs md:text-sm font-elegant-sans">빠르고 간편한 온라인 상담</p>
               </div>
             </div>
             
-            <div className="border-t border-teal-smoke-700/50 mt-8 md:mt-12 pt-6 md:pt-8 text-center">
-              <p className="text-slate-800 font-elegant-sans font-light">&copy; 2024 실로스 성형외과. All rights reserved.</p>
+            <div className="border-t border-gray-700/50 mt-6 md:mt-10 pt-4 md:pt-6 text-left">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-2 md:space-y-0">
+                <p className="text-gray-400 font-elegant-sans text-xs md:text-sm">&copy; 2024 실로스 성형외과. All rights reserved.</p>
+                <div className="flex space-x-4 text-xs md:text-sm">
+                  <span className="text-gray-500 hover:text-[#15D1D4] transition-colors cursor-pointer">개인정보처리방침</span>
+                  <span className="text-gray-500 hover:text-[#15D1D4] transition-colors cursor-pointer">이용약관</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
